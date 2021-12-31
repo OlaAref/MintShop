@@ -1,3 +1,11 @@
+.add-form-section{
+	width: 100%; 
+	padding: 25px; 
+	background-color: #444; 
+	color: white
+}
+
+
 .imgUp {
 	margin-bottom: 15px;
 	margin-left: 15%;
@@ -132,5 +140,13 @@ button.bg-secondary:focus {
     margin-top: -20px;
     padding-right: 20px;
     padding-left: 20px;
+}
+
+.removeImgIcon{
+	color: black;
+}
+
+.removeImgIcon:hover{
+	color: #FF0000;
 }
 

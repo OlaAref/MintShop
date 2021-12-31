@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/sidebarStyle.css}">
 </head>
 
 <body>
 
-	<div th:fragment="admin-sidebar">
+	<div th:fragment="admin-sidebar(baseLink)">
 	
 		<!-- Sidebar -->
 		
@@ -18,11 +18,11 @@
 				<div></div>
 				
 			    <div class="offcanvas-title align-items-center align-self-center text-center">
-					<a href="#"><img th:src="@{/img/profile.png}" class="img-circle2" width="80"></a>
-					<h5 class="d-block" style="color: white">User Name</h5>
+					<a th:href="@{/account/details}"><img th:src="@{/img/profile.png}" class="img-circle2" width="80"></a>
+					<h5 class="centered" sec:authentication="principal.fullname" style="color: white"></h5>
 				</div>
 				
-				<!--  <h5 class="centered" th:text="${userName}" style="color: white">User Name</h5> -->
+				
 				<button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close" ></button>
 		                
 		    </div>
@@ -35,11 +35,22 @@
 		        
 		        	<li class="active"><a th:href="@{/admin/dashboard}" class="text-truncate"><i class="fas fa-tachometer-alt"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span></a></li>
 		            
+		            <li class="d-lg-none" th:if="${baseLink != null}">
+			             <a href="#downloadSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+			                	<i class="fas fa-file-download"></i> <span class="d-none d-sm-inline">Download</span>
+			             </a>
+			             <ul class="collapse list-unstyled" id="downloadSubmenu">
+			            		<li><a th:href="@{${baseLink}+'/csv'}">CSV</a></li>
+			            		<li><a th:href="@{${baseLink}+'/excel'}">Excel</a></li>
+			            		<li><a th:href="@{${baseLink}+'/pdf'}">PDF</a></li>
+			            </ul>
+			        </li>
+		            
 		            <li>
 		                <a href="#userSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
 		                	<i class="fas fa-users"></i> <span class="d-none d-sm-inline">Users</span>
 		                </a>
-		            	<ul class="collapse list-unstyled show nav flex-column ms-1" id="userSubmenu">
+		            	<ul class="collapse list-unstyled" id="userSubmenu">
 		            		<li><a th:href="@{/user/list}">List Users</a></li>
 		            		<li><a th:href="@{/user/toAdd}">Add New User</a></li>
 		            	</ul>
@@ -89,8 +100,8 @@
 		            		<i class="fas fa-truck"></i> <span class="ms-1 d-none d-sm-inline">Shipping</span>
 		            	</a>
 		            	<ul class="collapse list-unstyled" id="shippingSubmenu">
-		            		<li><a th:href="@{/shipping/list}">List Shipping</a></li>
-		            		 <li><a th:href="@{/shipping/toAdd}">Add New Shipping</a></li>
+		            		<li><a th:href="@{/shippingRate/list}">List Shipping</a></li>
+		            		 <li><a th:href="@{/shippingRate/toAdd}">Add New Shipping</a></li>
 		            	</ul>
 		            </li>
 		            		        
@@ -100,7 +111,6 @@
 		            	</a>
 		            	<ul class="collapse list-unstyled" id="orderSubmenu">
 		            		<li><a th:href="@{/order/list}">List Orders</a></li>
-		            		<li><a th:href="@{/order/toAdd}">Add New Order</a></li>
 		            	</ul>
 		            </li>
 		            		        
@@ -139,8 +149,13 @@
 		            		<i class="fas fa-cogs"></i> <span class="ms-1 d-none d-sm-inline">Settings</span>
 		            	</a>
 				        <ul class="collapse list-unstyled" id="settingSubmenu">
-				            <li><a th:href="@{/setting/list}">List Settings</a></li>
-				            <li><a th:href="@{/setting/toAdd}">Add New Setting</a></li>
+				            <li><a th:href="@{/setting/list#general}">General Settings</a></li>
+				            <li><a th:href="@{/setting/list#countries}">Countries</a></li>
+				            <li><a th:href="@{/setting/list#states}">States</a></li>
+				            <li><a th:href="@{/setting/list#cities}">Cities</a></li>
+				            <li><a th:href="@{/setting/list#mailServer}">Mail Server</a></li>
+				            <li><a th:href="@{/setting/list#mailTemplates}">Mail Templates</a></li>
+				            <li><a th:href="@{/setting/list#payment}">Payment</a></li>
 				        </ul>
 				    </li>
 				        

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+	
+	<th:block th:fragment="pagination(entity)">
+	
+		<div class="text-center m-1" th:if="${totalElements > 0}">
+			<span th:text="${startCount}+' to '+${endCount}+' of '+${totalElements}"></span>
+		</div>
+		<div class="text-center m-1" th:unless="${totalElements > 0}">
+			<span>No [[${entity}]] found.</span>
+		</div>
+ 			
+		<nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
+		  
+		  <li class="page-item" th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+		  	<a th:replace="fragments/column-link :: page-link-general('1', 'First')"></a>
+		  </li>
+		  
+		  <li class="page-item" th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+		  	<a th:replace="fragments/column-link :: page-link-icon-general(${currentPage-1}, '&laquo;', 'Previous')"></a>
+		  </li>
+		    
+		    <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage != i ? 'page-item' : 'page-item active'}" >
+		    <th:block th:if="${i != 0}">
+		    	<a th:replace="fragments/column-link :: page-link-general(${i}, ${i})"></a>
+		    </th:block>
+		    </li>
+		    
+		    <li class="page-item" th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+		    	<a th:replace="fragments/column-link :: page-link-icon-general(${currentPage+1}, '&raquo;', 'Next')"></a>
+		    </li>
+		    
+		    <li class="page-item" th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+		    	<a th:replace="fragments/column-link :: page-link-general(${totalPages}, 'Last')"></a>
+		    </li>
+		    
+		  </ul>
+		</nav>	
+		
+	</th:block>
+	
+	<th:block th:fragment="pagination-product(entity, categoryID)">
+	
+		<div class="text-center m-1" th:if="${totalElements > 0}">
+			<span th:text="${startCount}+' to '+${endCount}+' of '+${totalElements}"></span>
+		</div>
+		<div class="text-center m-1" th:unless="${totalElements > 0}">
+			<span>No product found.</span>
+		</div>
+ 			
+		<nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
+		  
+		  <li class="page-item" th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+		  	<a th:replace="fragments/column-link :: page-link-category('1', 'First', ${categoryID})"></a>
+		  </li>
+		  
+		  <li class="page-item" th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+		  	<a th:replace="fragments/column-link :: page-link-icon-category(${currentPage-1}, '&laquo;', 'Previous', ${categoryID})"></a>
+		  </li>
+		    
+		    <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage != i ? 'page-item' : 'page-item active'}" >
+		    	<th:block th:if="${i != 0}">
+		    		<a th:replace="fragments/column-link :: page-link-category(${i}, ${i}, ${categoryID})"></a>
+		    	</th:block>
+		    </li>
+		    
+		    <li class="page-item" th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+		    	<a th:replace="fragments/column-link :: page-link-icon-category(${currentPage+1}, '&raquo;', 'Next', ${categoryID})"></a>
+		    </li>
+		    
+		    <li class="page-item" th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+		    	<a th:replace="fragments/column-link :: page-link-category(${totalPages}, 'Last', ${categoryID})"></a>
+		    </li>
+		    
+		  </ul>
+		</nav>	
+	
+	</th:block>
+
+	
+	
+</body>
+</html>

@@ -1,0 +1,26 @@
+package com.olaaref.mintshop.rest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.olaaref.mintshop.service.UserService;
+
+
+@RestController
+@RequestMapping("/users")
+public class UserRestController {
+	
+	@Autowired
+	private UserService userService;
+	
+	@PostMapping("/checkEmail")
+	public String checkDuplicateEmail(@RequestParam(value = "id", required = false) Integer id, @RequestParam("email") String email) {
+		return userService.isEmailUnique(id, email) ? "OK" : "Duplicated";
+	}
+	
+	
+
+}

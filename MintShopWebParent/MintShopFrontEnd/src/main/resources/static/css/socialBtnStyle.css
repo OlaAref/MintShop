@@ -1,0 +1,89 @@
+.smGlobalBtn { /* global button class */
+	color: #ddd;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border:2px solid #ddd; /* add border to the buttons */
+    
+    padding: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 25px;
+    font-weight: normal;
+    line-height: 2em;
+    border-radius: 27px;
+    -moz-border-radius:27px;
+    -webkit-border-radius:27px;
+    -webkit-transition: all 0.6s ease-in-out;
+    -moz-transition: all 0.6s ease-in-out;
+    -o-transition: all 0.6s ease-in-out;
+    transition: all 0.6s ease-in-out;
+    
+}
+
+
+.facebookBtn,
+.twitterBtn,
+.googleplusBtn,
+.linkedinBtn,
+.gitBtn,
+.youtubeBtn
+{
+    background: black;
+}
+
+.facebookBtn:before,
+.twitterBtn:before,
+.googleplusBtn:before,
+.linkedinBtn:before,
+.gitBtn:before,
+.youtubeBtn:before{
+	/* use :before to add the relevant icons */
+    font-family: "FontAwesome";         
+}
+
+/* facebook button class*/
+.facebookBtn:hover{
+    color: #4060A5;
+    background: #fff;
+    border-color: #4060A5; /* change the border color on mouse hover */
+}
+
+/* twitter button class*/
+.twitterBtn:hover{
+    color: #00ABE3;
+    background: #fff;
+    border-color: #00ABE3;
+}
+
+/* google plus button class*/
+.googleplusBtn:hover{
+    color: #e64522;
+    background: #fff;
+    border-color: #e64522;
+}
+
+/* linkedin button class*/
+.linkedinBtn:hover{
+    color: #0094BC;
+    background: #fff;
+    border-color: #0094BC;
+}
+    
+/* github button class*/
+.gitBtn:hover{
+    color: black;
+    background: #fff;
+    border-color: black;
+}
+    
+/* Youtube button class*/
+.youtubeBtn:hover{
+    color: #c4302b;
+    background: #fff;
+    border-color: #c4302b;
+}

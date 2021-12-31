@@ -8,27 +8,41 @@
 
 	<div th:fragment="profile-dropdown">
 	
-		<ul class="navbar-nav ml-auto">
+		<ul class="navbar-nav ml-auto me-2 mb-2">
 		
 			<div sec:authorize="isAuthenticated()">
-
-				<li class="nav-item dropdown">
-					<a class="dropdown-toggle btn btn-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">
-						<div class="img-title-div">
-							<img th:src="@{/img/instruct/user.png}" class="img-title" />
+				
+				<div class="dropdown">
+				  <a class="btn btn-primary dropdown-toggle px-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+				    <div class="img-title-div">
+							<i class="fas fa-user-circle fa-2x img-title " style="vertical-align: middle;"></i>
 						</div>
 
 						<div class="username-title">
-							<h5>
-								<span sec:authentication="name"></span>
+							<h5 style="vertical-align: middle;">
+								<span sec:authentication="principal.fullname"></span>
 							</h5>
-							<span sec:authorize="hasRole('ROLE_STUDENT')">Student</span>
-							<span sec:authorize="hasRole('ROLE_INSTRUCTOR')">Instructor</span>
-							<span sec:authorize="hasRole('ROLE_ADMIN')">Admin</span>
-							
+							<!--  
+							<span sec:authentication="principal.authorities"></span>
+							-->
 						</div>
-					</a>
+				  </a>
+				
+				  <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+				    <li>
+				    	<form th:action="@{/logout}" method="POST">
+							<button type="submit" class="dropdown-item">
+								<i class="fas fa-sign-out-alt" style="vertical-align: middle;"></i>
+								Logout
+							</button>
+						</form>
+					</li>
+				    <li><a class="dropdown-item" th:href="@{/account/details}">Account Details</a></li>
+				    <li><a class="dropdown-item" href="#">Something else here</a></li>
+				  </ul>
+				</div>
+			</div>
+					<!--  
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<div sec:authorize="hasRole('ROLE_STUDENT')">
 							<a class="dropdown-item" th:href="@{'/profile/studentProfile?userName=' + ${#authentication.name}}">
@@ -50,9 +64,9 @@
 								Logout
 							</button>
 						</form>
-					</div></li>
+					</div>
+				</li>
 			</div>
-			
 			
 			
 			<div sec:authorize="isAnonymous()">
@@ -69,6 +83,7 @@
 				</a>
 			</div>
 
+			-->
 
 		</ul>
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="content" th:remove="tag">
+		<form th:action="@{/setting/savePayment}" method="post" enctype="multipart/form-data">
+		
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">PayPal API Base Url : </label> 
+				<input type="text" name="PAYPAL_API_BASE_URL" th:value="${PAYPAL_API_BASE_URL}" class="form-control" required>
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">PayPal Client ID : </label> 
+				<input type="text" name="PAYPAL_API_CLIENT_ID" th:value="${PAYPAL_API_CLIENT_ID}" class="form-control" required>
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">PayPal Client Secret : </label> 
+				<input type="text" name="PAYPAL_API_CLIENT_SECRET" th:value="${PAYPAL_API_CLIENT_SECRET}" class="form-control" required>
+			</div>
+			
+			
+			<div class="row">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-9">
+              		<div class="container mt-5">
+                    	<div class="form-group row">
+                    		<div class="col-md-2">
+                    			<button dir="ltr" type="submit" class="btn btn-primary customize-btn mt-2">Submit</button>
+                    		</div>
+                    	</div>
+                    </div>
+				</div>
+			</div>
+			
+		</form>
+	</div>
+</body>
+</html>

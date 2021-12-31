@@ -1,1 +1,173 @@
-<h1>Back End Main View</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>Mint Shop - Admin</title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/navbarStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+
+            <!-- ************************************************************** -->
+
+            <div class="section1">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card bg-c-blue order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20">Students</h6>
+                                    <h2 class="text-right"><i class="fas fa-user-graduate f-left"></i><span th:text="${studentCount}"></span></h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card bg-c-green order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20">Instructors</h6>
+                                    <h2 class="text-right"><i class="fas fa-chalkboard-teacher f-left"></i><span th:text="${instructorCount}"></span></h2>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card bg-c-yellow order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20">Courses</h6>
+                                    <h2 class="text-right"><i class="fas fa-book f-left"></i><span th:text="${courseCount}"></span></h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card bg-c-pink order-card">
+                                <div class="card-block">
+                                    <h6 class="m-b-20">Total Earning</h6>
+                                    <h2 class="text-right"><i class="fas fa-money-bill-alt f-left"></i><span th:text="${totalEarning}"></span></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-xl-6">
+                        	<input hidden="hidden" id="femaleMaleRatioStudent" name="femaleMaleRatioStudent" th:value="${femaleMaleRatioStudent}">
+                            <canvas id="doughnut-chart-student" style="width:100%;max-width:500px;height:100%;max-height:500px"></canvas>
+                        </div>
+                        <div class="col-12 col-md-12 col-xl-6">
+                        	<input hidden="hidden" id="departmentsCourses" name="departmentsCourses" th:value="${departmentsCourses}">
+                            <canvas id="pie-chart" style="width:100%;max-width:500px;height:100%;max-height:500px"></canvas>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-xl-6">
+                        	<input hidden="hidden" id="citiesProportions" name="citiesProportions" th:value="${citiesProportions}">
+                            <canvas id="bar-chart-horizontal-city" style="width:100%;max-width:500px;height:100%;max-height:500px"></canvas>
+                        </div>
+                        <div class="col-12 col-md-12 col-xl-6">
+                            <div class="card border-success mb-3 bg-light justify-content-center shadow" style="margin: 65px 64px; ">
+                                <div class="card-header " style="background: linear-gradient(to right, #eaafc8, #654ea3);">
+                                    <h4 class="font-weight-bold">Birthday</h4>
+                                </div>
+                                <div class="card-body rounded-bottom" style="background: linear-gradient(to right, #d3cce3, #e9e4f0);">
+                                    <h5 class="card-title font-weight-bold fs-6" th:text="${today}"></h5>
+                                    <div th:each="std : ${birthdayStudent}">
+                                    	<div class="rounded d-inline shadow">
+	                                        <img th:src="'data:image/jpg;base64,'+${std.details.imgBase64}" style="width: 30%;" class="rounded shadow">
+	                                    </div>
+	                                    <div class="align-middle d-inline">
+	                                        <h5 class="align-middle d-inline" th:text="${std.firstName}+' '+${std.lastName}"></h5>
+	                                        <small style="color: gray">(Student)</small>
+	                                    </div>
+                                    </div>
+                                    <div th:each="inst : ${birthdayInstructor}">
+                                    	<div class="rounded d-inline shadow">
+	                                        <img th:src="'data:image/jpg;base64,'+${inst.details.imgBase64}" style="width: 30%;" class="rounded shadow">
+	                                    </div>
+	                                    <div class="align-middle d-inline">
+	                                        <h5 class="align-middle d-inline" th:text="${inst.firstName}+' '+${inst.lastName}"></h5>
+	                                        <small style="color: gray">(Instructor)</small>
+	                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-xl-6">
+                        <input hidden="hidden" id="courseProportions" name="courseProportions" th:value="${courseProportions}">
+                            <canvas id="bar-chart-horizontal-course" style="width:100%;max-width:500px;height:100%;max-height:500px"></canvas>
+                        </div>
+                        <div class="col-12 col-md-12 col-xl-6">
+                        	<input hidden="hidden" id="femaleMaleRatioInstructor" name="femaleMaleRatioInstructor" th:value="${femaleMaleRatioInstructor}">
+                            <canvas id="doughnut-chart-instructor" style="width:100%;max-width:500px;height:100%;max-height:500px"></canvas>
+                        </div>
+                    </div>
+                    
+                    
+
+                </div>
+
+
+            </div>
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	
+	<script>
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+    });
+
+</script>
+</body>
+</html>

@@ -2,13 +2,12 @@ package com.olaaref.mintshop.common.entity;
 
 import java.util.Base64;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -18,12 +17,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "users")
-public class User {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer id;
+public class User extends IdBasedEntity {
 	
 	@Column(name = "email", length = 128, nullable = false, unique = true)
 	private String email;
@@ -47,7 +41,7 @@ public class User {
 	@Transient
 	private String imgBase64;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "users_roles",
 			joinColumns = @JoinColumn(name = "user_id"),
@@ -75,14 +69,6 @@ public class User {
 		this.enabled = enabled;
 		this.image = image;
 		this.roles = roles;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getEmail() {
@@ -155,6 +141,11 @@ public class User {
 	public void setImgBase64(String imgBase64) {
 		this.imgBase64 = imgBase64;
 	}
+	
+	@Transient
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
 
 	@Override
 	public String toString() {
@@ -163,7 +154,19 @@ public class User {
 	}
 	
 	
-	
+	public boolean hasRole(String roleName) {
+		
+		Iterator<Role> iterator = roles.iterator();
+		
+		while(iterator.hasNext()) {
+			Role role = iterator.next();
+			if(role.getName().equals(roleName)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 	
 }

@@ -1,8 +1,6 @@
 package com.olaaref.mintshop.exporter.csv;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +16,7 @@ public class UserCsvExporter extends AbstractExporter{
 	
 	public void export(List<User> usersList, HttpServletResponse response) throws IOException {
 
-		super.setResponseHeader(response, "text/csv", ".csv");
+		super.setResponseHeader(response, "text/csv", ".csv", "users_");
  
         ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
         String[] csvHeader = {"ID", "Email", "First Name", "Last Name", "Roles", "Enabled"};

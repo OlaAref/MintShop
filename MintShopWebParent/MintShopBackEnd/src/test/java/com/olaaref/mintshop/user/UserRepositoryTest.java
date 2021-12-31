@@ -131,7 +131,7 @@ public class UserRepositoryTest {
 		int pageNumber = 0;
 		
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-		Page<User> page = userRepository.search("yon", pageable);
+		Page<User> page = userRepository.findAll("yon", pageable);
 		
 		List<User> userList = page.getContent();
 		

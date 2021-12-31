@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="order-overview" th:remove="tag">
+
+		<div class="form-group">
+			<label for="idInput" class="form-label mt-4 fw-bold">Order ID :</label> 
+			<input th:value="${order.id}" type="text" name="id" class="form-control" id="idInput" readonly>
+		</div>
+		
+		<div class="form-group">
+			<label for="nameInput" class="form-label mt-4 fw-bold">Customer : </label> 
+			<input th:value="${order.customer.fullName}" type="text" name="name" class="form-control" id="nameInput" readonly>
+		</div>
+		
+		<div class="form-group">
+			<label for="productCostInput" class="form-label mt-4 fw-bold">Product Cost : </label> 
+			<input th:field="*{productCost}" type="text" name="productCost" class="form-control" id="productCostInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="subTotalInput" class="form-label mt-4 fw-bold">Subtotal : </label> 
+			<input th:field="*{subTotal}" type="text" name="subTotal" class="form-control" id="subTotalInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="shippingCostInput" class="form-label mt-4 fw-bold">Shipping Cost : </label> 
+			<input th:field="*{shippingCost}" type="text" name="shippingCost" class="form-control" id="shippingCostInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="taxInput" class="form-label mt-4 fw-bold">Tax : </label> 
+			<input th:field="*{tax}" type="text" name="tax" class="form-control" id="taxInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="totalInput" class="form-label mt-4 fw-bold">Total : </label> 
+			<input th:field="*{total}" type="text" name="total" class="form-control" id="totalInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="paymentMethodInput" class="form-label mt-4 fw-bold">Payment Method : </label> 
+			<select th:field="*{paymentMethod}" class="form-select" id="paymentMethodInput" required>
+				<th:block th:each="pm : ${T(com.olaaref.mintshop.common.entity.order.PaymentMethod).values()}">
+			  		<option th:value="${pm}" th:text="${pm}"></option>
+				</th:block>				  
+			</select>
+		</div>
+		
+		<div class="form-group">
+			<label for="orderStatusInput" class="form-label mt-4 fw-bold">Order Status : </label> 
+			<select th:field="*{orderStatus}" class="form-select" id="orderStatusInput" required>
+				<th:block th:each="os : ${T(com.olaaref.mintshop.common.entity.order.OrderStatus).values()}">
+			  		<option th:value="${os}" th:text="${os}"></option>
+				</th:block>				  
+			</select>
+		</div>
+		
+
+	</div>
+</body>
+</html>

@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>Mint Shop</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<title>[[${SITE_NAME}]]</title>
+
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/navbarStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
 </head>
-<body>
-	<h1>Welcome To Mint Shop E-Commerce</h1>
+<body class="d-flex flex-column h-100">
+
+	
+	<div th:replace="fragments/navbar :: navbar-content"></div>
+	
+	<div th:replace="fragments/navbar :: search-nav"></div>
+	
+	<div class="wrapper m-2 min-vh-100">
+	
+		<!-- Page Content  -->
+        <div id="content m-2">
+        
+        	<h1>Shopping by categories</h1>
+        	
+        	<div class="container">
+				<div class="row row-cols-6">
+				<th:block th:each="cat : ${categories}">
+					<div class="col">
+						<div>
+							<img th:if="${cat.image} != null" th:src="'data:image/jpg;base64,'+${cat.imgBase64}" width="100%" height="100%"/>
+							<i th:if="${cat.image == null}" class="fas fa-image" style="color: gray;font-size: 8vw;"></i>
+						</div>
+						<a th:href="@{'/c/'+${cat.alias}}">[[${cat.name}]]</a>
+					</div>
+				</th:block>
+	        	</div>
+        	</div>
+        </div>
+		
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
 </body>
 </html>
