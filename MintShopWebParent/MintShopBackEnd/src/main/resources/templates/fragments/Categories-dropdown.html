@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+	
+</head>
+
+<body>
+
+	<div th:fragment="categories-dropdown">
+		<li class="nav-item dropdown">
+
+			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				 Categories
+			 </a>
+			 
+			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				
+				<div th:each="depart : ${departsCategories}">
+					<a class="dropdown-item" th:href="@{'/department/departmentDetails?departId=' + ${depart.id}}" th:text="${depart.departmentName}">Department Name</a>
+				</div>
+		
+			</div>
+		</li>
+	</div>
+
+</body>
+</html>
