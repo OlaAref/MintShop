@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="product-overview" th:remove="tag">
+	
+		<th:block th:with="adminAuthority=${#authorization.expression('hasAuthority(''Admin'')')},
+						  salesAuthority=${#authorization.expression('hasAuthority(''Sales'')')},
+						  editorAuthority=${#authorization.expression('hasAuthority(''Editor'')')}">
+	
+		<div class="form-group">
+			<label for="inputName" class="form-label mt-4 fw-bold">Name : </label> 
+			
+			<th:block th:unless="${isReadOnly}">
+				<input th:field="*{name}" type="text" name="name" class="form-control" id="inputName" minlength="2" maxlength="256" placeholder="Product Name" required>
+			</th:block>
+			
+			<th:block th:if="${isReadOnly}">
+				<input th:field="*{name}" type="text" name="name" class="form-control" id="inputName" readonly>
+			</th:block>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputAlias" class="form-label mt-4 fw-bold">Alias : </label> 
+			
+			<th:block th:unless="${isReadOnly}">
+				<input th:field="*{alias}" type="text" name="alias" class="form-control" id="inputAlias" minlength="2" maxlength="256" placeholder="default is product name (spaces are replaced by dashes)">
+			</th:block>
+			
+			<th:block th:if="${isReadOnly}">
+				<input th:field="*{alias}" type="text" name="alias" class="form-control" id="inputAlias" readonly>
+			</th:block>
+			
+		</div>
+		
+		<div class="form-group">
+			<label for="inputBrand" class="form-label mt-4 fw-bold">Brand : </label> 
+			
+			<th:block th:unless="${isReadOnly}">
+			<select th:field="*{brand}" class="form-select" aria-label="Default select example" id="inputBrand" required>
+				<th:block th:each="brand : ${brands}">
+			  		<option th:value="${brand.id}">[[${brand.name}]]</option>
+				</th:block>				  
+			</select>
+			</th:block>
+			
+			<th:block th:if="${isReadOnly}">
+				<input th:value="${product.brand.name}" readonly type="text" class="form-control">
+			</th:block>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputCategory" class="form-label mt-4 fw-bold">Category : </label> 
+			
+			<th:block th:unless="${isReadOnly}">
+				<th:block th:if="${product.category != null}">
+					<select th:field="*{category}" class="form-select" aria-label="Default select example" id="inputCategory" required>
+						<th:block th:each="cat : ${product.brand.categories}">
+							<option th:value="${cat.id}">[[${cat.name}]]</option>
+						</th:block>
+					</select>
+				</th:block>
+				
+				<th:block th:if="${product.category == null}">
+					<select th:field="*{category}" class="form-select" aria-label="Default select example" id="inputCategory" required>
+					</select>
+				</th:block>
+			</th:block>
+			
+			<th:block th:if="${isReadOnly}">
+				<input th:value="${product.category.name}" readonly type="text" class="form-control">
+			</th:block>
+			
+		</div>
+
+		<div class="form-group">
+			<label for="enabledInput" class="form-label mt-4 fw-bold">Enabled : </label>
+			<div class="form-check">
+				<th:block th:unless="${isReadOnly}">
+					<input th:field="*{enabled}" class="form-check-input" type="checkbox" id="enabledCheckbox"> 
+				</th:block>
+				<th:block th:if="${isReadOnly}">
+					<input th:field="*{enabled}" class="form-check-input" type="checkbox" id="enabledCheckbox" disabled>
+				</th:block>
+				<label class="form-check-label" for="enabledCheckbox">Enabled</label>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="inStockInput" class="form-label mt-4 fw-bold">In Stock : </label>
+			<div class="form-check">
+			
+				<th:block th:unless="${isReadOnly}">
+					<input th:field="*{inStock}" class="form-check-input" type="checkbox" id="inStockCheckbox"> 
+				</th:block>
+				
+				<th:block th:if="${isReadOnly}">
+					<input th:field="*{inStock}" class="form-check-input" type="checkbox" id="inStockCheckbox" disabled>
+				</th:block>
+				
+				<label class="form-check-label" for="inStockCheckbox">In Stock</label>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputCost" class="form-label mt-4 fw-bold">Cost : </label> 
+			<input th:field="*{cost}" type="number" step="0.01" min="0" name="cost" class="form-control" id="inputCost" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputPrice" class="form-label mt-4 fw-bold">Price : </label> 
+			<input th:field="*{price}" type="number" step="0.01" min="0" name="price" class="form-control" id="inputPrice" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputDiscount" class="form-label mt-4 fw-bold">Discount : </label> 
+			<input th:field="*{discountPercent}" type="number" step="0.01" min="0" name="discountPercent" class="form-control" id="inputDiscount" required>
+		</div>
+		
+		</th:block>
+	</div>
+</body>
+</html>

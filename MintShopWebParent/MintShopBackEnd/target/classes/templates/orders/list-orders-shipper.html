@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>List Orders</title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/listStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/navbarStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar('/order/export')"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+		
+			<div th:if="${message != null}" id="orderAdded"></div>
+			
+			<div class="row">
+				<div class="col-1"></div>
+				<div class="col-10">
+					<form class="d-flex " th:action="@{/order/page/1}" id="categoryFilter">
+					    <input type="hidden" name="sortField" th:value="${sortField}">
+					    <input type="hidden" name="sortDir" th:value="${sortDir}">
+					    
+					    <div class="row g-3 align-items-center  mt-2 mb-2">
+						  <div class="col-auto">
+						    <input class="form-control me-2" type="search" aria-label="Search" name="keyword">
+						  </div>
+						  <div class="col-auto">
+						  	<button class="btn btn-outline-success" type="submit">Search</button>
+						  </div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			
+			
+				    
+            <!-- ************************************************************** -->
+			
+				<div>
+					<th:block th:each="order : ${orders}">
+						<div class="row mt-2">
+							<div class="col-1"></div>
+							<div class="col-10">
+							
+								<div class="card">
+									<div class="card-header">
+										<div class="row">
+											<div class="col">
+												<span>Order ID #[[${order.id}]]</span>
+											</div>
+											<div class="col">
+												<div class="float-end">
+													<a class="order-link" th:href="@{'/order/detail/'+${order.id}}" title="View details of this Order"><i class="fas fa-file-alt" style="color: #0e634b"></i></a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-body">
+									 	<div>
+									 		<i class="fas fa-user"></i>
+									 		<b>[[${order.recipientName}]]</b>
+									 	</div>
+									 	<div>
+									 		<b><i class="fas fa-home"></i></b>
+									 		<span>[[${order.recipientAddress}]]</span>
+									 	</div>
+									 	<div>
+									 		<b><i class="fas fa-phone-alt"></i></b>
+									 		<span>[[${order.phoneNumber}]]</span>
+									 	</div>
+									 	<div th:if="${order.COD}">
+									 		<b><i class="fas fa-hand-holding-usd"></i></b>
+									 		<span>COD: <b><div th:replace="fragments/format :: format-currency(${order.total})"></div></b></span>
+									 	</div>
+									 	
+									 	<div class="row mt-3">
+									 	
+									 		<div th:replace="fragments/order-status :: content(${order.picked}, 'PICKED', 'fa-people-carry')"></div>
+									 		
+									 		<div th:replace="fragments/order-status :: content(${order.shipping}, 'SHIPPING', 'fa-shipping-fast')"></div>
+									 		
+									 		<div th:replace="fragments/order-status :: content(${order.delivered}, 'DELIVERED', 'fa-box-open')"></div>
+									 		
+									 		<div th:replace="fragments/order-status :: content(${order.returned}, 'RETURNED', 'fa-undo')"></div>
+									 		
+									 	</div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</th:block>
+				</div>
+		   
+		   
+		   
+            <!-- ************************************************************** -->
+  			
+  			<div th:replace="fragments/pagination :: pagination('order')"></div>
+  			
+  			<!-- Modal Confirm -->
+			<div class="modal fade" id="confirmModal">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			    
+			      <div class="modal-header modal-warn-header">
+			        <h4 class="modal-title" id="modalTitle">Update Confirmation</h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      
+			      <div class="modal-body">
+			        <p id="modalMessage"></p>
+			      </div>
+			      
+			      <div class="modal-footer">
+			      	<a class="btn btn-danger" href="" id="yesButton">Yes</a>
+			        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="noButton">Close</button>
+			      </div>
+			      
+			    </div>
+			  </div>
+			</div>
+  			 
+  			 <!-- order details modal -->
+  			 <div class="modal fade" id="orderDetailsModel">
+			  <div class="modal-dialog modal-xl">
+			    <div class="modal-content">
+		
+			    </div>
+			  </div>
+			</div>
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script th:src="@{/js/orders-shipper.js}"></script>
+	
+	<script>
+	var customerModuleUrl = "[[@{/order}]]";
+	var csrfHeaderName = "[[${_csrf.headerName}]]";
+	var csrfValue = "[[${_csrf.token}]]";
+	
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        var orderAdded = document.getElementById("orderAdded");
+        if(typeof(orderAdded) != 'undefined' && orderAdded != null){
+        	showStackBarTop('success', "Order Saved","Order [[${message}]] Saved successfully.");
+        }
+        
+        var errorMsg = "[[${errorMessage}]]";
+        if(errorMsg != null && errorMsg != ''){
+        	customeNotice("Error", errorMsg);
+        }
+        
+        var msgDelete = "[[${deleteMessag}]]";
+        if(msgDelete != null && msgDelete != ''){
+        	showStackBarTop('success', "Customer Deleted", msgDelete);
+        }
+        
+        var errorMsgDelete = "[[${deleteErrorMessag}]]";
+        if(errorMsgDelete != null && errorMsgDelete != ''){
+        	customeNotice("Error", errorMsgDelete);
+        }
+        
+        
+        $(".delete-link").on("click", function(e){
+        	e.preventDefault();
+        	$("#deleteBtn").attr("href", $(this).attr("href"));
+        	$("#confirmModel").modal('show');
+        	
+        });
+        
+        
+        $(".order-link").on("click", function(e){
+        	e.preventDefault();
+        	var linkUrl = $(this).attr("href");
+        	$("#orderDetailsModel").modal('show').find(".modal-content").load(linkUrl);
+        });
+        
+        $("[name='keyword']").attr("placeholder", "Type #number to search by order ID");
+        
+    });
+
+</script>
+</body>
+</html>

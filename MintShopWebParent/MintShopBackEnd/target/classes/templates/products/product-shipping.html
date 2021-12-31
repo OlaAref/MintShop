@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="product-shipping">
+	
+		<div class="form-group pt-4">
+			The following information is important to calculate the shipping cost for the product.<br>
+			The dimensions (L x W x H) is for the box that is used to package the product - not the product's dimensions. 
+		</div>
+		
+		<div class="form-group">
+			<label for="inputLength" class="form-label mt-4 fw-bold">Length (cm) : </label> 
+			<input th:field="*{length}" type="number" step="0.01" min="0" name="length" class="form-control" id="inputLength" required>
+		</div>
+
+		<div class="form-group">
+			<label for="inputWidth" class="form-label mt-4 fw-bold">Width (cm) : </label> 
+			<input th:field="*{width}" type="number" step="0.01" min="0" name="width" class="form-control" id="inputWidth" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputHeight" class="form-label mt-4 fw-bold">Height (cm) : </label> 
+			<input th:field="*{height}" type="number" step="0.01" min="0" name="height" class="form-control" id="inputHeight" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputWeight" class="form-label mt-4 fw-bold">Weight (kg) : </label> 
+			<input th:field="*{weight}" type="number" step="0.01" min="0" name="weight" class="form-control" id="inputWeight" required>
+		</div>
+		
+		
+	</div>
+</body>
+</html>

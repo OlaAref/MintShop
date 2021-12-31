@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="order-shipping">
+		
+		<div class="form-group">
+			<label for="deliverDaysInput" class="form-label mt-4 fw-bold">Deliver Days : </label> 
+			<input th:field="*{deliverDays}" type="number" min="0" name="deliverDays" class="form-control" id="deliverDaysInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="deliverDateInput" class="form-label mt-4 fw-bold">Expected Deliver Date : </label> 
+			<input th:field="*{deliverDateOnForm}" type="date" name="deliverDateOnForm" class="form-control" id="deliverDateInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="firstNameInput" class="form-label mt-4 fw-bold">First Name : </label> 
+			<input th:field="*{firstName}" type="text" name="firstName" class="form-control" id="firstNameInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="lastNameInput" class="form-label mt-4 fw-bold">Last Name : </label> 
+			<input th:field="*{lastName}" type="text" name="lastName" class="form-control" id="lastNameInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="phoneNumberInput" class="form-label mt-4 fw-bold">Phone Number : </label> 
+			<input th:field="*{phoneNumber}" type="text" name="phoneNumber" class="form-control" id="phoneNumberInput" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="addressLine1Input" class="form-label mt-4 fw-bold">Address Line 1 : </label> 
+			<input th:field="*{addressLine1}" type="text" name="addressLine1" class="form-control" id="addressLine1Input" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="addressLine2Input" class="form-label mt-4 fw-bold">Address Line 2 : </label> 
+			<input th:field="*{addressLine2}" type="text" name="addressLine2" class="form-control" id="addressLine2Input">
+		</div>
+		
+		<div class="form-group">
+			<label class="col-form-label mt-4 fw-bold">Country : </label> 
+			<input type="hidden" name="countryName" id="countryName" th:value="${order.country}">
+			<select th:name="*{country}" class="form-select" id="countrySelecet">
+			  <th:block th:each="c : ${countries}">
+			  	<option th:value="${c.id}" th:selected="${c.name == order.country}">[[${c.name}]]</option>
+			  </th:block>
+			</select>
+		</div>
+		
+		<div class="form-group">
+			<label for="stateInput" class="col-form-label mt-4 fw-bold">State/Province : </label> 
+			<input th:field="*{state}" type="text" name="state" class="form-control" id="stateInput" required
+					minlength="2" maxlength="45" list="listStates">
+			<datalist id="listStates"></datalist>
+		</div>
+		
+		<div class="form-group">
+			<label for="cityInput" class="col-form-label mt-4 fw-bold">City : </label> 
+			<input th:field="*{city}" type="text" name="city" class="form-control" id="cityInput" required
+					minlength="2" maxlength="45" list="listCities">
+			<datalist id="listCities"></datalist>
+		</div>
+		
+		<div class="form-group">
+			<label for="postalCodeInput" class="col-form-label mt-4 fw-bold">Postal Code : </label> 
+			<input th:field="*{postalCode}" type="text" name="postalCode" class="form-control" id="postalCodeInput" required
+					minlength="2" maxlength="10">
+		</div>
+		
+		
+	</div>
+</body>
+</html>

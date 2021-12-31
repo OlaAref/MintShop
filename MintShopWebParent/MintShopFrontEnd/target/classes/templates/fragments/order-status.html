@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<div th:fragment="content(statusVar, iconName, label)" class="col mt-1">	
+		<th:block th:with="iconColor = ${statusVar ? 'text-success' : 'text-secondary'}">
+			<i th:class="'fas '+${iconName}+' fa-2x '+${iconColor}"></i>
+		</th:block>
+		<div><small>[[${label}]]</small></div>
+	</div>
+	
+</body>
+</html>

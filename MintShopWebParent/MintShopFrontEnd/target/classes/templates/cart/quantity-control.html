@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	
+</head>
+
+<body>
+
+	<div th:fragment="quantity-control(quantityValue, productId)">
+		
+		<div class="input-group spinner" style="width: 150px">
+    
+		   <button class="btn btn-dark btn-minus" type="button" th:pid="${productId}"><i class="fas fa-minus-circle"></i></button>
+		    
+		    <input type="text" class="form-control text-center quantityInpt" th:value="${quantityValue}" th:id="'quantity'+${productId}" onkeydown="return false;" style="width: 55px">
+		    
+		      
+		    <button class="btn btn-dark btn-plus" type="button" th:pid="${productId}"><i class="fas fa-plus-circle"></i></button>
+		    
+		  </div>
+		
+	</div>
+
+</body>
+</html>

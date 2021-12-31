@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title th:text="${pageTitle}+' brand'"></title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/addPageStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+
+            <!-- ************************************************************** -->            
+  			
+
+			<section class="add-form-section">
+				<div class="container">
+					<p>
+						<a th:href="@{/brand/list}">
+							<i class="fas fa-arrow-left"></i> Back to list
+							
+						</a>
+					</p>
+			
+					<h3 th:text="${pageTitle}+' brand'"></h3>
+			
+					<hr style="border-color: white;">
+					<form th:action="@{/brand/add}" th:object="${brand}" method="post" enctype="multipart/form-data" onsubmit="return checkUnique(this)">
+					
+					
+						<div class="row">
+			
+							<div class="col-lg-3">
+								<br>
+								
+								<div class="imgUp">
+								
+									<input type="hidden" th:field="*{logo}">
+								
+									<div class="imagePreview">
+										<img th:if="${brand.logo} != null" th:src="@{${brand.logoPath}}" width="172" height="180" class="img-db"/>
+									</div>
+									<label class="btn btn-primary customize-btn"> Add Image
+									<input type="file" name="photo" class="uploadFile img-db" value="Upload Photo" style="width: 0px; height: 0px; overflow: hidden;" id="file" onchange="fileInfo()">
+									
+									</label> 
+									<small id="image-size"></small><br>
+									<small id="emailHelp" class="form-text text-muted">
+										Max size 4 MB.
+									</small> <br>
+									<small id="emailHelp" class="form-text text-muted">
+										Prefer 178X180 px.
+									</small>
+								</div>
+							</div>
+			
+							<div class="col-lg-9">
+								
+								<input type="hidden" th:field="*{id}" id="brandID">
+								
+								<div class="form-group">
+									<label for="exampleInputName" class="form-label mt-4 fw-bold">Name : </label> 
+									<input th:field="*{name}" type="text" name="name" class="form-control" id="exampleInputName" minlength="2" maxlength="128" placeholder="Brand Name" required>
+									<p th:each="error : ${#fields.errors('name')}" th:text="${error}" style="color: red;"></p>
+								</div>
+								
+								<div class="form-group">
+									<label for="exampleInputCategories" class="form-label mt-4 fw-bold">Select one or more categories : </label>
+									<small style="color: aqua;">Hold (ctrl/command) button to choose multiple categories</small>
+									<select th:field="*{categories}" class="form-select" aria-label="Default select example" id="exampleInputCategories" multiple required style="resize: vertical;height: 200px">
+									  <th:block th:each="category : ${categories}">
+									  		<option th:value="${category.id}">[[${category.name}]]</option>
+									  </th:block>
+									  
+									</select>
+								</div>
+								
+								<div class="form-group">
+									<label class="form-label mt-4 fw-bold">Selected Categories : </label> 
+									<div id="chosenCategories"></div>
+								</div>
+			              		
+			                    <div class="container mt-5">
+			                    	<div class="form-group row">
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="submit" class="btn btn-primary customize-btn mt-2">Submit</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="reset" class="btn btn-primary customize-btn mt-2" id="btnClear">Clear</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="button" class="btn btn-primary customize-btn mt-2" id="btnCancel">Cancel</button>
+			                    		</div>
+			                    	</div>
+			                    </div>
+								
+								
+			
+							</div>
+			
+						</div>
+					
+					</form>
+					
+			
+				</div>
+			</section>
+  			
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script>
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        $('#btnCancel').on('click', function(){
+        	window.location = "[[@{/brand/list}]]";
+        });
+        
+        $('#btnClear').on('click', function(){
+        	$("#chosenCategories").empty();
+        });
+        
+        //for add new page
+        showSelectedCategories();
+        
+        //for edit page
+        appendChosenCategories();
+        
+        
+    });
+    
+    function checkUnique(form) {
+		var url = "[[@{/brands/checkUnique}]]";
+		var brandId = ($("#brandID").val() == "") ? 0 : $("#brandID").val();
+		var brandName = $("#exampleInputName").val();
+		var csrfValue = $("input[name='_csrf']").val();
+		
+		var params = {
+				id : brandId,
+				name : brandName,
+				_csrf : csrfValue
+		};
+		$.post(url, params, function(response) {
+			console.log(response);
+			if(response == "OK"){
+				form.submit();
+			}
+			else if(response == "DuplicateName"){
+				showStackBarTop('error', "Duplicated Brand Name!!", "This brand name '"+brandName+"' is used before.");
+			}
+			else{
+				
+				showStackBarTop('error', "Error!!", "Unknown response from server.");
+			}
+			
+		})
+		.fail(function(){
+			showStackBarTop('error', "Error!!", "Could not connect to the server.");
+		});
+    	
+        return false;
+    }
+ 
+    function showSelectedCategories(){
+    	dropdownCategories = $("#exampleInputCategories");
+        divChosenCategories = $("#chosenCategories");
+        
+        dropdownCategories.change(function() {
+        	divChosenCategories.empty();
+        	appendChosenCategories();
+        });
+    }
+    
+    function appendChosenCategories(){
+    	dropdownCategories.children("option:selected").each(function() {
+    		selectedCategoryId = $(this).val();
+    		selectedCategoryName = $(this).text().replace(/-/g, "");
+    		divChosenCategories.append("<span class='badge bg-dark m-1'>"+selectedCategoryName+"</span>");
+    	});
+    }
+</script>
+</body>
+</html>

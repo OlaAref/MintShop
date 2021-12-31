@@ -1,0 +1,5 @@
+com\olaaref\mintshop\address\ShippingRateRepositoryTest.class
+com\olaaref\mintshop\checkout\paypal\PaypalApiTest.class
+com\olaaref\mintshop\address\AddressRepositoryTest.class
+com\olaaref\mintshop\order\OrderRestControllerTest.class
+com\olaaref\mintshop\cartItem\CartItemRepositoryTest.class
