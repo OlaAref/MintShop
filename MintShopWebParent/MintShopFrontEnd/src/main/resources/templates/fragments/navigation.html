@@ -12,7 +12,7 @@
 			<span th:text="${startCount}+' to '+${endCount}+' of '+${totalElements}"></span>
 		</div>
 		<div class="text-center m-1" th:unless="${totalElements > 0}">
-			<span>No ${entity} found.</span>
+			<span th:text="'No '+${entity}+' found.'"></span>
 		</div>
 				
 		<nav aria-label="Page navigation example">

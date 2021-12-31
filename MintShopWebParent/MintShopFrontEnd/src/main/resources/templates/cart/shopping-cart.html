@@ -49,7 +49,7 @@
 								</div>
 								
 								<div class="col-3">
-									<img th:src="'data:image/jpg;base64,'+${item.product.imgBase64}" height="200px" class="img-fluid"/>
+									<img th:src="@{${item.product.imagePath}}" height="200px" class="img-fluid"/>
 								</div>
 								
 								<div class="col-6">

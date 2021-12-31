@@ -53,8 +53,11 @@
 								<br>
 								
 								<div class="imgUp">
+									
+									<input type="hidden" th:field="*{image}">
+								
 									<div class="imagePreview">
-										<img th:if="${category.image} != null" th:src="'data:image/jpg;base64,'+${category.imgBase64}" width="184" height="180" class="img-db"/>
+										<img th:if="${category.image} != null" th:src="@{${category.imagePath}}" width="184" height="180" class="img-db"/>
 									</div>
 									<label class="btn btn-primary customize-btn"> Add Image
 									<input type="file" name="photo" class="uploadFile img-db" value="Upload Photo" style="width: 0px; height: 0px; overflow: hidden;" id="file" onchange="fileInfo()">

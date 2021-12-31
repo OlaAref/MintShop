@@ -1,14 +1,12 @@
 package com.olaaref.mintshop.common.entity;
 
-import java.util.Base64;
+import com.olaaref.mintshop.common.Constants;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -16,45 +14,33 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "brands")
 public class Brand extends IdBasedEntity {
-	
 	@Column(name = "name", nullable = false, length = 45, unique = true)
 	private String name;
-	
-	@Lob
+
 	@Column(name = "logo", length = 128)
-	private byte[] logo;
-	
+	private String logo;
+
 	@Transient
-	private String logoBase64;
-	
+	private String logoPath;
+
 	@Transient
 	private Set<String> categoriesNames;
-	
-	@ManyToMany
-	@JoinTable(
-				name = "brands_categories",
-				joinColumns = @JoinColumn(name = "btrand_id"),
-				inverseJoinColumns = @JoinColumn(name = "category_id")
-				)
-	private Set<Category> categories = new HashSet<Category>();
 
-	public Brand() {
-		super();
-	}
-	
+	@ManyToMany
+	@JoinTable(name = "brands_categories", joinColumns = { @JoinColumn(name = "btrand_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "category_id") })
+	private Set<Category> categories = new HashSet<>();
+
 	public Brand(Integer id, String name) {
-		super();
 		this.id = id;
 		this.name = name;
 	}
 
 	public Brand(String name) {
-		super();
 		this.name = name;
 	}
 
-	public Brand(Integer id, String name, byte[] logo, Set<Category> categories) {
-		super();
+	public Brand(Integer id, String name, String logo, Set<Category> categories) {
 		this.id = id;
 		this.name = name;
 		this.logo = logo;
@@ -62,31 +48,33 @@ public class Brand extends IdBasedEntity {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public byte[] getLogo() {
-		return logo;
+	public String getLogo() {
+		return this.logo;
 	}
 
-	public void setLogo(byte[] logo) {
+	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 
-	public String getLogoBase64() {
-		return Base64.getEncoder().encodeToString(this.logo);
+	public String getLogoPath() {
+		if (this.id == null || this.logo == null)
+			return "/img/no-image.gif";
+		return Constants.S3_BASE_URI + "/brand-logos/" + this.id + "/" + this.logo;
 	}
 
-	public void setLogoBase64(String logoBase64) {
-		this.logoBase64 = logoBase64;
+	public void setLogoPath(String logoPath) {
+		this.logoPath = logoPath;
 	}
 
 	public Set<Category> getCategories() {
-		return categories;
+		return this.categories;
 	}
 
 	public void setCategories(Set<Category> categories) {
@@ -94,8 +82,8 @@ public class Brand extends IdBasedEntity {
 	}
 
 	public Set<String> getCategoriesNames() {
-		Set<String> namesList = new HashSet<String>();
-		categories.forEach(category -> namesList.add(category.getName()));
+		Set<String> namesList = new HashSet<>();
+		this.categories.forEach(category -> namesList.add(category.getName()));
 		return namesList;
 	}
 
@@ -103,9 +91,10 @@ public class Brand extends IdBasedEntity {
 		this.categoriesNames = categoriesNames;
 	}
 
-	@Override
 	public String toString() {
-		return "Brand [id=" + id + ", name=" + name + "]";
+		return "Brand [id=" + this.id + ", name=" + this.name + "]";
 	}
-	
+
+	public Brand() {
+	}
 }

@@ -31,7 +31,7 @@ public class ProductRestController {
 		
 		Product product = productService.getById(id);
 
-		return new ProductDTO(product.getName(), product.getImgBase64(), product.getDiscountedPrice(), product.getCost());
+		return new ProductDTO(product.getName(), product.getImagePath(), product.getDiscountedPrice(), product.getCost());
 	}
 	
 }

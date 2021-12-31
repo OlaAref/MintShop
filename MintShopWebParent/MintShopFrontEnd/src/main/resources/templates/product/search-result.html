@@ -38,7 +38,7 @@
         		<th:block th:each="product : ${products}">
         			<div class="col-sm-2 text-center">
         				<div>
-							<img th:if="${product.image} != null" th:src="'data:image/jpg;base64,'+${product.imgBase64}"  width="90%"/>
+							<img th:if="${product.image} != null" th:src="@{${product.imagePath}}"  width="90%"/>
 							<i th:if="${product.image == null}" class="fas fa-image" style="color: gray;font-size: 12vw;"></i>
 						</div>
 						<a th:href="@{'/p/'+${product.alias}}"><b>[[${product.name}]]</b></a>
@@ -49,7 +49,7 @@
         		</th:block>
         	</div>
         	
-        	<div th:replace="fragments/navigation :: navigation('search')" style="bottom: 0"></div>
+        	<div th:replace="fragments/navigation :: navigation('Product')" style="bottom: 0"></div>
         	
         </div>
 		

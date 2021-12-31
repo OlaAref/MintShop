@@ -1,77 +1,68 @@
 package com.olaaref.mintshop.common.entity.product;
 
-import java.util.Base64;
-
+import com.olaaref.mintshop.common.Constants;
+import com.olaaref.mintshop.common.entity.IdBasedEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.olaaref.mintshop.common.entity.IdBasedEntity;
-
 @Entity
 @Table(name = "product_images")
 public class ProductImage extends IdBasedEntity {
-	
-	@Lob
 	@Column(name = "extra_image", nullable = false)
-	private byte[] extraImage;
-	
+	private String extraImage;
+
 	@Transient
-	private String extraImgBase64;
-	
+	private String extraImagePath;
+
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
 
 	public ProductImage() {
-		super();
 	}
 
-	public ProductImage(Integer id, byte[] extraImage, Product product) {
-		super();
+	public ProductImage(Integer id, String extraImage, Product product) {
 		this.id = id;
 		this.extraImage = extraImage;
 		this.product = product;
 	}
 
-	public ProductImage(byte[] extraImage, Product product) {
-		super();
+	public ProductImage(String extraImage, Product product) {
 		this.extraImage = extraImage;
 		this.product = product;
 	}
 
-	public byte[] getExtraImage() {
-		return extraImage;
+	public String getExtraImage() {
+		return this.extraImage;
 	}
 
-	public void setExtraImage(byte[] extraImage) {
+	public void setExtraImage(String extraImage) {
 		this.extraImage = extraImage;
 	}
 
-	public String getExtraImgBase64() {
-		return Base64.getEncoder().encodeToString(this.extraImage);
+	public String getExtraImagePath() {
+		if (this.id == null || this.extraImage == null)
+			return "/img/no-image.gif";
+		return Constants.S3_BASE_URI + "/product-images/" + this.product.getId() + "/extras/" + this.extraImage;
 	}
 
-	public void setExtraImgBase64(String extraImgBase64) {
-		this.extraImgBase64 = extraImgBase64;
+	public void setExtraImagePath(String extraImagePath) {
+		this.extraImagePath = extraImagePath;
 	}
 
 	public Product getProduct() {
-		return product;
+		return this.product;
 	}
 
 	public void setProduct(Product product) {
 		this.product = product;
 	}
 
-	@Override
 	public String toString() {
-		return "ProductImage [id=" + id + ", extraImage=" + extraImage.length + ", product=" + product + "]";
+		return "ProductImage [id=" + this.id + ", extraImage=" + this.extraImage + ", product=" + this.product + "]";
 	}
-	
-	
 }

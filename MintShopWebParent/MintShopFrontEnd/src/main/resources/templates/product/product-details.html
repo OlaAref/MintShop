@@ -50,17 +50,17 @@
         	
         		<div class="col-sm">
         			<div class="d-flex justify-content-center">
-       					<img id="bigImage" th:if="${product.image} != null" th:src="'data:image/jpg;base64,'+${product.imgBase64}" width="60%" class="img-fluid" index="0"/>
+       					<img id="bigImage" th:if="${product.image} != null" th:src="@{${product.imagePath}}" width="60%" class="img-fluid" index="0"/>
 						<i th:if="${product.image == null}" class="fas fa-image fa-5x" style="color: gray"></i>
 					</div>
 					<div class="row m-5">
 						<div class="d-flex justify-content-center">
 							<div class="border border-secondary p-1">
-								<img class="image-thumbnail" th:if="${product.image} != null" th:src="'data:image/jpg;base64,'+${product.imgBase64}" height="50" index="0"/>
+								<img class="image-thumbnail" th:if="${product.image} != null" th:src="@{${product.imagePath}}" height="50" index="0"/>
 							</div>
 							<th:block th:each="extraImage, status : ${product.images}">
 								<div class="ms-2 border border-secondary p-1">
-									<img class="image-thumbnail" th:if="${extraImage.extraImage} != null" th:src="'data:image/jpg;base64,'+${extraImage.extraImgBase64}" 
+									<img class="image-thumbnail" th:if="${extraImage.extraImage} != null" th:src="@{${extraImage.extraImagePath}}" 
 										height="50" style="max-width: 150px" th:index="${status.count}"/>
 								</div>
 							</th:block>

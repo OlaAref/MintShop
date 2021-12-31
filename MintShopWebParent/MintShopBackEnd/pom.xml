@@ -14,10 +14,24 @@
 	<artifactId>MintShopBackEnd</artifactId>
 	<name>MintShopBackEnd</name>
 	<description>MintShop Admin Project</description>
+	<packaging>jar</packaging>
 	
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	
+	<!-- Bill Of Material 'bom' -->
+	<dependencyManagement>
+	  <dependencies>
+	    <dependency>
+	      <groupId>software.amazon.awssdk</groupId>
+	      <artifactId>bom</artifactId>
+	      <version>2.17.102</version>
+	      <type>pom</type>
+	      <scope>import</scope>
+	    </dependency>
+	  </dependencies>
+	</dependencyManagement>
 	
 	<dependencies>
 	
@@ -25,6 +39,13 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 		</dependency>
+		
+		<!-- AWS SDK -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>s3</artifactId>
+		</dependency>
+		
 	
 		<!-- CSV Exporter Dependency -->
 		<dependency>
@@ -58,9 +79,20 @@
 
 	<build>
 		<plugins>
+		
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/*.java</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

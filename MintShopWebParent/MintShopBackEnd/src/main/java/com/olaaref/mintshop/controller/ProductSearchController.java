@@ -14,31 +14,26 @@ import com.olaaref.mintshop.paging.PagingAndSortingParam;
 import com.olaaref.mintshop.service.ProductService;
 
 @Controller
-@RequestMapping("/search")
+@RequestMapping({ "/search" })
 public class ProductSearchController {
-
 	@Autowired
 	private ProductService productService;
-	
-	
-	@GetMapping("/product")
+
+	@GetMapping({ "/product" })
 	public String showSearchProductPage() {
-		
 		return "redirect:/search/product/page/1?sortField=name&sortDir=asc";
 	}
-	
-	@GetMapping("/product/page/{pageNum}")
-	public String searchProductsByPage(@PagingAndSortingParam(listName = "products", moduleUrl = "/search/product") PagingAndSortingHelper helper,
-								 @PathVariable("pageNum") int pageNum,
-								 Model model) {
-		productService.searchProductsByName(pageNum, helper);
-		
+
+	@GetMapping({ "/product/page/{pageNum}" })
+	public String searchProductsByPage(
+			@PagingAndSortingParam(listName = "products", moduleUrl = "/search/product") PagingAndSortingHelper helper,
+			@PathVariable("pageNum") int pageNum, Model model) {
+		this.productService.searchProductsByName(pageNum, helper);
 		return "orders/search-product";
 	}
-	
-	@PostMapping("/product")
+
+	@PostMapping({ "/product" })
 	public String searchProducts(@RequestParam("keyword") String keyword) {
-		
-		return "redirect:/search/product/page/1?sortField=name&sortDir=asc&keyword="+keyword;
+		return "redirect:/search/product/page/1?sortField=name&sortDir=asc&keyword=" + keyword;
 	}
 }

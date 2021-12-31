@@ -76,7 +76,7 @@ public class CategoryService {
 		helper.listEntities(pageNumber, CATEGORIES_PER_PAGE, categoryRepository);
 	}
 	
-	public void saveCategory(Category category) {
+	public Category saveCategory(Category category) {
 		
 		Category parent = category.getParent();
 		if(parent != null) {
@@ -85,7 +85,8 @@ public class CategoryService {
 			category.setAllParentIDs(allParentIds);
 		}
 		
-		categoryRepository.save(category);
+		Category savedCategory = categoryRepository.save(category);
+		return savedCategory;
 	}
 	
 	

@@ -51,7 +51,7 @@
 				      <td>
 				      	<i th:if="${brand.logo == null}" class="fas fa-image fa-3x" style="color: gray"></i>
 				      	
-				      	<img th:if="${brand.logo != null}" th:src="'data:image/jpg;base64,'+${brand.logoBase64}" width="80px" height="70px">
+				      	<img th:if="${brand.logo != null}" th:src="@{${brand.logoPath}}" width="80px" height="70px">
 				      </td>
 				      <td th:text="${brand.name}"></td>
 				     

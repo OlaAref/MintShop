@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.olaaref.mintshop.aws.AmazonS3Util;
 import com.olaaref.mintshop.common.entity.Role;
 import com.olaaref.mintshop.common.entity.User;
 import com.olaaref.mintshop.exception.UserNotFoundException;
@@ -31,174 +33,179 @@ import com.olaaref.mintshop.security.MintshopUserDetails;
 import com.olaaref.mintshop.service.UserService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping({ "/user" })
 public class UserController {
-
 	@Autowired
 	private UserService userService;
-	
-	
-	@GetMapping("/list")
+
+	@GetMapping({ "/list" })
 	public String listAll() {
-		
 		return "redirect:/user/page/1?sortField=id&sortDir=asc";
 	}
-	
-	@GetMapping("/page/{pageNum}")
+
+	@GetMapping({ "/page/{pageNum}" })
 	public String listAllByPage(@PagingAndSortingParam(listName = "users", moduleUrl = "/user") PagingAndSortingHelper helper,
 								@PathVariable("pageNum") int pageNum) {
 		
-		userService.listAllUsersByPage(pageNum, helper);
-	
+		this.userService.listAllUsersByPage(pageNum, helper);
 		return "users/list-users";
 	}
 
-	
-	@GetMapping("/toAdd")
+	@GetMapping({ "/toAdd" })
 	public String toAddPage(Model model) {
-		List<Role> roles = userService.listAllRoles();
+		
+		List<Role> roles = this.userService.listAllRoles();
+		
 		model.addAttribute("user", new User());
 		model.addAttribute("roles", roles);
 		model.addAttribute("pageTitle", "Add");
+		
 		return "users/add-user";
 	}
-	
-	@PostMapping("/add")
+
+	@PostMapping({ "/add" })
 	public String addUser(@ModelAttribute("user") User theUser, 
 						  @RequestParam("photo") MultipartFile multipartFile,
 						  RedirectAttributes redirectAttributes) throws IOException, UserNotFoundException {
 		
-		if(!multipartFile.isEmpty()) {
-			theUser.setImage(multipartFile.getBytes());
-		}
-		else {
-			theUser.setImage(userService.getById(theUser.getId()).getImage());
+		String fileName = null;
+		
+		if (!multipartFile.isEmpty()) {
+			fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			theUser.setImage(fileName);
+			
+		} else if (theUser.getImage().isEmpty()) {
+			theUser.setImage(null);
 		}
 		
-		userService.saveUser(theUser);
+		User savedUser = this.userService.saveUser(theUser);
+		saveUserImage(multipartFile, fileName, savedUser);
+		
 		redirectAttributes.addFlashAttribute("message", theUser.getFirstName());
 		
 		String firstPArtOfEmail = theUser.getEmail().split("@")[0];
-		return "redirect:/user/page/1?sortField=id&sortDir=asc&keyword="+firstPArtOfEmail;
+		return "redirect:/user/page/1?sortField=id&sortDir=asc&keyword=" + firstPArtOfEmail;
 	}
-	
-	@GetMapping("/load/{id}")
-	public String loadUserDetails(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes, Model model) {
+
+	private void saveUserImage(MultipartFile multipartFile, String fileName, User theUser) throws IOException {
+		if (!multipartFile.isEmpty()) {
+			String uploadDir = "user-photos/" + theUser.getId();
+			AmazonS3Util.removeFolder(uploadDir);
+			AmazonS3Util.uploadFile(uploadDir, fileName, multipartFile.getInputStream());
+		}
+	}
+
+	@GetMapping({ "/load/{id}" })
+	public String loadUserDetails(@PathVariable("id") Integer id, 
+								RedirectAttributes redirectAttributes, 
+								Model model) {
 		try {
-			List<Role> roles = userService.listAllRoles();
+			List<Role> roles = this.userService.listAllRoles();
 			model.addAttribute("roles", roles);
-			User user = userService.getById(id);
+			
+			User user = this.userService.getById(id);
 			model.addAttribute("user", user);
+			
 			model.addAttribute("pageTitle", "Edit");
+			
 			return "users/add-user";
 		} catch (UserNotFoundException e) {
 			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
 			return "redirect:/user/list";
 		}
-		
 	}
-	
-	@GetMapping("/showChangePassword/{id}")
+
+	@GetMapping({ "/showChangePassword/{id}" })
 	public String showChangePassword(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("id", id);
 		return "change-password";
 	}
-	
-	@PostMapping("/changePassword")
-	public String changePassword(@RequestParam("id") Integer id, 
-								@RequestParam("currentPassword") String currentPassword,
+
+	@PostMapping({ "/changePassword" })
+	public String changePassword(@RequestParam("id") Integer id,
+								@RequestParam("currentPassword") String currentPassword, 
 								@RequestParam("newPassword") String newPassword,
 								@RequestParam("confirmNewPassword") String confirmNewPassword,
-								@AuthenticationPrincipal MintshopUserDetails loggedUser,
-								Model model,
-								RedirectAttributes redirectAttributes) throws UserNotFoundException {
+								@AuthenticationPrincipal MintshopUserDetails loggedUser, 
+								Model model, RedirectAttributes redirectAttributes) throws UserNotFoundException {
 		
-		User user = userService.getById(id);
-		
-		//check if type correct password
+		User user = this.userService.getById(id);
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
 		boolean correctPassword = passwordEncoder.matches(currentPassword, user.getPassword());
-		if(!correctPassword) {
+		
+		if (!correctPassword) {
 			model.addAttribute("wrongPassword", "This Password Is Not Correct.");
 			model.addAttribute("id", id);
 			return "change-password";
 		}
-		
-		//check if new password matched
-		if(!newPassword.equals(confirmNewPassword)) {
+		if (!newPassword.equals(confirmNewPassword)) {
 			model.addAttribute("notMatchedPassword", "Passwords Are Not Matched.");
 			model.addAttribute("id", id);
 			return "change-password";
 		}
 		
 		user.setPassword(passwordEncoder.encode(newPassword));
-		userService.saveUser(user);
+		
+		this.userService.saveUser(user);
+		
 		redirectAttributes.addFlashAttribute("passwordChanged", "Password Changed Successfully.");
-
 		
-		
-		if(loggedUser.getUsername().equals(user.getEmail())) {
-			return "redirect:/account/details";
-		}
+		if (loggedUser.getUsername().equals(user.getEmail())) return "redirect:/account/details";
 		
 		return "redirect:/user/list";
 	}
-	
-	@GetMapping("/delete/{id}")
+
+	@GetMapping({ "/delete/{id}" })
 	public String deleteUser(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) throws UserNotFoundException {
-		String name = userService.getById(id).getFirstName();
+		
+		String name = this.userService.getById(id).getFirstName();
+		
 		try {
-			userService.deleteUser(id);
-			redirectAttributes.addFlashAttribute("deleteMessag", "User "+name+" has been deleted successfully.");
-		} 
-		catch (UserNotFoundException e) {
+			this.userService.deleteUser(id);
+			String uploadDir = "user-photos/" + id;
+			AmazonS3Util.removeFolder(uploadDir);
+			redirectAttributes.addFlashAttribute("deleteMessag", "User " + name + " has been deleted successfully.");
+			
+		} catch (UserNotFoundException e) {
 			redirectAttributes.addFlashAttribute("deleteErrorMessag", e.getMessage());
 		}
-		
 		return "redirect:/user/list";
 	}
-	
-	@GetMapping("/{id}/enabled/{status}")
+
+	@GetMapping({ "/{id}/enabled/{status}" })
 	public String updateUserEnabledStatus(@PathVariable("id") Integer id, 
-										  @PathVariable("status") boolean status,
-										  RedirectAttributes redirectAttributes) throws UserNotFoundException {
+										 @PathVariable("status") boolean status,
+										 RedirectAttributes redirectAttributes) throws UserNotFoundException {
 		
-		userService.updateEnabledStatus(id, status);
+		this.userService.updateEnabledStatus(id, status);
+		
 		String enabled = status ? "enabled" : "disabled";
-		String message = "The user "+userService.getById(id).getFirstName()+" has been "+enabled+" successfully.";
-		redirectAttributes.addFlashAttribute("enabledMessag", message);
+		String message = "The user " + this.userService.getById(id).getFirstName() + " has been " + enabled
+				+ " successfully.";
 		
+		redirectAttributes.addFlashAttribute("enabledMessag", message);
 		return "redirect:/user/list";
 	}
-	
-	@GetMapping("/export/csv")
+
+	@GetMapping({ "/export/csv" })
 	public void exportToCsv(HttpServletResponse response) throws IOException {
-		List<User> usersList = userService.listAll();
+		List<User> usersList = this.userService.listAll();
 		UserCsvExporter exporter = new UserCsvExporter();
 		exporter.export(usersList, response);
 	}
-	
-	@GetMapping("/export/excel")
+
+	@GetMapping({ "/export/excel" })
 	public void exportToExcel(HttpServletResponse response) throws IOException {
-		List<User> usersList = userService.listAll();
+		List<User> usersList = this.userService.listAll();
 		UserExcelExporter exporter = new UserExcelExporter();
 		exporter.export(usersList, response);
 	}
-	
-	@GetMapping("/export/pdf")
+
+	@GetMapping({ "/export/pdf" })
 	public void exportToPdf(HttpServletResponse response) throws IOException {
-		List<User> usersList = userService.listAll();
+		List<User> usersList = this.userService.listAll();
 		UserPdfExporter exporter = new UserPdfExporter();
 		exporter.export(usersList, response);
 	}
-	
 }
-
-
-
-
-
-
-
-
-

@@ -25,7 +25,7 @@
 						</div>
 						
 						<div class="col-3 m-2">
-							<img th:src="'data:image/jpg;base64,'+${detail.product.imgBase64}" height="200px" class="img-fluid"/>
+							<img th:src="@{${detail.product.imagePath}}" height="200px" class="img-fluid"/>
 						</div>
 					</div>
 					

@@ -20,7 +20,7 @@
 </head>
 <body>
 
-	<div th:replace="fragments/navbar :: navbarListPage()"></div>
+	<div th:replace="fragments/navbar :: navbar"></div>
 
 	<div class="wrapper">
         
@@ -90,7 +90,7 @@
 				      <td>
 				      	<i th:if="${product.image == null}" class="fas fa-image fa-3x" style="color: gray"></i>
 				      	
-				      	<img th:if="${product.image != null}" th:src="'data:image/jpg;base64,'+${product.imgBase64}" width="80px" height="70px">
+				      	<img th:if="${product.image != null}" th:src="@{${product.imagePath}}" width="80px" height="70px">
 				      	 
 				      </td>
 				      <td>

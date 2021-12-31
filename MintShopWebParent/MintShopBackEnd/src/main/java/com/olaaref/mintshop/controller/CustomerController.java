@@ -20,126 +20,81 @@ import com.olaaref.mintshop.paging.PagingAndSortingParam;
 import com.olaaref.mintshop.service.CustomerService;
 
 @Controller
-@RequestMapping("/customer")
+@RequestMapping({ "/customer" })
 public class CustomerController {
-
 	@Autowired
 	private CustomerService customerService;
-	
-	
-	@GetMapping("/list")
+
+	@GetMapping({ "/list" })
 	public String listAllCustomers() {
-		
 		return "redirect:/customer/page/1?sortField=id&sortDir=asc";
-		
-	}
-	
-	@GetMapping("/page/{pageNum}")
-	public String listByPage(@PagingAndSortingParam(listName = "customers", moduleUrl = "/customer") PagingAndSortingHelper helper, 
-							 @PathVariable("pageNum") int pageNum) {
-		
-		customerService.listAllCustomersByPage(pageNum, helper);
-		
-		return "customers/list-customers";
-		
 	}
 
-	
-	@GetMapping("{id}/enabled/{status}")
-	public String updateEnableStatus(@PathVariable("id") Integer id,
-									 @PathVariable("status") boolean status,
-									 RedirectAttributes redirectAttributes) throws CustomerNotFoundException {
-		
-		customerService.updateEnabledStatus(id, status);
+	@GetMapping({ "/page/{pageNum}" })
+	public String listByPage(
+			@PagingAndSortingParam(listName = "customers", moduleUrl = "/customer") PagingAndSortingHelper helper,
+			@PathVariable("pageNum") int pageNum) {
+		this.customerService.listAllCustomersByPage(pageNum, helper);
+		return "customers/list-customers";
+	}
+
+	@GetMapping({ "{id}/enabled/{status}" })
+	public String updateEnableStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean status,
+			RedirectAttributes redirectAttributes) throws CustomerNotFoundException {
+		this.customerService.updateEnabledStatus(id, status);
 		String enabled = status ? "enabled" : "disabled";
-		String message = "The customer "+ customerService.getById(id).getFullName() +" has been "+enabled+" successfully.";
-		
+		String message = "The customer " + this.customerService.getById(id).getFullName() + " has been " + enabled
+				+ " successfully.";
 		redirectAttributes.addFlashAttribute("enabledMessag", message);
-		
 		return "redirect:/customer/list";
 	}
-	
-	@GetMapping("/detail/{id}")
-	public String viewCustomer(@PathVariable("id") Integer id,
-							   Model model,
-							   RedirectAttributes redirectAttributes) {
-		
+
+	@GetMapping({ "/detail/{id}" })
+	public String viewCustomer(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
 		try {
-			Customer customer = customerService.getById(id);
+			Customer customer = this.customerService.getById(id);
 			model.addAttribute("customer", customer);
 			return "customers/customer-detail-modal";
-			
 		} catch (CustomerNotFoundException e) {
-
 			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
 			return "redirect:/customer/list";
 		}
-		
 	}
-	
-	@GetMapping("/edit/{id}")
+
+	@GetMapping({ "/edit/{id}" })
 	public String editCustomer(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-		
 		try {
-			Customer customer = customerService.getById(id);
-			List<Country> countries = customerService.listAllCountries();
-			
+			Customer customer = this.customerService.getById(id);
+			List<Country> countries = this.customerService.listAllCountries();
 			model.addAttribute("customer", customer);
 			model.addAttribute("countries", countries);
 			model.addAttribute("pageTitle", customer.getFullName());
-			
 			return "customers/customer-form";
-			
 		} catch (CustomerNotFoundException e) {
-			
 			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
 			return "redirect:/customer/list";
-			
 		}
-		
 	}
-	
-	@PostMapping("/save")
-	public String saveCustomer(@ModelAttribute("customer") Customer customer,
-							   RedirectAttributes redirectAttributes) throws CustomerNotFoundException {
-		
-		customerService.save(customer);
+
+	@PostMapping({ "/save" })
+	public String saveCustomer(@ModelAttribute("customer") Customer customer, RedirectAttributes redirectAttributes)
+			throws CustomerNotFoundException {
+		this.customerService.save(customer);
 		redirectAttributes.addFlashAttribute("message", customer.getFullName());
-		
 		return "redirect:/customer/list";
-		
 	}
-	
-	@GetMapping("/delete/{id}")
-	public String deleteCustomer(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) throws CustomerNotFoundException {
-		
-		String name = customerService.getById(id).getFullName();
+
+	@GetMapping({ "/delete/{id}" })
+	public String deleteCustomer(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes)
+			throws CustomerNotFoundException {
+		String name = this.customerService.getById(id).getFullName();
 		try {
-			customerService.deleteCustomer(id);
-			redirectAttributes.addFlashAttribute("deleteMessag", "Customer "+name+" has been deleted successfully.");
+			this.customerService.deleteCustomer(id);
+			redirectAttributes.addFlashAttribute("deleteMessag",
+					"Customer " + name + " has been deleted successfully.");
 		} catch (CustomerNotFoundException e) {
 			redirectAttributes.addFlashAttribute("deleteErrorMessag", e.getMessage());
 		}
-		
 		return "redirect:/customer/list";
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

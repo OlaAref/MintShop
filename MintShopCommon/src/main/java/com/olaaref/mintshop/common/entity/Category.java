@@ -1,13 +1,11 @@
 package com.olaaref.mintshop.common.entity;
 
-import java.util.Base64;
+import com.olaaref.mintshop.common.Constants;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -17,108 +15,97 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "categories")
 public class Category extends IdBasedEntity {
-	
 	@Column(name = "name", length = 128, nullable = false, unique = true)
 	private String name;
-	
+
 	@Column(name = "alias", length = 64, nullable = false, unique = true)
 	private String alias;
-	
+
 	@Column(name = "enabled")
 	private boolean enabled;
-	
+
 	@Column(name = "all_parent_ids", length = 256, nullable = true)
 	private String allParentIDs;
-	
-	@Lob
+
 	@Column(name = "image")
-	private byte[] image;
+	private String image;
 
 	@Transient
-	private String imgBase64;
-	
+	private String imagePath;
+
 	@OneToOne
 	@JoinColumn(name = "parent_id")
 	private Category parent;
-	
+
 	@OneToMany(mappedBy = "parent")
 	@OrderBy("name asc")
-	private Set<Category> children = new HashSet<Category>();
-	
+	private Set<Category> children = new HashSet<>();
+
 	@Transient
 	private boolean hasChildren;
-	
+
 	public Category() {
-		super();
 	}
-	
+
 	public Category(int id) {
-		this.id = id;
+		this.id = Integer.valueOf(id);
 	}
-	
+
 	public Category(String name) {
 		this.name = name;
 	}
 
 	public Category(int id, String name, String alias) {
-		super();
-		this.id = id;
+		this.id = Integer.valueOf(id);
 		this.name = name;
 		this.alias = alias;
 	}
 
 	public Category(String name, String alias, boolean enabled) {
-		super();
 		this.name = name;
 		this.alias = alias;
 		this.enabled = enabled;
 	}
 
 	public Category(String name, String alias, boolean enabled, Category parent) {
-		super();
 		this.name = name;
 		this.alias = alias;
 		this.enabled = enabled;
 		this.parent = parent;
 	}
-	
+
 	public static Category copyIdAndName(Category category) {
 		Category copyCategory = new Category();
 		copyCategory.setId(category.getId());
 		copyCategory.setName(category.getName());
 		return copyCategory;
 	}
-	
+
 	public static Category copyIdAndName(int id, String name) {
 		Category copyCategory = new Category();
-		copyCategory.setId(id);
+		copyCategory.setId(Integer.valueOf(id));
 		copyCategory.setName(name);
 		return copyCategory;
 	}
-	
+
 	public static Category copyFull(Category category) {
 		Category copyCategory = new Category();
-		
 		copyCategory.setId(category.getId());
 		copyCategory.setName(category.getName());
 		copyCategory.setAlias(category.getAlias());
 		copyCategory.setEnabled(category.isEnabled());
 		copyCategory.setImage(category.getImage());
-		
-		return copyCategory;
-	}
-	
-	public static Category copyFull(Category category, String name) {
-		
-		Category copyCategory = Category.copyFull(category);
-		copyCategory.setName(category.getName());
-		
 		return copyCategory;
 	}
 
+	public static Category copyFull(Category category, String name) {
+		Category copyCategory = copyFull(category);
+		copyCategory.setName(category.getName());
+		return copyCategory;
+	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -126,7 +113,7 @@ public class Category extends IdBasedEntity {
 	}
 
 	public String getAlias() {
-		return alias;
+		return this.alias;
 	}
 
 	public void setAlias(String alias) {
@@ -134,7 +121,7 @@ public class Category extends IdBasedEntity {
 	}
 
 	public boolean isEnabled() {
-		return enabled;
+		return this.enabled;
 	}
 
 	public void setEnabled(boolean enabled) {
@@ -142,34 +129,33 @@ public class Category extends IdBasedEntity {
 	}
 
 	public String getAllParentIDs() {
-		return allParentIDs;
+		return this.allParentIDs;
 	}
 
 	public void setAllParentIDs(String allParentIDs) {
 		this.allParentIDs = allParentIDs;
 	}
 
-	public byte[] getImage() {
-		return image;
+	public String getImage() {
+		return this.image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
-	public String getImgBase64() {
-		if(this.image != null) {
-			return Base64.getEncoder().encodeToString(this.image);
-		}
-		return null;
+	public String getImagePath() {
+		if (this.id == null || this.image == null)
+			return "/img/no-image.gif";
+		return Constants.S3_BASE_URI + "/category-images/" + this.id + "/" + this.image;
 	}
 
-	public void setImgBase64(String imgBase64) {
-		this.imgBase64 = imgBase64;
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
 	public Category getParent() {
-		return parent;
+		return this.parent;
 	}
 
 	public void setParent(Category parent) {
@@ -177,7 +163,7 @@ public class Category extends IdBasedEntity {
 	}
 
 	public Set<Category> getChildren() {
-		return children;
+		return this.children;
 	}
 
 	public void setChildren(Set<Category> children) {
@@ -185,10 +171,8 @@ public class Category extends IdBasedEntity {
 	}
 
 	public boolean isHasChildren() {
-		if(this.getChildren().isEmpty()) {
+		if (getChildren().isEmpty())
 			return false;
-		}
-		
 		return true;
 	}
 
@@ -196,32 +180,8 @@ public class Category extends IdBasedEntity {
 		this.hasChildren = hasChildren;
 	}
 
-	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", alias=" + alias + ", enabled=" + enabled + ", parent="
-				+ parent + "]";
+		return "Category [id=" + this.id + ", name=" + this.name + ", alias=" + this.alias + ", enabled=" + this.enabled
+				+ ", parent=" + this.parent + "]";
 	}
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

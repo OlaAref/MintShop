@@ -54,7 +54,7 @@ public class PagingAndSortingHelper {
 		
 		Page<?> page = null;
 		
-		if(keyword != null || keyword != "") {
+		if(keyword != null) {
 			page = repository.findAll(keyword, pageable);
 		}
 		else {

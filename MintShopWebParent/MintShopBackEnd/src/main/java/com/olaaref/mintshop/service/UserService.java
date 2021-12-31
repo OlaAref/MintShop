@@ -47,7 +47,7 @@ public class UserService {
 		
 	}
 	
-	public void saveUser(User user) {
+	public User saveUser(User user) {
 		
 		if(user.getId() != null) {
 			//update case
@@ -61,7 +61,8 @@ public class UserService {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
 		
-		userRepository.save(user);
+		User savedUser = userRepository.save(user);
+		return savedUser;
 		
 	}
 	

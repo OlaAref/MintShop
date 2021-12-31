@@ -32,98 +32,75 @@ import com.olaaref.mintshop.service.OrderService;
 import com.olaaref.mintshop.service.SettingService;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping({ "/order" })
 public class OrderController {
-	
 	private String redirectToListUrl = "redirect:/order/page/1?sortField=orderTime&sortDir=desc";
 
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Autowired
 	private SettingService settingService;
-	
-	
-	@GetMapping("/list")
-	public String listAll(){
-		return redirectToListUrl;
-	}
-	
-	@GetMapping("/page/{pageNum}")
-	public String listByPage(@PagingAndSortingParam(listName = "orders", moduleUrl = "/order") PagingAndSortingHelper helper,
-							 @PathVariable("pageNum") int pageNum,
-							 HttpServletRequest request,
-							 @AuthenticationPrincipal MintshopUserDetails loggedUser) {
 
-		
-		orderService.listByPage(pageNum, helper);
+	@GetMapping({ "/list" })
+	public String listAll() {
+		return this.redirectToListUrl;
+	}
+
+	@GetMapping({ "/page/{pageNum}" })
+	public String listByPage(
+			@PagingAndSortingParam(listName = "orders", moduleUrl = "/order") PagingAndSortingHelper helper,
+			@PathVariable("pageNum") int pageNum, HttpServletRequest request,
+			@AuthenticationPrincipal MintshopUserDetails loggedUser) {
+		this.orderService.listByPage(pageNum, helper);
 		loadCurrencySeting(request);
-		
-		if(loggedUser.hasRole("Shipper") && !loggedUser.hasRole("Admin") && !loggedUser.hasRole("Sales")) {
+		if (loggedUser.hasRole("Shipper") && !loggedUser.hasRole("Admin") && !loggedUser.hasRole("Sales"))
 			return "orders/list-orders-shipper";
-		}
-		
-		
 		return "orders/list-orders";
 	}
-	
+
 	private void loadCurrencySeting(HttpServletRequest request) {
-		List<Setting> currencySettings = settingService.getCurrencySettings();
-		
-		for (Setting setting : currencySettings) {
+		List<Setting> currencySettings = this.settingService.getCurrencySettings();
+		for (Setting setting : currencySettings)
 			request.setAttribute(setting.getKey(), setting.getValue());
-		}
 	}
-	
-	@PostMapping("/save")
-	public String saveOrder(@ModelAttribute("order") Order order,
-							HttpServletRequest request,
-							RedirectAttributes redirectAttributes) {
-		
+
+	@PostMapping({ "/save" })
+	public String saveOrder(@ModelAttribute("order") Order order, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
 		String countryName = request.getParameter("countryName");
 		order.setCountry(countryName);
-		
 		updateProductDetails(order, request);
 		updateOrderTracks(order, request);
-		
-		orderService.save(order);
+		this.orderService.save(order);
 		redirectAttributes.addFlashAttribute("message", order.getId());
-		return redirectToListUrl;
+		return this.redirectToListUrl;
 	}
-	
+
 	private void updateOrderTracks(Order order, HttpServletRequest request) {
 		String[] trackIds = request.getParameterValues("trackId");
 		String[] trackDates = request.getParameterValues("trackDate");
 		String[] trackStatuses = request.getParameterValues("trackStatus");
 		String[] trackNotes = request.getParameterValues("trackNotes");
-		
 		List<OrderTrack> orderTracks = order.getOrderTracks();
-		
 		for (int i = 0; i < trackIds.length; i++) {
-			System.out.println("trackIds "+trackIds[i]);
-			System.out.println("\t trackDates "+trackDates[i]);
-			System.out.println("\t trackStatuses "+trackStatuses[i]);
-			System.out.println("\t trackNotes "+trackNotes[i]);
-			
-			Integer trackId = Integer.parseInt(trackIds[i]);
+			System.out.println("trackIds " + trackIds[i]);
+			System.out.println("\t trackDates " + trackDates[i]);
+			System.out.println("\t trackStatuses " + trackStatuses[i]);
+			System.out.println("\t trackNotes " + trackNotes[i]);
+			Integer trackId = Integer.valueOf(Integer.parseInt(trackIds[i]));
 			OrderTrack track = new OrderTrack();
-			
-			if(trackId > 0) {
+			if (trackId.intValue() > 0)
 				track.setId(trackId);
-			}
-			
 			track.setOrder(order);
 			track.setNotes(trackNotes[i]);
 			track.setStatus(OrderStatus.valueOf(trackStatuses[i]));
-			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 			LocalDateTime trackDate = LocalDateTime.parse(trackDates[i], formatter);
-			
 			track.setUpdatedTime(trackDate);
-			System.out.println("\t track Date after format "+trackDate);
+			System.out.println("\t track Date after format " + trackDate);
 			orderTracks.add(track);
 		}
-		
 	}
 
 	private void updateProductDetails(Order order, HttpServletRequest request) {
@@ -134,27 +111,20 @@ public class OrderController {
 		String[] productPrices = request.getParameterValues("productPrice");
 		String[] productSubtotals = request.getParameterValues("productSubtotal");
 		String[] productShipCosts = request.getParameterValues("productShipCost");
-		
 		Set<OrderDetail> orderDetails = order.getOrderDetails();
-		
 		for (int i = 0; i < detailIds.length; i++) {
-			System.out.println("detailIds "+detailIds[i]);
-			System.out.println("\t productIds "+productIds[i]);
-			System.out.println("\t productCosts "+productDetailCosts[i]);
-			System.out.println("\t quantities "+quantities[i]);
-			System.out.println("\t productPrices "+productPrices[i]);
-			System.out.println("\t productSubtotals "+productSubtotals[i]);
-			System.out.println("\t productShipCosts "+productShipCosts[i]);
-			
-			Integer detailId = Integer.parseInt(detailIds[i]);
-			Integer productId = Integer.parseInt(productIds[i]);
-
+			System.out.println("detailIds " + detailIds[i]);
+			System.out.println("\t productIds " + productIds[i]);
+			System.out.println("\t productCosts " + productDetailCosts[i]);
+			System.out.println("\t quantities " + quantities[i]);
+			System.out.println("\t productPrices " + productPrices[i]);
+			System.out.println("\t productSubtotals " + productSubtotals[i]);
+			System.out.println("\t productShipCosts " + productShipCosts[i]);
+			Integer detailId = Integer.valueOf(Integer.parseInt(detailIds[i]));
+			Integer productId = Integer.valueOf(Integer.parseInt(productIds[i]));
 			OrderDetail detail = new OrderDetail();
-			
-			if(detailId > 0) {
+			if (detailId.intValue() > 0)
 				detail.setId(detailId);
-			}
-			
 			detail.setOrder(order);
 			detail.setProduct(new Product(productId));
 			detail.setProductCost(Float.parseFloat(productDetailCosts[i]));
@@ -162,65 +132,50 @@ public class OrderController {
 			detail.setShippingCost(Float.parseFloat(productShipCosts[i]));
 			detail.setSubTotal(Float.parseFloat(productSubtotals[i]));
 			detail.setUnitPrice(Float.parseFloat(productPrices[i]));
-			
 			orderDetails.add(detail);
-			
 		}
-		
 	}
 
-	@GetMapping("/detail/{id}")
-	public String viewOrderDetails(@PathVariable("id") Integer id, 
-									Model model, 
-									RedirectAttributes redirectAttributes, 
-									HttpServletRequest request,
-									@AuthenticationPrincipal MintshopUserDetails loggedUser) {
+	@GetMapping({ "/detail/{id}" })
+	public String viewOrderDetails(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes,
+			HttpServletRequest request, @AuthenticationPrincipal MintshopUserDetails loggedUser) {
 		try {
-			Order order = orderService.getById(id);
+			Order order = this.orderService.getById(id);
 			loadCurrencySeting(request);
-			
 			boolean isAdminOrSales = false;
-			if(loggedUser.hasRole("Admin") || loggedUser.hasRole("Sales")) {
+			if (loggedUser.hasRole("Admin") || loggedUser.hasRole("Sales"))
 				isAdminOrSales = true;
-			}
-			
-			model.addAttribute("isAdminOrSales", isAdminOrSales);
+			model.addAttribute("isAdminOrSales", Boolean.valueOf(isAdminOrSales));
 			model.addAttribute("order", order);
-			
 			return "orders/order-detail-modal";
-			
 		} catch (OrderNotFoundException e) {
 			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-			return redirectToListUrl;
+			return this.redirectToListUrl;
 		}
 	}
-	
-	@GetMapping("/edit/{id}")
+
+	@GetMapping({ "/edit/{id}" })
 	public String loadOrderDetails(@PathVariable("id") Integer id, Model model) {
 		try {
-			Order order = orderService.getById(id);
+			Order order = this.orderService.getById(id);
 			model.addAttribute("order", order);
 			model.addAttribute("pageTitle", "Edit");
-			model.addAttribute("countries", orderService.listAllCountries());
-			
+			model.addAttribute("countries", this.orderService.listAllCountries());
 			return "orders/order-form";
-			
 		} catch (OrderNotFoundException e) {
 			model.addAttribute("errorMessage", e.getMessage());
-			return redirectToListUrl;
+			return this.redirectToListUrl;
 		}
 	}
-	
-	@GetMapping("/delete/{id}")
+
+	@GetMapping({ "/delete/{id}" })
 	public String deleteOrder(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 		try {
-			orderService.deleteOrder(id);
+			this.orderService.deleteOrder(id);
 			redirectAttributes.addFlashAttribute("deleteMessag", "The Order has been deleted successfully.");
-			
 		} catch (OrderNotFoundException e) {
-			
 			redirectAttributes.addFlashAttribute("deleteErrorMessag", e.getMessage());
 		}
-		return redirectToListUrl;
+		return this.redirectToListUrl;
 	}
 }

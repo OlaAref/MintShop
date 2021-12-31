@@ -33,7 +33,7 @@
 				<th:block th:each="cat : ${categories}">
 					<div class="col">
 						<div>
-							<img th:if="${cat.image} != null" th:src="'data:image/jpg;base64,'+${cat.imgBase64}" width="100%" height="100%"/>
+							<img th:if="${cat.image} != null" th:src="@{${cat.imagePath}}" width="100%" height="100%"/>
 							<i th:if="${cat.image == null}" class="fas fa-image" style="color: gray;font-size: 8vw;"></i>
 						</div>
 						<a th:href="@{'/c/'+${cat.alias}}">[[${cat.name}]]</a>

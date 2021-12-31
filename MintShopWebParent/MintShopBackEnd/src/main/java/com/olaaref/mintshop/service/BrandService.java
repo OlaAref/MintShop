@@ -56,8 +56,9 @@ public class BrandService {
 		return "OK";
 	}
 
-	public void save(Brand brand) {
-		brandRepository.save(brand);
+	public Brand save(Brand brand) {
+		Brand savedBrand = brandRepository.save(brand);
+		return savedBrand;
 	}
 	
 	public void deleteBrand(Integer id) throws BrandNotFoundException {
