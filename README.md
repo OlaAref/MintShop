@@ -1,7 +1,7 @@
 
 # MintShop
 **MintShop** is a Spring Boot E-Commerce Project.
-> Live demo Backend [_here_](https://mintshop-backend.herokuapp.com).
+> Live demo Backend [_here_](https://mintshop-backend.herokuapp.com).<br />
 > Live demo Frontend [_here_](https://mintshop-frontend.herokuapp.com).
 
 
