@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+
+	<div th:fragment="content" th:remove="tag">
+		<div class="row ms-1 d-flex justify-content-center justify-content-md-start">
+        	
+        	<div class="col-md-1 col-2 ms-4">
+       			<div class="align-middle text-center">
+        			<div>
+        				<a th:href="@{'/votes/vote-question/' + ${question.id} + '/up'}" 
+        					class="vote-question-link linkVoteQuestion"
+        					th:id="'voteUpLink-'+${question.id}"
+        					th:questionId="${question.id}"
+        					th:title="${question.votedUpByCurrentCustomer ? 'Undo vote up' : 'Vote up'}">
+        					<i class="fas fa-caret-up fa-2x"
+        					   th:classappend="${question.votedUpByCurrentCustomer ? 'text-warning' : ''}"
+        					   th:id="'thumbsUpIcon-'+${question.id}"></i>
+        				</a>
+        			</div>
+        			<div th:id="'voteCount-'+${question.id}">[[${question.votes}]]</div>
+        			<div>votes</div>
+        			<div>
+        				<a th:href="@{'/votes/vote-question/' + ${question.id} + '/down'}" 
+        					class="vote-question-link linkVoteQuestion"
+        					th:id="'voteDownLink-'+${question.id}"
+        					th:questionId="${question.id}"
+        					th:title="${question.votedDownByCurrentCustomer ? 'Undo vote down' : 'Vote down'}">
+        					<i class="fas fa-caret-down fa-2x"
+        					   th:classappend="${question.votedDownByCurrentCustomer ? 'text-warning' : ''}"
+        					   th:id="'thumbsDownIcon-'+${question.id}"></i>
+        				</a>
+        			</div>
+       			</div>
+       		</div>
+       		
+       		<div class="col-md-auto d-sm-none d-none">
+       			<div style="border-left:1px solid grey;height:115px"></div>
+       		</div>
+       		
+       		<div class="col-md-8 col-9">
+       			<div class="row">
+       				<div class="col-md-2 col-12 fw-bold">Question:</div>
+       				<div class="col-md-8 col-12">[[${question.questionContent}]]</div>
+       			</div>
+       			<div class="row">
+       				<div class="col-md-2 col-12"></div>
+       				<div class="col-md-8 col-12 text-secondary small" style="font-size: small;">
+       					By <span class="fw-bold">[[${question.asker.fullName}]] </span>
+       					on <th:block th:replace="fragments/format :: format-time-monthDayYear(${question.askedTime})"></th:block>
+       				</div>
+       			</div>
+       			<th:block th:if="${question.answered}">
+       			<div class="row">
+       				<div class="col-md-2 col-12 fw-bold">Answer:</div>
+       				<div class="col-md-8 col-12">[[${question.answerContent}]]</div>
+       			</div>
+       			<div class="row">
+       				<div class="col-md-2 col-12"></div>
+       				<div class="col-md-8 col-12 text-secondary small" style="font-size: small;">
+						By <span class="fw-bold">[[${question.answerer.fullName}]] </span>
+       					on <th:block th:replace="fragments/format :: format-time-monthDayYear(${question.answeredTime})"></th:block>
+					</div>
+       			</div>
+       			</th:block>
+       			<th:block th:unless="${question.answered}">
+       				<div class="row">
+       				<div class="col-md-2 col-12 fw-bold">Answer:</div>
+       				<div class="col-md-8 col-12 text-warning">Not answered yet.</div>
+       			</div>
+       			</th:block>
+       		</div>
+
+      		</div>
+      		
+      		<div class="row d-block d-sm-none ">
+       		<div class="col d-flex justify-content-center">
+       			<hr class="w-75 text-center "/>
+       		</div>
+       	</div>
+	</div>
+	
+	<div th:fragment="question-form" th:remove="tag">
+		<th:block sec:authorize="isAuthenticated()">
+       		<div class="row m-1 d-flex align-self-center">
+        		<form>
+        			<input type="hidden" id="productId" th:value="${product.id}">
+        			<div class="col-md-8 col-12 mt-2">
+        				<textarea required id="questionContent" rows="2" placeholder="Add your question .. ?" class="form-control"></textarea>
+        			</div>
+        			<div class="col-md-4 col-12 mt-2">
+        				<button th:saveLink="@{/questions/save}" type="submit" class="btn btn-primary questionFormButton">Submit</button>
+        			</div>
+        		</form>
+        	</div>
+       	</th:block>
+       	<th:block sec:authorize="isAnonymous()">
+       		<div class="row m-1">
+       			<div class="col-md-2 col-1"></div>
+        		<div class="col-auto ms-5">
+        			<button type="button" class="btn btn-secondary anonymousLink">Ask a Question</button>
+        		</div>
+       		</div>
+       	</th:block>
+	</div>
+
+</body>
+</html>

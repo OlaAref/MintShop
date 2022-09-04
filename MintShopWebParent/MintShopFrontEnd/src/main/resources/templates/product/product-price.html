@@ -1,0 +1,85 @@
+	<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	
+</head>
+
+<body>
+
+	<div th:fragment="product-price-byVariable(variable)">
+		
+		<div th:if="${variable.product.discountPercent <= 0}">
+			<div th:replace="product/product-price :: currency-symbol-position(${variable.product.price})"></div>
+		</div>
+		<div th:if="${variable.product.discountPercent > 0}">
+			<span style="font-size: larger; color: darkred;">
+				<div th:replace="product/product-price :: currency-symbol-position(${variable.product.discountedPrice})"></div>
+			</span>
+			<del>
+				<div th:replace="product/product-price :: currency-symbol-position(${variable.product.price})"></div>
+			</del>
+		</div>
+		
+	</div>
+	
+	<div th:fragment="product-price">
+		
+		<div th:if="${product.discountPercent <= 0}">
+			<div th:replace="product/product-price :: currency-symbol-position(${product.price})"></div>
+		</div>
+		<div th:if="${product.discountPercent > 0}">
+			<span style="font-size: larger; color: darkred;">
+				<div th:replace="product/product-price :: currency-symbol-position(${product.discountedPrice})"></div>
+			</span>
+			<del>
+				<div th:replace="product/product-price :: currency-symbol-position(${product.price})"></div>
+			</del>
+		</div>
+		
+	</div>
+	
+	<div th:fragment="product-price-details">
+		
+		<div>
+			List Price: 
+			<span th:if="${product.discountPercent <= 0}">
+				<div th:replace="product/product-price :: currency-symbol-position(${product.price})"></div>
+			</span>
+			<del th:if="${product.discountPercent > 0}">
+				<div th:replace="product/product-price :: currency-symbol-position(${product.price})"></div>
+			</del>
+		</div>
+		<div th:if="${product.discountPercent > 0}">
+			Price: 
+			<span style="font-size: larger;color: darkred;">
+				<div th:replace="product/product-price :: currency-symbol-position(${product.discountedPrice})"></div>
+			</span>
+			([[${#numbers.formatDecimal(product.discountPercent, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]% off)
+		</div>
+		
+	</div>
+
+	<div th:fragment="currency-symbol-position(price)" th:remove="tag">
+		<span th:if="${CURRENCY_SYMBOL_POSITION == 'Before Price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]] </span>
+		<span class="fw-bold">[[${#numbers.formatDecimal(price, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]</span>
+		<span th:if="${CURRENCY_SYMBOL_POSITION == 'After Price'}" th:remove="tag"> [[${CURRENCY_SYMBOL}]]</span>
+	</div>
+	
+	<div th:fragment="product-price-cart" th:remove="tag">
+	
+		<th:block th:if="${item.product.discountPercent <= 0}">
+			<div th:replace="product/product-price :: currency-symbol-position(${item.product.price})"></div>
+		</th:block>
+		<th:block th:if="${item.product.discountPercent > 0}">
+			<span style="font-size: larger; color: darkred;">
+				<div th:replace="product/product-price :: currency-symbol-position(${item.product.discountedPrice})"></div>
+			</span>
+			<del>
+				<div th:replace="product/product-price :: currency-symbol-position(${item.product.price})"></div>
+			</del>
+		</th:block>
+		
+	</div>
+
+</body>
+</html>

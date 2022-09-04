@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title th:text="${pageTitle}+' Rate'"></title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/addPageStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	
+</head>
+<body class="d-flex flex-column h-100">
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper min-vh-100 add-form-section">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+
+            <!-- ************************************************************** -->            
+  			
+
+			<section >
+				<div class="container">
+					<p>
+						<a th:href="@{/shippingRate/list}">
+							<i class="fas fa-arrow-left"></i> Back to list
+							
+						</a>
+					</p>
+			
+					<h3 th:text="${pageTitle}+' Rate'"></h3>
+			
+					<hr style="border-color: white;">
+					<form th:action="@{/shippingRate/add}" th:object="${rate}" method="post">
+					
+					
+						<div class="row">
+			
+							<div class="col-lg-1">
+								
+							</div>
+			
+							<div class="col-lg-10">
+								
+								<input type="hidden" th:field="*{id}" id="rateId">
+								
+
+								<div class="form-group">
+								    <label class="col-sm-12 col-form-label fw-bold">Destination Country : </label>
+								    <div class="col-sm-12">
+									    <select th:field="*{country}" class="form-select" id="countrySelecet">
+									    	<option th:each="country : ${countries}" th:value="${country.id}">[[${country.name}]]</option>
+									    </select>
+								    </div>
+								</div>
+								
+								<div class="form-group">
+									<label for="stateInput" class="form-label mt-4 fw-bold">Destination State/Province : </label> 
+									<input th:field="*{state}" type="text" name="state" class="form-control" 
+											id="stateInput" minlength="2" maxlength="45" required list="listStates">
+									<datalist id="listStates"></datalist>
+								</div>
+								
+								<div class="form-group">
+									<label for="rateInput" class="form-label mt-4 fw-bold">Shipping Rate (Per DIM Weight) : </label> 
+									<input th:field="*{rate}" type="number" step="0.01" min="0" class="form-control" id="rateInput" required>
+								</div>
+								
+								<div class="form-group">
+									<label for="daysInput" class="form-label mt-4 fw-bold">Days to deliver : </label> 
+									<input th:field="*{days}" type="number" step="1" min="0" name="days" class="form-control" id="daysInput" required>
+								</div>
+								
+								<div class="form-group">
+									<label for="enabledInput" class="form-label mt-4 fw-bold">Cash On Delivery (COD) : </label>
+									<div class="form-check">
+										<input th:field="*{codSupported}" class="form-check-input" type="checkbox" id="enabledCheckbox"> 
+										<label class="form-check-label" for="enabledCheckbox"> COD</label>
+									</div>
+								</div>
+			              		
+			                    <div class="container mt-5">
+			                    	<div class="form-group row">
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="submit" class="btn btn-primary customize-btn mt-2">Submit</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="reset" class="btn btn-primary customize-btn mt-2" id="btnClear">Clear</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="button" class="btn btn-primary customize-btn mt-2" id="btnCancel">Cancel</button>
+			                    		</div>
+			                    	</div>
+			                    </div>
+								
+								
+			
+							</div>
+			
+						</div>
+					
+					</form>
+					
+			
+				</div>
+			</section>
+  			
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script>
+	var contextPath = "[[@{/}]]";
+	var moduleURL = "[[@{/shippingRate}]]";
+	
+	var dropdownCountry;
+	var dataListStates;
+	var stateInput;
+	
+    $(document).ready(function() {
+    	
+    	dropdownCountry = $('#countrySelecet');
+		dataListStates = $('#listStates');
+		stateInput = $('#stateInput');
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        $('#btnCancel').on('click', function(){
+        	window.location = "[[@{/shippingRate/list}]]";
+        });
+        
+        $('#btnClear').on('click', function(){
+        	$("#chosenCategories").empty();
+        });
+       
+        dropdownCountry.on("change", function() {
+			loadStates();
+			stateInput.val("").focus();
+		});
+        
+    });
+    
+    function loadStates(){
+		var selectedCountry = $('#countrySelecet option:selected');
+		var countryId = selectedCountry.val();
+		var url = contextPath + "states/list/" + countryId;
+		
+		$.get(url, function(jsonResponse) {
+			dataListStates.empty();
+			
+			$.each(jsonResponse, function(index, state) {
+				$("<option>").val(state.name).text(state.name).appendTo(dataListStates);
+			});
+			
+		});
+	}
+  </script>
+</body>
+</html>

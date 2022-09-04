@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<th:block th:replace="fragments/fragments :: head(title=${pageTitle})"></th:block>
+	<link rel="stylesheet" type="text/css" th:href="@{/richtext/richtext.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/addPageStyle.css}">
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content" style="background-color: #444">
+
+
+            <!-- ************************************************************** -->            
+  			
+
+			<section class="add-form-section">
+				<div class="container">
+					<p>
+						<a th:href="@{/article/list}">
+							<i class="fas fa-arrow-left"></i> Back to list
+							
+						</a>
+					</p>
+			
+					<h3 th:text="${pageTitle}"></h3>
+			
+					<hr style="border-color: white;">
+					<form th:action="@{/article/save}" th:object="${article}" method="post" onsubmit="return checkUnique(this)">
+					
+					
+						<div class="row">
+			
+							<div class="col-lg-12">
+								
+								<input type="hidden" th:field="*{id}" id="articleID">
+								<input type="hidden" th:field="*{createdTime}">
+								
+								<div class="form-group row">
+									<label for="titleInput" class="form-label mt-4 fw-bold">Title : </label> 
+									<input th:field="*{title}" type="text" class="form-control" id="titleInput" minlength="2" maxlength="250" placeholder="Article title" required onkeyup="fillAliasField()">
+								</div>
+								
+								<div class="form-group row">
+									<label for="aliasInput" class="form-label mt-4 fw-bold">Alias : </label> 
+									<input th:field="*{alias}" type="text" class="form-control" id="aliasInput" minlength="2" maxlength="300" placeholder="Article alias" required>
+								</div>
+								
+								<div class="form-group row">
+									<label for="contentInput" class="form-label mt-4 fw-bold">Content : </label> 
+									<textarea th:field="*{content}" type="text" class="form-control" id="contentInput" rows="10" required></textarea>
+								</div>
+								
+								<div class="form-group row">
+									<label class="col-form-label mt-4 fw-bold">Type : </label> 
+									<select th:field="*{articleType}" class="form-select" id="articleTypeSelecet">
+									  <option value="MENU_BOUND">Menu Bound Article</option>
+									  <option value="FREE">Free Article</option>
+									</select>
+								</div>
+								
+								<div class="form-group row">
+			                        <label for="publishedInput" class="form-label mt-4 fw-bold">Published : </label>
+									<div class="form-check">
+								        <input th:field="*{published}" class="form-check-input" type="checkbox" id="publishedInput">
+								        <label class="form-check-label" for="publishedInput">Published</label>
+								    </div>
+								</div>
+			              		
+			                    <div class="container mt-5">
+			                    	<div class="form-group row">
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="submit" class="btn btn-primary customize-btn mt-2">Save</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="reset" class="btn btn-secondary customize-btn mt-2" id="btnClear">Clear</button>
+			                    		</div>
+			                    	</div>
+			                    </div>
+								
+								
+			
+							</div>
+			
+						</div>
+					
+					</form>
+					
+			
+				</div>
+			</section>
+  			
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+	
+	<script>
+	var contextPath = "[[@{/}]]";
+	
+    $(document).ready(function() {
+
+    	$('#contentInput').richText();
+        
+        
+    });
+    
+    
+    
+    function checkUnique(form) {
+		var url = "[[@{/articles/check-unique}]]";
+		var articleId = ($("#articleID").val() == "") ? 0 : $("#articleID").val();
+		var articleAlias = $("#aliasInput").val();
+		var csrfValue = $("input[name='_csrf']").val();
+		
+		var params = {
+				articleId: articleId,
+				articleAlias : articleAlias,
+				_csrf : csrfValue
+		};
+		$.post(url, params, function(response) {
+			console.log(response);
+			if(response == "OK"){
+				form.submit();
+			}
+			else if(response == "Duplicate"){
+				showStackBarTop('error', "Duplicated Alias!!", "This article alias '"+articleAlias+"' is used before.");
+			}
+			else{
+				showStackBarTop('error', "Error!!", "Unknown response from server.");
+			}
+			
+		})
+		.fail(function(){
+			showStackBarTop('error', "Error!!", "Could not connect to the server.");
+		});
+    	
+        return false;
+    }
+ 
+    function fillAliasField(){
+		var title = $("#titleInput").val();
+		var slug = title.toLowerCase().trim().replace(/\s/g, "_");
+		$("#aliasInput").val(slug);
+	}
+    
+</script>
+</body>
+</html>

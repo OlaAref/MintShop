@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>Account Details</title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/addPageStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+
+            <!-- ************************************************************** -->            
+  			
+
+			<section style="width: 100%; padding: 90px; background-color: #444; color: white">
+				<div class="container">
+					
+			
+					<h3>Account Details</h3>
+			
+					<hr style="border-color: white;">
+					<form th:action="@{/account/update}" th:object="${user}" method="post" enctype="multipart/form-data" onsubmit="return checkEmailUnique(this);">
+					
+					
+						<div class="row">
+			
+							<div class="col-lg-3">
+								<br>
+								
+								<div class="imgUp">
+									
+									<input type="hidden" th:field="*{image}">
+								
+									<div class="imagePreview">
+										<img th:if="${user.image} != null" th:src="@{${user.imagePath}}" width="172" height="180" class="img-db"/>
+									</div>
+									<label class="btn btn-primary customize-btn"> Add Image
+									<input type="file" name="photo" class="uploadFile img-db" value="Upload Photo" style="width: 0px; height: 0px; overflow: hidden;" id="file" onchange="fileInfo()">
+									
+									</label> 
+									<small id="image-size"></small><br>
+									<small id="emailHelp" class="form-text text-muted">
+										Max size 4 MB.
+									</small> <br>
+									<small id="emailHelp" class="form-text text-muted">
+										Prefer 178X180 px.
+									</small>
+								</div>
+							</div>
+			
+							<div class="col-lg-9">
+								
+								<input type="hidden" th:field="*{id}" id="userID">
+								
+								<div class="form-group">
+									<label for="exampleInputEmail1" class="form-label mt-4 fw-bold">Email : </label> 
+									<input th:field="*{email}" type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" readonly="readonly">
+									<p th:each="error : ${#fields.errors('email')}" th:text="${error}" style="color: red;"></p>
+								</div>
+								
+								<div class="form-group">
+									<label for="firstNameInput" class="form-label mt-4 fw-bold">First Name : </label>
+									 
+									<input th:field="*{firstName}" type="text" name="firstName" class="form-control" id="firstNameInput" placeholder="First Name" required>
+									<p th:each="error : ${#fields.errors('firstName')}" th:text="${error}" style="color: red;"></p>
+									
+								</div>
+			
+								<div class="form-group">
+									<label for="lastNameInput" class="form-label mt-4 fw-bold">Last Name : </label>
+									<input th:field="*{lastName}" type="text" name="lastName" class="form-control" id="lastNameInput" placeholder="Last Name" required>
+									<p th:each="error : ${#fields.errors('lastName')}" th:text="${error}" style="color: red;"></p>
+								</div>
+								
+								<div class="form-group">
+									<label for="passwordInput" class="form-label mt-4 fw-bold">Password :</label>
+									<input th:if="${user.id == null}" th:field="*{password}" class="form-control" id="passwordInput" type="password" placeholder="**************" required="required"/>
+									<div class="row" th:if="${user.id != null}">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <a th:href="@{'/user/showChangePassword/'+*{id}}" class="btn btn-primary customize-btn">Change Password</a>
+                                        </div>
+                                    </div>
+                                </div>
+									<p th:each="error : ${#fields.errors('password')}" th:text="${error}" style="color: red;"></p>
+								</div>
+								
+								
+								<div class="form-group">
+			                        <label for="genderInput" class="form-label mt-4 fw-bold">Assigned Roles : </label><br>
+									<span><b>[[${user.roles}]]</b></span>
+			                       
+								</div>
+								
+				
+			              		
+			                    <div class="container mt-5">
+			                    	<div class="form-group row">
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="submit" class="btn btn-primary customize-btn mt-2">Submit</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="reset" class="btn btn-primary customize-btn mt-2">Clear</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="button" class="btn btn-primary customize-btn mt-2" id="btnCancel">Cancel</button>
+			                    		</div>
+			                    	</div>
+			                    </div>
+								
+								
+			
+							</div>
+			
+						</div>
+					
+					</form>
+					
+			
+				</div>
+			</section>
+  			
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<div th:if="${passwordChanged != null}" id="passwordChanged"></div>
+	
+	<script>
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        $('#btnCancel').on('click', function(){
+        	window.location = "[[@{/user/list}]]";
+        });
+        
+        var passwordChanged = document.getElementById("passwordChanged");
+        if(typeof(passwordChanged) != 'undefined' && passwordChanged != null){
+        	showStackBarTop('success', "Password Changed","[[${passwordChanged}]]");
+        };
+        
+        var msg = "[[${message}]]";
+        if(msg != null && msg != ''){
+        	showStackBarTop('success', "Update Account", msg);
+        }
+        
+    });
+    function checkEmailUnique(form) {
+		var url = "[[@{/users/checkEmail}]]";
+		var userEmail = $("#exampleInputEmail1").val();
+		var csrfValue = $("input[name='_csrf']").val();
+		var userId = $("#userID").val();
+		
+		var params = {
+				id : userId,
+				email : userEmail,
+				_csrf : csrfValue
+		};
+		
+		
+		$.post(url, params, function(response) {
+			
+			if(response == "OK"){
+				form.submit();
+			}
+			else if(response == "Duplicated"){
+				showStackBarTop('error', "Duplicated Email!!", "The email you entered is registered.");
+			}
+			else{
+				showStackBarTop('error', "Error!!", "Unknown response from server.");
+			}
+			
+		})
+		.fail(function(){
+			showStackBarTop('error', "Error!!", "Could not connect to the server.");
+		});
+    	
+        return false;
+    }
+    
+    
+
+</script>
+</body>
+</html>

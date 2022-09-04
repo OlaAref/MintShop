@@ -1,0 +1,274 @@
+@font-face{
+    font-family: 'AbrilFatface';
+    src: url('../fonts/AbrilFatface-Regular.ttf') format('truetype');
+    src: url('../fonts/AbrilFatface-Regular.woff') format('woff');
+    src: url('../fonts/AbrilFatface-Regular.woff2') format('woff2');
+}
+@font-face{
+    font-family: 'Stalemate';
+    src: url('../fonts/Stalemate-Regular.ttf') format('truetype');
+    src: url('../fonts/Stalemate-Regular.woff') format('woff');
+    src: url('../fonts/Stalemate-Regular.woff2') format('woff2');
+}
+@font-face{
+    font-family: 'Sonsie One';
+    src: url('../fonts/SonsieOne-Regular.ttf') format('truetype');
+    src: url('../fonts/SonsieOne-Regular.woff') format('woff');
+    src: url('../fonts/SonsieOne-Regular.woff2') format('woff2');
+}
+/* Dropdown menu */
+.dropdown-menu
+{
+    background-color: #333;
+    border-top: 3px solid deepskyblue;
+    min-width: 200px;
+    
+    
+}
+
+.dropdown-item
+{
+    color: #FFF;
+    -webkit-transition: padding 0.5s ease;
+    -moz-transition: padding 0.5s ease;
+    -o-transition: padding 0.5s ease;
+    transition: padding 0.5s ease;
+}
+
+.dropdown-item:focus, 
+.dropdown-item:hover
+{
+    background-color: deepskyblue;
+    color: #FFF;
+    padding-left: 20px;
+}
+
+.dropdown-divider
+{
+    border-top-color: deepskyblue;
+}
+
+/* logo */
+.logoImg
+{
+    height: 30px;
+    width: 30px;
+    line-height: 100%;
+}
+
+/* Start Footer Section */
+
+.footer
+{
+    background: #333333d8;
+    color: #CAC5C5;
+    padding-top: 20px;
+    width: 100%;
+
+}
+
+.footer a
+{
+    color: #CAC5C5;
+}
+
+.footer a:hover
+{
+    color: #FFF;
+}
+
+.footer h3
+{
+    letter-spacing: 1px;
+    margin: 30px 0px 20px;
+    color: deepskyblue;
+    font-weight: bold;
+}
+
+.footer h3 span
+{
+    font-family: 'AbrilFatface', cursive;;
+    font-weight: bold;
+}
+
+/* END Footer Section */
+
+
+/* Start Social Section */
+
+#social {
+    padding: 20px;
+    text-align: center;
+    background: #333333e8;
+}
+
+#social .smGlobalBtn { /* global button class */
+	color: #ddd;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border:2px solid #ddd; /* add border to the buttons */
+    box-shadow: 0 3px 3px #999;
+    padding: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 25px;
+    font-weight: normal;
+    line-height: 2em;
+    border-radius: 27px;
+    -moz-border-radius:27px;
+    -webkit-border-radius:27px;
+    -webkit-transition: all 0.6s ease-in-out;
+    -moz-transition: all 0.6s ease-in-out;
+    -o-transition: all 0.6s ease-in-out;
+    transition: all 0.6s ease-in-out;
+    
+}
+
+#social .facebookBtn,
+#social .twitterBtn,
+#social .googleplusBtn,
+#social .linkedinBtn,
+#social .gitBtn,
+#social .youtubeBtn
+{
+    background: black;
+}
+
+#social .facebookBtn:before,
+#social .twitterBtn:before,
+#social .googleplusBtn:before,
+#social .linkedinBtn:before,
+#social .gitBtn:before,
+#social .youtubeBtn:before{
+	/* use :before to add the relevant icons */
+    font-family: "FontAwesome";         
+}
+
+/* facebook button class*/
+#social .facebookBtn:hover{
+    color: #4060A5;
+    background: #fff;
+    border-color: #4060A5; /* change the border color on mouse hover */
+}
+
+/* twitter button class*/
+#social .twitterBtn:hover{
+    color: #00ABE3;
+    background: #fff;
+    border-color: #00ABE3;
+}
+
+/* google plus button class*/
+#social .googleplusBtn:hover{
+    color: #e64522;
+    background: #fff;
+    border-color: #e64522;
+}
+
+/* linkedin button class*/
+#social .linkedinBtn:hover{
+    color: #0094BC;
+    background: #fff;
+    border-color: #0094BC;
+}
+    
+/* github button class*/
+#social .gitBtn:hover{
+    color: black;
+    background: #fff;
+    border-color: black;
+}
+    
+/* Youtube button class*/
+#social .youtubeBtn:hover{
+    color: #c4302b;
+    background: #fff;
+    border-color: #c4302b;
+}
+
+/* End Social Section */
+
+
+
+/* Start Copyright Section */
+
+.copyright
+{
+    background: #333;
+    color: #CAC5C5;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* End Copyright Section */
+
+/* Start Scrollup Section */
+.scroll-top
+{
+    
+    text-align: center;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    z-index: 99999;
+    display: none;
+}
+
+
+
+.scroll-top .scroll-icon
+{
+    padding: 5px;
+    cursor: pointer;
+    display: none;
+    
+    color: #FFF;
+    background-color: deepskyblue;
+    border: 2px solid #FFF;
+    
+    display: inline-block;
+    position: relative;
+    width: 35px;
+    height: 35px;
+    box-shadow: 0 3px 3px #999;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 25px;
+    font-weight: normal;
+    line-height: 2em;
+    border-radius: 27px;
+    -moz-border-radius:27px;
+    -webkit-border-radius:27px;
+    -webkit-transition: all 0.6s ease-in-out;
+    -moz-transition: all 0.6s ease-in-out;
+    -o-transition: all 0.6s ease-in-out;
+    transition: all 0.6s ease-in-out;
+}
+.scroll-top .scroll-icon:hover
+{
+    color: deepskyblue;
+    background-color: #FFF;
+    border-color: deepskyblue;
+}
+.scroll-top .scroll-icon:before{
+    font-family: "FontAwesome";       
+}
+
+
+/* End Scrollup Section */
+
+.langLink{
+	color : white;
+}
+
+.langLink:hover{
+	color : lime;
+}

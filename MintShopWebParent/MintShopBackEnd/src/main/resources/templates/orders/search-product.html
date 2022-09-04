@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>Search Product</title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/addPageStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/richtext/richtext.min.css}">
+	
+</head>
+<body>
+
+	<div class="wrapper">
+		<div class="container-fluid">
+		
+			<form class="d-flex me-4" th:action="@{/search/product}" method="post" id="categoryFilter">
+			     <div class="row g-3 align-items-center ms-5 mt-2 mb-2">
+			      <div class="col-auto">
+				    <input class="form-control" type="search" placeholder="product name" aria-label="Search" 
+				    	th:value="${keyword}" name="keyword">
+				  </div>
+				  <div class="col-auto">
+				  	<button class="btn btn-outline-primary" type="submit">Search</button>
+				  </div>
+				</div>
+			</form>
+			
+			<div class="row ms-3 me-3 mt-5 mb-2">
+				<th:block th:each="product: ${products}">
+					<div class="col ">
+						<div>
+							<a href="" class="linkProduct" th:pid="${product.id}">
+								<img th:src="@{${product.imagePath}}" height="150px">
+								<br>
+								<b th:id="'pname'+${product.id}">[[${product.shortName}]]</b>
+							</a>
+						</div>
+					</div>
+					
+				</th:block>
+				
+			</div>
+			<th:block th:if="${currentPage != null}">
+				<div th:replace="fragments/pagination :: pagination('product')"></div>
+			</th:block>
+			
+        </div>
+
+    </div>
+    
+    <div th:replace="fragments/modal-fargment :: modal-fragment"></div>
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+
+	<script th:src="@{/js/order-form-products.js}"></script>
+	<script th:src="@{/js/add-product.js}"></script>
+	<script th:src="@{/js/jquery.number.min.js}"></script>
+	
+	<script>
+	var contextPath = "[[@{/}]]";
+	
+    $(document).ready(function() {
+		
+    	handleLinkProduct();
+        
+    });
+    
+    function handleLinkProduct(){
+    	
+    	$(".linkProduct").click(function(e) {
+    		e.preventDefault();
+    		productId = $(this).attr("pid");
+    		productName = $("#pname"+productId).text();
+    		
+    		if(window.parent.isProductAlreadyAdded(productId)){
+    			showModalDialog("Warning", "The product '"+productName+"' is already added.");
+    		}
+    		else{
+    			window.parent.addProduct(productId, productName);
+    		}
+    		
+    		
+    	});
+    }
+
+</script>
+</body>
+</html>s

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<th:block th:replace="fragments/fragments :: head(title='Review')"></th:block>
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbarListPage()"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar('/review/export')"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+		
+			<div th:if="${message != null}" id="reviewAdded"></div>
+		   
+            <!-- ************************************************************** -->
+			<div class="table-responsive">
+	            <table class="table table-striped table-hover">
+	  			<thead>
+				    <tr class="table-dark">
+				    
+				      <th th:replace="fragments/column-link :: column-link-general('id', 'ID')"/>
+				      <th th:replace="fragments/column-link :: column-link-general('product', 'Product')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('customer', 'Customer')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('rating', 'Rating')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('createdTime', 'Review Time')"></th>
+				      
+				      <th>Details</th>
+				      <th>Edit</th>
+					  <th>Delete</th>
+
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	<tr th:each="review : ${reviews}">
+				   	  <td th:text="${review.id}"></td>
+				     
+				      <td>
+				      	<a sec:authorize="hasAnyAuthority('Admin', 'Assistant')" class="product-link" th:href="@{'/product/details/'+${review.product.id}}" title="View product details">[[${review.product.shortName}]]</a>
+				      	<span sec:authorize="!hasAnyAuthority('Admin', 'Assistant')" th:text="${review.product.shortName}"></span>
+				      </td>
+				      <td>
+				      	<a sec:authorize="hasAnyAuthority('Admin', 'Assistant')" class="customer-link" th:href="@{'/customer/detail/'+${review.customer.id}}" title="View Customer details">[[${review.customer.fullName}]]</a>
+				      	<span sec:authorize="!hasAnyAuthority('Admin', 'Assistant')" th:text="${review.customer.fullName}"></span>
+				      </td>
+				      
+				      <td><span th:replace="reviews/review-rating :: reviewRating(${review.rating})"></span></td>
+				      
+				      <td><div th:replace="fragments/format :: format-time(${review.createdTime})"></div></td>
+				      
+				      <td><a class="details-link" th:href="@{'/review/details/'+${review.id}}" title="View details of this review"><i class="fas fa-file-alt" style="color: #0e634b"></i></a></td>
+				      <td><a th:href="@{'/review/edit/'+${review.id}}" title="Edit this review"><i class="fas fa-edit" style="color: #0e2c63"></i></a></td>
+				      <td><a th:href="@{'/review/delete/'+${review.id}}" title="Delete this review" class="delete-link" ><i class="fas fa-trash-alt" style="color: #6e1414"></i></a></td>
+				     </tr>
+				     
+				  </tbody>
+	  			</table>
+  			</div>
+  			
+  			<div th:replace="fragments/pagination :: pagination('review')"></div>			
+  			
+  			<!-- Delete Modal Confirm -->
+			<div class="modal fade" id="confirmModel">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			    
+			      <div class="modal-header modal-warn-header">
+			        <h4 class="modal-title"><i class="fas fa-exclamation"></i> Delete Confirmation</h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      
+			      <div class="modal-body">
+			        <p>Are you sure you want to delete this review !</p>
+			      </div>
+			      
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+			        <a href="" class="btn btn-danger" id="deleteBtn">Delete</a>
+			      </div>
+			      
+			    </div>
+			  </div>
+			</div>
+			
+			<!-- Details Modals -->
+			<div class="modal fade" id="productDetailsModel">
+			  <div class="modal-dialog modal-xl">
+			    <div class="modal-content">
+			    
+			    </div>
+			  </div>
+			</div>
+			<div class="modal fade" id="customerDetailsModel">
+			  <div class="modal-dialog modal-xl">
+			    <div class="modal-content">
+			    
+			    </div>
+			  </div>
+			</div>
+			<div class="modal fade" id="reviewDetailsModel">
+			  <div class="modal-dialog modal-xl">
+			    <div class="modal-content">
+			    
+			    </div>
+			  </div>
+			</div>
+  			 
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script>
+	var reviewModuleUrl = "[[@{/review}]]";
+	
+    $(document).ready(function() {
+		
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        var reviewAdded = document.getElementById("reviewAdded");
+        if(typeof(reviewAdded) != 'undefined' && reviewAdded != null){
+        	showStackBarTop('success', "Review Saved","Review [[${message}]] Saved successfully.");
+        }
+        
+        var errorMsg = "[[${errorMessage}]]";
+        if(errorMsg != null && errorMsg != ''){
+        	customeNotice("Error", errorMsg);
+        }
+        
+        var msgDelete = "[[${deleteMessag}]]";
+        if(msgDelete != null && msgDelete != ''){
+        	showStackBarTop('success', "Review Deleted", msgDelete);
+        }
+        
+        var errorMsgDelete = "[[${deleteErrorMessag}]]";
+        if(errorMsgDelete != null && errorMsgDelete != ''){
+        	customeNotice("Error", errorMsgDelete);
+        }
+        
+        
+        $(".delete-link").on("click", function(e){
+        	e.preventDefault();
+        	$("#confirmModel").modal('show');
+        	$("#deleteBtn").attr("href", $(this).attr("href"));
+        });
+        
+        $(".details-link").on("click", function(e){
+        	e.preventDefault();
+        	var linkUrl = $(this).attr("href");
+        	$("#reviewDetailsModel").modal('show').find(".modal-content").load(linkUrl);
+        });
+        
+        $(".product-link").on("click", function(e){
+        	e.preventDefault();
+        	var linkUrl = $(this).attr("href");
+        	$("#productDetailsModel").modal('show').find(".modal-content").load(linkUrl);
+        });
+        
+        $(".customer-link").on("click", function(e){
+        	e.preventDefault();
+        	var linkUrl = $(this).attr("href");
+        	$("#customerDetailsModel").modal('show').find(".modal-content").load(linkUrl);
+        });
+        
+        
+    });
+
+</script>
+</body>
+</html>

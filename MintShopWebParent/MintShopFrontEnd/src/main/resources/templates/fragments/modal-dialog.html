@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<div th:fragment="dialog">
+	
+		<div class="modal fade" id="notifyModel">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		    
+		      <div class="modal-header modal-warn-header">
+		        <h4 class="modal-title"></h4>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      
+		      <div class="modal-body">
+		        <p id="bodyMessage"></p>
+		      </div>
+		      
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+		      </div>
+		      
+		    </div>
+		  </div>
+		</div>
+	
+	</div>
+	
+	
+	<div th:fragment="delete-dialog">
+	
+		<!-- Delete Modal Confirm -->
+		<div class="modal fade" id="confirmModel">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		    
+		      <div class="modal-header">
+		        <h4 class="modal-title"><i class="fas fa-exclamation"></i> Delete Confirmation</h4>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      
+		      <div class="modal-body">
+		        <p id="bodyMessage"></p>
+		      </div>
+		      
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+		        <a href="" class="btn btn-danger" id="deleteBtn">Delete</a>
+		      </div>
+		      
+		    </div>
+		  </div>
+		</div>
+			
+	</div>
+	
+	<div th:fragment="details-modal(id)" th:remove="tag">
+		<div class="modal fade" th:id="${id}">
+		  <div class="modal-dialog modal-xl">
+		    <div class="modal-content">
+		    
+		    </div>
+		  </div>
+		</div>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="product-description" th:remove="tag">
+	
+		<div class="form-group">
+			<label for="inputShortDescription" class="form-label mt-4 fw-bold">Short Description : </label> 
+			<textarea th:field="*{shortDescription}" type="text" name="shortDescription" class="form-control" id="inputShortDescription" rows="5" required></textarea>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputFullDescription" class="form-label mt-4 fw-bold">Full Description : </label> 
+			<textarea th:field="*{fullDescription}" type="text" name="fullDescription" class="form-control" id="inputFullDescription" rows="10" required></textarea>
+		</div>
+
+	</div>
+</body>
+</html>

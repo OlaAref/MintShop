@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<th:block th:fragment="content" th:remove="tag">
+	
+		<div class="col-12 col-md-6">
+			<div class="single_crm">
+				<div class="crm_head bg-yellow-2 d-flex align-items-center justify-content-between">
+					<div class="thumb">
+						<i class="fa fa-solid fa-info-circle"></i>
+						<span class="fw-bold">General Information</span>
+					</div>
+					<div>
+					  <a th:href="@{/setting/list#general}" class="dash-link">Edit</a>
+					</div>
+				</div>
+				<div class="crm_body">
+					<span>Site Name: <b>[[${SITE_NAME}]]</b></span><br>
+					<span>Currency Name: <b>[[${currencyName}]]</b></span><br>
+					<span>Currency Symbol: <b>[[${currencySymbol}]]</b></span><br>
+					<span>Decimal Point Type: <b>[[${DecimalPointType}]]</b></span><br>
+					<span>Decimal Digits: <b>[[${DecimalDigit}]]</b></span><br>
+					<span>Thousands Point Type: <b>[[${ThousandsPointType}]]</b></span><br>
+				</div>
+			</div>
+		</div>
+		
+	</th:block>
+	
+</body>
+</html>

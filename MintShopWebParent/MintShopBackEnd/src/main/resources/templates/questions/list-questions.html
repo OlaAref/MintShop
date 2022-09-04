@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<th:block th:replace="fragments/fragments :: head(title='Questions')"></th:block>
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbarListPage()"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar('/question/export')"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+		
+			<div th:if="${message != null}" id="questionAdded"></div>
+		   
+            <!-- ************************************************************** -->
+			<div class="table-responsive">
+	            <table class="table table-striped table-hover">
+	  			<thead>
+				    <tr class="table-dark">
+				    
+				      <th th:replace="fragments/column-link :: column-link-general('id', 'ID')"/>
+				      <th th:replace="fragments/column-link :: column-link-general('product', 'Product')"></th>
+				      <th>Question</th>
+				      <th th:replace="fragments/column-link :: column-link-general('asker', 'Asker')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('askedTime', 'Ask Time')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('approvalStatus', 'Approved')"></th>
+				      <th>Answered</th>
+				      
+				      <th>Details</th>
+				      <th>Edit</th>
+					  <th>Delete</th>
+
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	<tr th:each="question : ${questions}">
+				   	  <td th:text="${question.id}"></td>
+				     
+				      <td>
+				      	<a sec:authorize="hasAnyAuthority('Admin', 'Assistant')" class="product-link" th:href="@{'/product/details/'+${question.product.id}}" title="View product details">[[${question.product.shortName}]]</a>
+				      	<span sec:authorize="!hasAnyAuthority('Admin', 'Assistant')" th:text="${question.product.shortName}"></span>
+				      </td>
+				      
+				      <td>[[${question.questionContent}]]</td>
+				      
+				      <td>
+				      	<a sec:authorize="hasAnyAuthority('Admin', 'Assistant')" class="customer-link" th:href="@{'/customer/detail/'+${question.asker.id}}" title="View Asker details">[[${question.asker.fullName}]]</a>
+				      	<span sec:authorize="!hasAnyAuthority('Admin', 'Assistant')" th:text="${question.asker.fullName}"></span>
+				      </td>
+				      
+				      <td><div th:replace="fragments/format :: format-time(${question.askedTime})"></div></td>
+				      
+				      <td  th:if="${question.approvalStatus == true}"><a th:href="@{'/question/'+${question.id}+'/approved/false'}" title="Disapprove this Question"><i class="fas fa-check-circle" style="color: green"></i></a></td>
+				      <td  th:if="${question.approvalStatus == false}"><a th:href="@{'/question/'+${question.id}+'/approved/true'}" title="Approve this Question"><i class="fas fa-check-circle" style="color: gray"></i></a></td>
+				      
+				      <td  th:if="${question.answered == true}"><i title="Answered" class="fas fa-check-circle" style="color: green"></i></td>
+				      <td  th:if="${question.answered == false}"><i title="Not answered" class="fas fa-check-circle" style="color: gray"></i></td>
+				      
+				      <td><a class="details-link" th:href="@{'/question/details/'+${question.id}}" title="View details of this question"><i class="fas fa-file-alt" style="color: #0e634b"></i></a></td>
+				      <td><a th:href="@{'/question/edit/'+${question.id}}" title="Edit this question"><i class="fas fa-edit" style="color: #0e2c63"></i></a></td>
+				      <td><a th:href="@{'/question/delete/'+${question.id}}" title="Delete this question" class="delete-link" ><i class="fas fa-trash-alt" style="color: #6e1414"></i></a></td>
+				     </tr>
+				     
+				  </tbody>
+	  			</table>
+  			</div>
+  			
+  			<div th:replace="fragments/pagination :: pagination('question')"></div>			
+  			
+  			<!-- Delete Modal Confirm -->
+			<div class="modal fade" id="confirmModel">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			    
+			      <div class="modal-header modal-warn-header">
+			        <h4 class="modal-title"><i class="fas fa-exclamation"></i> Delete Confirmation</h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      
+			      <div class="modal-body">
+			        <p>Are you sure you want to delete this question !</p>
+			      </div>
+			      
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+			        <a href="" class="btn btn-danger" id="deleteBtn">Delete</a>
+			      </div>
+			      
+			    </div>
+			  </div>
+			</div>
+			
+			<!-- Details Modals -->
+			<div class="modal fade" id="productDetailsModel">
+			  <div class="modal-dialog modal-xl">
+			    <div class="modal-content">
+			    
+			    </div>
+			  </div>
+			</div>
+			<div class="modal fade" id="customerDetailsModel">
+			  <div class="modal-dialog modal-xl">
+			    <div class="modal-content">
+			    
+			    </div>
+			  </div>
+			</div>
+			<div class="modal fade" id="questionDetailsModel">
+			  <div class="modal-dialog modal-xl">
+			    <div class="modal-content">
+			    
+			    </div>
+			  </div>
+			</div>
+  			 
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script>
+	var questionModuleUrl = "[[@{/question}]]";
+	
+    $(document).ready(function() {
+		
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        var questionAdded = document.getElementById("questionAdded");
+        if(typeof(questionAdded) != 'undefined' && questionAdded != null){
+        	showStackBarTop('success', "Question Saved","Question [[${message}]] Saved successfully.");
+        }
+        
+        var errorMsg = "[[${errorMessage}]]";
+        if(errorMsg != null && errorMsg != ''){
+        	customeNotice("Error", errorMsg);
+        }
+        
+        var msgDelete = "[[${deleteMessag}]]";
+        if(msgDelete != null && msgDelete != ''){
+        	showStackBarTop('success', "Question Deleted", msgDelete);
+        }
+        
+        var errorMsgDelete = "[[${deleteErrorMessag}]]";
+        if(errorMsgDelete != null && errorMsgDelete != ''){
+        	customeNotice("Error", errorMsgDelete);
+        }
+        
+        
+        $(".delete-link").on("click", function(e){
+        	e.preventDefault();
+        	$("#confirmModel").modal('show');
+        	$("#deleteBtn").attr("href", $(this).attr("href"));
+        });
+        
+        $(".details-link").on("click", function(e){
+        	e.preventDefault();
+        	var linkUrl = $(this).attr("href");
+        	$("#questionDetailsModel").modal('show').find(".modal-content").load(linkUrl);
+        });
+        
+        $(".product-link").on("click", function(e){
+        	e.preventDefault();
+        	var linkUrl = $(this).attr("href");
+        	$("#productDetailsModel").modal('show').find(".modal-content").load(linkUrl);
+        });
+        
+        $(".customer-link").on("click", function(e){
+        	e.preventDefault();
+        	var linkUrl = $(this).attr("href");
+        	$("#customerDetailsModel").modal('show').find(".modal-content").load(linkUrl);
+        });
+        
+        
+    });
+
+</script>
+</body>
+</html>

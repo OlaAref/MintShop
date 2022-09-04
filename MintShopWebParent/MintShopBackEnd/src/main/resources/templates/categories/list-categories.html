@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>List categories</title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/listStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/navbarStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbarListPage()"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar('/category/export')"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+		
+			<div th:if="${message != null}" id="categoryAdded"></div>
+
+            <!-- ************************************************************** -->
+			<div class="table-responsive">
+	            <table class="table table-striped table-hover">
+	  			<thead>
+				    <tr class="table-dark">
+				    
+				      <th th:replace="fragments/column-link :: column-link-general('id', 'ID')"/>
+				      <th>Image</th>
+				      <th th:replace="fragments/column-link :: column-link-general('name', 'Name')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('alias', 'Alias')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('enabled', 'Enabled')"></th>
+				      <th>Edit</th>
+				      <th>Delete</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	<tr th:each="category : ${categories}">
+				   	  <td th:text="${category.id}"></td>
+				      <td>
+				      	<i th:if="${category.image == null}" class="fas fa-image fa-3x" style="color: gray"></i>
+				      	
+				      	<img th:if="${category.image != null}" th:src="@{${category.imagePath}}" width="80px" height="70px">
+				      </td>
+				      <td th:text="${category.name}"></td>
+				      <td th:text="${category.alias}"></td>
+				      <td  th:if="${category.enabled == true}"><a th:href="@{'/category/'+${category.id}+'/enabled/false'}" title="Disable this category"><i class="fas fa-check-circle" style="color: green"></i></a></td>
+				      <td  th:if="${category.enabled == false}"><a th:href="@{'/category/'+${category.id}+'/enabled/true'}" title="Enable this category"><i class="fas fa-check-circle" style="color: gray"></i></a></td>
+				      <td><a th:href="@{'/category/load/'+${category.id}}" title="Edit this category"><i class="fas fa-edit" style="color: #0e2c63"></i></a></td>
+				      <td><a th:if="${!category.hasChildren}" th:href="@{'/category/delete/'+${category.id}}" title="Delete this category" class="delete-link" ><i class="fas fa-trash-alt" style="color: #6e1414"></i></a></td>
+				     </tr>
+				     
+				  </tbody>
+	  			</table>
+  			</div>
+  			
+  			<div th:replace="fragments/pagination :: pagination('category')"></div>
+  			
+			<div class="modal fade" id="confirmModel">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			    
+			      <div class="modal-header">
+			        <h4 class="modal-title"><i class="fas fa-exclamation"></i> Delete Confirmation</h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      
+			      <div class="modal-body">
+			        <p>Are you sure you want to delete this category !</p>
+			      </div>
+			      
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+			        <a href="" class="btn btn-danger" id="deleteBtn">Delete</a>
+			      </div>
+			      
+			    </div>
+			  </div>
+			</div>
+			
+
+  			
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script>
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        var categoryAdded = document.getElementById("categoryAdded");
+        if(typeof(categoryAdded) != 'undefined' && categoryAdded != null){
+        	showStackBarTop('success', "Category Saved","Category [[${message}]] Saved successfully.");
+        }
+        
+        var passwordChanged = document.getElementById("passwordChanged");
+        if(typeof(passwordChanged) != 'undefined' && passwordChanged != null){
+        	showStackBarTop('success', "Password Changed","[[${passwordChanged}]]");
+        }
+        
+        var errorMsg = "[[${errorMessage}]]";
+        if(errorMsg != null && errorMsg != ''){
+        	customeNotice("Error", errorMsg);
+        }
+        
+        var msgDelete = "[[${deleteMessag}]]";
+        if(msgDelete != null && msgDelete != ''){
+        	showStackBarTop('success', "category Deleted", msgDelete);
+        }
+        
+        var errorMsgDelete = "[[${deleteErrorMessag}]]";
+        if(errorMsgDelete != null && errorMsgDelete != ''){
+        	customeNotice("Error", errorMsgDelete);
+        }
+        
+        var enabledMessag = "[[${enabledMessag}]]";
+        if(enabledMessag != null && enabledMessag != ''){
+        	showStackBarTop('success', "Enabled Status Changed", enabledMessag);
+        }
+        
+        $(".delete-link").on("click", function(e){
+        	e.preventDefault();
+        	$("#confirmModel").modal('show');
+        	$("#deleteBtn").attr("href", $(this).attr("href"));
+        });
+        
+    });
+
+</script>
+</body>
+</html>

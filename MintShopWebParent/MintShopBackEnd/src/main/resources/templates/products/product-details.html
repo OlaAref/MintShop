@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="product-details" th:remove="tag">
+		
+		<th:block th:each="detail, status : ${product.details}">
+		
+			<div id="divProductDetails">
+				<div class="row mb-3" th:id="'divDetail'+${status.index + 1}">
+					<input type="hidden" name="detailIDs" th:value="${detail.id}">
+				    <label for="inputName" class="col-sm-1 col-form-label">Name : </label>
+				    <div class="col-sm">
+				      <input type="text" class="form-control" id="inputName"  name="detailNames" maxlength="255" th:value="${detail.name}">
+				    </div>
+				    
+				    <label for="inputValue" class="col-sm-1 col-form-label">Value : </label>
+				    <div class="col-sm">
+				      <input type="text" class="form-control" id="inputValue" name="detailValues" maxlength="255" th:value="${detail.value}">
+				    </div>
+				    
+				    <a class="btn far fa-times-circle fa-3x removeImgIcon removeDetailsLink" 
+						title="Remove this image"></a>
+				</div>
+			</div>
+			
+		</th:block>
+		
+		<div id="divProductDetailsExtra">
+			<div class="row mb-3" th:id="'divDetail' + ${#lists.size(product.details) + 1}">
+				<input type="hidden" name="detailIDs" th:value="0">
+			    <label for="inputName" class="col-sm-1 col-form-label">Name : </label>
+			    <div class="col-sm">
+			      <input type="text" class="form-control" id="inputName"  name="detailNames" maxlength="255">
+			    </div>
+			    <label for="inputValue" class="col-sm-1 col-form-label">Value : </label>
+			    <div class="col-sm">
+			      <input type="text" class="form-control" id="inputValue" name="detailValues" maxlength="255">
+			    </div>
+			</div>
+		</div>
+		
+		<div>
+			<button type="button" class="btn btn-secondary" value="Add More Details" onclick="addNextDetailSection()">Add More Details</button>
+		</div>
+
+	</div>
+</body>
+</html>

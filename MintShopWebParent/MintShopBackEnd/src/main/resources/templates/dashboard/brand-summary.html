@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<th:block th:fragment="content" th:remove="tag">
+	
+		  <div class="col-lg-6 col-md-6 mt-2">
+				<div class="single_crm">
+					<div class="crm_head bg-pink d-flex align-items-center justify-content-between">
+						<div class="thumb">
+							<i class="fa fa-solid fa-tags"></i>
+							<span class="fw-bold">Brands</span>
+						</div>
+					</div>
+					<div class="crm_body">
+						<span>All Brands: <b>[[${totalBrands}]]</b></span><br>
+						<a th:href="@{/brand/toAdd}" class="dash-link">Add Brand</a><br>
+						<a th:href="@{/brand/list}" class="dash-link">View All</a><br>
+					</div>
+				</div>
+			</div>
+		
+	</th:block>
+	
+</body>
+</html>

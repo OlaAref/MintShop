@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<th:block th:fragment="content" th:remove="tag">
+	
+		<div class="col-lg-6 col-md-6 mt-2">
+			<div class="single_crm ">
+				<div class="crm_head bg-green-3 d-flex align-items-center justify-content-between">
+					<div class="thumb">
+						<i class="fa fa-solid fa-bars"></i>
+						<span class="fw-bold">Menu Items</span>
+					</div>
+				</div>
+				<div class="crm_body">
+					<span>All Menus: <b>[[${totalMenus}]]</b></span><br>
+					<span>Header: <b>[[${headerMenus}]]</b></span><br>
+					<span>Footer: <b>[[${footerMenus}]]</b></span><br>
+					<span>Enabled: <b>[[${enabledMenus}]]</b></span><br>
+					<span>Disabled: <b>[[${disabledMenus}]]</b></span><br>
+					<a th:href="@{/menu/new}" class="dash-link">Create New</a><br>
+					<a th:href="@{/menu/list}" class="dash-link">View All</a><br>
+				</div>
+			</div>
+		</div>
+		
+	</th:block>
+	
+</body>
+</html>

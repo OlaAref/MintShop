@@ -1,0 +1,119 @@
+<div>
+	<div class="modal-header">
+      <h4 class="modal-title">Product Details</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    
+    <div class="modal-body">
+    	<!-- Nav tabs -->
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
+		  </li>
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">Description</button>
+		  </li>
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#images" type="button" role="tab">Images</button>
+		  </li>
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#deatils" type="button" role="tab">Details</button>
+		  </li>
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab">Shipping</button>
+		  </li>
+		</ul>
+		
+		<!-- Tab panes -->
+		<div class="tab-content">
+		
+		  <!-- Product Overview -->
+		  <div class="tab-pane active" id="overview" role="tabpanel">
+			
+			<div class="form-group">
+				<label for="inputName" class="form-label mt-4 fw-bold">Name : </label> 
+				<input th:value="${product.name}" readonly type="text" name="name" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label for="inputAlias" class="form-label mt-4 fw-bold">Alias : </label> 
+				<input th:value="${product.alias}" readonly type="text" name="alias" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label for="inputBrand" class="form-label mt-4 fw-bold">Brand : </label> 
+				<input th:value="${product.brand.name}" readonly type="text" name="brand" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label for="inputCategory" class="form-label mt-4 fw-bold">Category : </label> 
+				<input th:value="${product.category.name}" readonly type="text" class="form-control">
+			</div>
+	
+			<div class="form-group">
+				<label for="enabledInput" class="form-label mt-4 fw-bold">Enabled : </label>
+				<input th:checked="${product.enabled}" onclick="return false;" type="checkbox">
+			</div>
+			
+			<div class="form-group">
+				<label for="inStockInput" class="form-label mt-4 fw-bold">In Stock : </label>
+				<input th:checked="${product.inStock}" onclick="return false;" type="checkbox">
+			</div>
+			
+			<div class="form-group">
+				<label for="inputCost" class="form-label mt-4 fw-bold">Cost : </label> 
+				<input th:value="${product.cost}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label for="inputPrice" class="form-label mt-4 fw-bold">Price : </label> 
+				<input th:value="${product.price}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label for="inputDiscount" class="form-label mt-4 fw-bold">Discount : </label> 
+				<input th:value="${product.discountPercent}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label for="inputupdatedTime" class="form-label mt-4 fw-bold">Updated Time : </label> 
+				<span th:text="${#temporals.format(product.updatedTime, 'yyyy/MM/dd HH:mm:ss')}"></span>
+			</div>
+			
+		  </div>
+		  
+		  <!-- Product Description -->
+		  <div class="tab-pane" id="description" role="tabpanel">
+		  	
+			<div th:replace="products/product-readonly :: product-description"></div>
+			
+		  </div>
+		  
+		  <!-- Product Images -->
+		  <div class="tab-pane" id="images" role="tabpanel">
+		  	
+		  	<div th:replace="products/product-readonly :: product-images"></div>
+		  	
+		  </div>
+		  
+		  <!-- Product Details -->
+		  <div class="tab-pane m-4" id="deatils" role="tabpanel">
+		  	
+		  	<div th:replace="products/product-readonly :: product-details('black')"></div>
+		  	
+		  </div>
+		  
+		  <!-- Product Shipping Details -->
+		  <div class="tab-pane" id="shipping" role="tabpanel">
+		  	
+		  	<div th:replace="products/product-readonly :: product-shipping"></div>
+		  	
+		  </div>
+		</div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+    </div>
+	
+</div>

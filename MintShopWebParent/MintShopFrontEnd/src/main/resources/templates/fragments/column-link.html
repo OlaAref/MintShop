@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<th th:fragment="column-link-general(fieldName, columnLabel, linkBase)">
+		<a th:href="@{'/'+${linkBase}+'/page/'+${currentPage}+'?sortField='+${fieldName}+'&sortDir='+${sortField != fieldName ? sortDir : revSortDir} +${keyword != null ? '&keyword='+keyword : '&keyword='}}">[[${columnLabel}]]</a>
+		<span th:if="${sortField == fieldName}" th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+	</th>
+	
+	<a th:fragment="page-link-general(pageNum, label, linkBase)" 
+		class="page-link"
+		th:href="@{'/'+${linkBase}+'/page/'+${pageNum}+${'?sortField='+sortField+'&sortDir='+sortDir}+${keyword != null ? '&keyword='+keyword : '&keyword='}}">[[${label}]]</a>
+		
+	<a th:fragment="page-link-icon-general(pageNum, spanLabel, ariaLabel, linkBase)" 
+		class="page-link"
+		th:href="@{'/'+${linkBase}+'/page/'+${pageNum}+${'?sortField='+sortField+'&sortDir='+sortDir}+${keyword != null ? '&keyword='+keyword : '&keyword='}}" aria-label="${ariaLabel}"><span aria-hidden="true">[[${spanLabel}]]</span></a>
+
+	<!------------------------------------------------------------------------------------------------------- -->
+	
+	<th th:fragment="column-link(fieldName, columnLabel)">
+		<a th:href="@{${moduleLink}+'/page/'+${currentPage}+'?sortField='+${fieldName}+'&sortDir='+${sortField != fieldName ? sortDir : revSortDir} +${keyword != null ? '&keyword='+keyword : ''}}">[[${columnLabel}]]</a>
+		<span th:if="${sortField == fieldName}" th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+	</th>
+	
+	<a th:fragment="page-link(pageNum, label)" 
+		class="page-link"
+		th:href="@{${moduleLink}+'/page/'+${pageNum}+${'?sortField='+sortField+'&sortDir='+sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">[[${label}]]</a>
+		
+	<a th:fragment="page-link-icon(pageNum, spanLabel, ariaLabel)" 
+		class="page-link"
+		th:href="@{${moduleLink}+'/page/'+${pageNum}+${'?sortField='+sortField+'&sortDir='+sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" aria-label="${ariaLabel}"><span aria-hidden="true">[[${spanLabel}]]</span></a>
+	
+	<!------------------------------------------------------------------------------------------------------- -->
+	
+	<th th:fragment="column-link-category(fieldName, columnLabel, linkBase, categoryID)">
+		<a th:href="@{'/'+${linkBase}+'/page/'+${currentPage}+'?sortField='+${fieldName}+'&sortDir='+${sortField != fieldName ? sortDir : revSortDir} +${keyword != null ? '&keyword='+keyword : '&keyword='}+${categoryID != null ? '&categoryID='+categoryID : '&categoryID='}}">[[${columnLabel}]]</a>
+		<span th:if="${sortField == fieldName}" th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+	</th>
+	
+	<a th:fragment="page-link-category(pageNum, label, linkBase, categoryID)" 
+		class="page-link"
+		th:href="@{'/'+${linkBase}+'/page/'+${pageNum}+${'?sortField='+sortField+'&sortDir='+sortDir}+${keyword != null ? '&keyword='+keyword : '&keyword='}+${categoryID != null ? '&categoryID='+categoryID : '&categoryID='}}">[[${label}]]</a>
+		
+	<a th:fragment="page-link-icon-category(pageNum, spanLabel, ariaLabel, linkBase, categoryID)" 
+		class="page-link"
+		th:href="@{'/'+${linkBase}+'/page/'+${pageNum}+${'?sortField='+sortField+'&sortDir='+sortDir}+${keyword != null ? '&keyword='+keyword : '&keyword='}+${categoryID != null ? '&categoryID='+categoryID : '&categoryID='}}" aria-label="${ariaLabel}"><span aria-hidden="true">[[${spanLabel}]]</span></a>
+	
+	<!-- -------------------------------------------------------------------------------------------------------------- -->
+	
+	<a th:fragment="page-link-review(link, pageNum, label)" 
+		class="page-link"
+		th:href="@{${moduleLink}+${link}+'/page/'+${pageNum}+${'?sortField='+sortField+'&sortDir='+sortDir}+${keyword != null ? '&keyword='+keyword : ''}}">[[${label}]]</a>
+		
+	<a th:fragment="page-link-icon-review(link, pageNum, spanLabel, ariaLabel)" 
+		class="page-link"
+		th:href="@{${moduleLink}+${link}+'/page/'+${pageNum}+${'?sortField='+sortField+'&sortDir='+sortDir}+${keyword != null ? '&keyword='+keyword : ''}}" aria-label="${ariaLabel}"><span aria-hidden="true">[[${spanLabel}]]</span></a>
+	
+</body>
+</html>

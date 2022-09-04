@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/sidebarStyle.css}">
+</head>
+
+<body>
+
+	<div th:fragment="navbar">
+		
+		
+		<nav class="navbar navbar-expand-lg sticky-top" style="background: #000;">
+
+	        <button sec:authorize="hasAuthority('Admin')" class="btn float-end" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">
+	                <i class="fas fa-bars"></i>
+	         </button>
+	         
+	        <a class="navbar-brand ms-2" th:href="@{/}">
+				<img alt="MintShop" th:src="@{${GCP_BASE_URI} +${SITE_LOGO}}" width="28" height="24">
+	            <b style="color: deepskyblue; font-family: 'AbrilFatface', cursive; padding-left: 10px;">MintShop
+	            </b>
+	        </a>
+	        <button class="navbar-toggler collapsed custom-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+	
+	        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+	            <ul class="navbar-nav mr-auto mx-4 mb-2">
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Editor')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Categories
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/category/list}">List Categories</a></li>
+							<li><a class="dropdown-item" th:href="@{/category/toAdd}">Add New Category</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Editor')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Brands
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/brand/list}">List Brands</a></li>
+							<li><a class="dropdown-item" th:href="@{/brand/toAdd}">Add New Brand</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" th:href="@{/section/list}" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Home Page
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/section/list}">List Home Page Sections</a></li>
+							<li><a class="dropdown-item" th:href="@{/section/category/all/new}">Add All Categories Section</a></li>
+							<li><a class="dropdown-item" th:href="@{/section/category/new}">Add Category Section</a></li>
+							<li><a class="dropdown-item" th:href="@{/section/product/new}">Add Product Section</a></li>
+							<li><a class="dropdown-item" th:href="@{/section/brand/new}">Add Brand Section</a></li>
+							<li><a class="dropdown-item" th:href="@{/section/article/new}">Add Article Section</a></li>
+							<li><a class="dropdown-item" th:href="@{/section/text/new}">Add Text Section</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('Sales', 'Editor', 'Shipper')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Products
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/product/list}">List Products</a></li>
+							<li><a class="dropdown-item" th:href="@{/product/toAdd}" sec:authorize="hasAnyAuthority('Admin', 'Editor')">Add New Product</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Sales')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Customers
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/customer/list}">List Customers</a></li>
+							<li><a class="dropdown-item" th:href="@{/customer/toAdd}">Add New Customer</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Sales')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Shipping
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/shippingRate/list}">List Shipping</a></li>
+							<li><a class="dropdown-item" th:href="@{/shippingRate/toAdd}">Add New Shipping</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('Sales', 'Shipper')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Orders
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/order/list}">List Orders</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Sales')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Reports
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/report/}">List Reports</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Assistant')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Products
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/review/list}">List Reviews</a></li>
+							<li><a class="dropdown-item" th:href="@{/question/list}">List Questions</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Editor')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Articles
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/article/list}">List Articles</a></li>
+							<li><a class="dropdown-item" th:href="@{/article/new}">Add New Article</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Editor')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Menus
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/menu/list}">List Menus</a></li>
+							<li><a class="dropdown-item" th:href="@{/menu/new}">Add New Menu</a></li>
+				        </ul>
+				    </li>
+				    
+	            </ul>
+	            
+	            <ul class="navbar-nav ms-auto me-4 ps-3">
+					<div th:replace="fragments/profile-dropdown :: profile-dropdown"></div>
+	            </ul>
+	            
+	        </div>
+	    </nav>
+	
+	</div>
+
+	
+	<div th:fragment="navbarListPage()">
+	
+		<nav class="navbar navbar-expand-lg sticky-top" style="background: #000;">
+
+	        <button sec:authorize="hasAuthority('Admin')" class="btn float-end" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">
+	                <i class="fas fa-bars"></i>
+	         </button>
+	         
+	        <a class="navbar-brand ms-2" th:href="@{/}">
+				<img alt="MintShop" th:src="@{${GCP_BASE_URI} +${SITE_LOGO}}" width="28" height="24">
+	            <b style="color: deepskyblue; font-family: 'AbrilFatface', cursive; padding-left: 10px;">MintShop
+	            </b>
+	        </a>
+	        <button class="navbar-toggler collapsed custom-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	            <span class="navbar-toggler-icon navbar-light" style="color: white;"></span>
+	        </button>
+	
+	        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+	            <ul class="navbar-nav mr-auto mx-4 mb-2">
+				    
+				    <li class="nav-item dropdown">
+					    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" aria-haspopup="true" id="navbarDropdown">Download Report</a>
+					    <ul class="dropdown-menu"><!-- /user/export -->
+					      <li><a class="dropdown-item" th:href="@{${moduleLink}+'/export/csv'}">Export To CSV</a></li>
+					      <li><a class="dropdown-item" th:href="@{${moduleLink}+'/export/excel'}">Export To Excel</a></li>
+					      <li><a class="dropdown-item" th:href="@{${moduleLink}+'/export/pdf'}">Export To PDF</a></li>
+					    </ul>
+					</li>
+				  
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Editor')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Categories
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/category/list}">List Categories</a></li>
+							<li><a class="dropdown-item" th:href="@{/category/toAdd}">Add New Category</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Editor')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Brands
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/brand/list}">List Brands</a></li>
+							<li><a class="dropdown-item" th:href="@{/brand/toAdd}">Add New Brand</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('Sales', 'Editor', 'Shipper')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Products
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/product/list}">List Products</a></li>
+							<li><a class="dropdown-item" th:href="@{/product/toAdd}" sec:authorize="hasAnyAuthority('Admin', 'Editor')">Add New Product</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Sales')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Customers
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/customer/list}">List Customers</a></li>
+							<li><a class="dropdown-item" th:href="@{/customer/toAdd}">Add New Customer</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Sales')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Shipping
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/shippingRate/list}">List Shipping</a></li>
+							<li><a class="dropdown-item" th:href="@{/shippingRate/toAdd}">Add New Shipping</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('Sales', 'Shipper')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Orders
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/order/list}">List Orders</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Sales')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Reports
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/report/}">List Reports</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Editor')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Articles
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/article/list}">List Articles</a></li>
+							<li><a class="dropdown-item" th:href="@{/article/new}">Add New Article</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Editor')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Menus
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/menu/list}">List Menus</a></li>
+							<li><a class="dropdown-item" th:href="@{/menu/new}">Add New Menu</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown" sec:authorize="hasAuthority('Assistant')">
+				        <a class="nav-link dropdown-toggle nav-link-custom px-1" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Products
+				        </a>
+				        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" th:href="@{/review/list}">List Reviews</a></li>
+							<li><a class="dropdown-item" th:href="@{/question/list}">List Questions</a></li>
+				        </ul>
+				    </li>
+				    
+	            </ul>
+	            
+	            <ul class="navbar-nav ms-auto me-4 ps-3" >
+	            
+	            	<div th:replace="fragments/profile-dropdown :: profile-dropdown"></div>
+	            	
+	            	<form class="d-flex me-4" th:action="@{${moduleLink}+'/page/1'}">
+					 	<input type="hidden" name="sortField" th:value="${sortField}">
+				        <input type="hidden" name="sortDir" th:value="${sortDir}">
+				        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
+				        <button class="btn btn-outline-primary" type="submit">Search</button>
+				    </form>
+					
+	            </ul>
+	            
+	        </div>
+	    </nav>
+	</div>
+
+
+</body>
+</html>

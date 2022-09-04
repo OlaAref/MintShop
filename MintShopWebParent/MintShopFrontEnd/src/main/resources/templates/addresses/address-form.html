@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<div th:replace="fragments/head :: head(${pageTitle}+' Address')"></div>
+</head>
+<body class="d-flex flex-column h-100">
+
+	
+	<div th:replace="fragments/navbar :: navbar-content"></div>
+	
+	
+	<div class="wrapper m-2 min-vh-100">
+	
+		<!-- Page Content  -->
+        <div id="content m-2">
+        	
+        	<div class="container">
+        		<div class="text-center">
+        			<h2 th:text="${pageTitle}+' Address'"></h2>
+        		</div>
+				<form th:action="@{/address/add}" method="post" th:object="${address}" style="margin: 0 auto;">
+					
+					<div class="border border-secondary border-4 rounded ps-5 pe-5 bg-light bg-gradient">
+						
+						<input hidden="hidden" th:field="*{id}" id="addressId">
+						<input hidden="hidden" th:field="*{defaultForShopping}">
+						<input hidden="hidden" th:value="${param.redirect}" name="redirect">
+						
+						<div class="form-group row">
+							<label for="firstNameInput" class="col-form-label mt-4 fw-bold">First Name : </label> 
+							<input th:field="*{firstName}" type="text" name="firstName" class="form-control" id="firstNameInput" placeholder="Fisrt Name" required
+									minlength="2" maxlength="45">
+						</div>
+						
+						<div class="form-group row">
+							<label for="lastNameInput" class="col-form-label mt-4 fw-bold">Last Name : </label> 
+							<input th:field="*{lastName}" type="text" name="lastName" class="form-control" id="lastNameInput" placeholder="Last Name" required
+									minlength="2" maxlength="45">
+						</div>
+						
+						<div class="form-group row">
+							<label for="phoneNumberInput" class="col-form-label mt-4 fw-bold">Phone Number : </label> 
+							<input th:field="*{phoneNumber}" type="text" name="phoneNumber" class="form-control" id="phoneNumberInput" placeholder="Phone Number" required
+									minlength="8" maxlength="15">
+						</div>
+												
+						<div class="form-group row">
+							<label class="col-form-label mt-4 fw-bold">Country : </label> 
+							<select th:field="*{country}" class="form-select" id="countrySelecet">
+							  <th:block th:each="country : ${countries}">
+							  	<option th:value="${country.id}">[[${country.name}]]</option>
+							  </th:block>
+							  
+							</select>
+						</div>
+						
+						<div class="form-group row">
+							<label for="stateInput" class="col-form-label mt-4 fw-bold">State/Province : </label> 
+							<input th:field="*{state}" type="text" name="state" class="form-control" id="stateInput" required
+									minlength="2" maxlength="45" list="listStates">
+							<datalist id="listStates"></datalist>
+						</div>
+						
+						<div class="form-group row">
+							<label for="cityInput" class="col-form-label mt-4 fw-bold">City : </label> 
+							<input th:field="*{city}" type="text" name="city" class="form-control" id="cityInput" required
+									minlength="2" maxlength="45" list="listCities">
+							<datalist id="listCities"></datalist>
+						</div>
+						
+						<div class="form-group row">
+							<label for="addressLine1Input" class="col-form-label mt-4 fw-bold">Address Line 1 : </label> 
+							<input th:field="*{addressLine1}" type="text" name="addressLine1" class="form-control" id="addressLine1Input" placeholder="Address Line 1" required
+									minlength="3" maxlength="64">
+						</div>
+						
+						<div class="form-group row">
+							<label for="addressLine2Input" class="col-form-label mt-4 fw-bold">Address Line 2 : </label> 
+							<input th:field="*{addressLine2}" type="text" name="addressLine2" class="form-control" id="addressLine2Input" placeholder="Address Line 2"
+									minlength="3" maxlength="64">
+						</div>
+						
+						<div class="form-group row">
+							<label for="postalCodeInput" class="col-form-label mt-4 fw-bold">Postal Code : </label> 
+							<input th:field="*{postalCode}" type="text" name="postalCode" class="form-control" id="postalCodeInput" required
+									minlength="2" maxlength="10">
+						</div>
+						
+						<div class="text-center p-3">
+							<input type="submit" class="btn btn-dark" value="Submit">
+							<input type="reset" class="btn btn-dark" value="Clear">
+						</div>
+					</div>
+					
+				</form>
+        	</div>       
+			                    
+        </div>
+		
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script type="text/javascript">
+		
+		var contextPath = "[[@{/}]]";
+	
+		var dropdownCountry;
+		var dataListStates;
+		var stateInput;
+		var dataListCities;
+		var cityInput;
+	
+		$(document).ready(function() {
+			dropdownCountry = $('#countrySelecet');
+			dataListStates = $('#listStates');
+			stateInput = $('#stateInput');
+			dataListCities = $('#listCities');
+			cityInput = $('#cityInput');
+			
+			dropdownCountry.on("change", function() {
+				loadStates();
+				stateInput.val("").focus();
+			});
+			
+			stateInput.on("change", function() {
+				loadCities();
+				cityInput.val("").focus();
+			});
+			
+			
+		});
+		
+		function loadCities(){
+			var selectedStateName = stateInput.val();
+			var url = contextPath + "settings/listCities/" + selectedStateName;
+			
+			$.get(url, function(jsonResponse) {
+				dataListCities.empty();
+				
+				$.each(jsonResponse, function(index, city) {
+					$("<option>").val(city.name).text(city.name).appendTo(dataListCities);
+				});
+				
+			});
+		}
+		
+		function loadStates(){
+			var selectedCountry = $('#countrySelecet option:selected');
+			var countryId = selectedCountry.val();
+			var url = contextPath + "settings/list-states/" + countryId;
+			
+			$.get(url, function(jsonResponse) {
+				dataListStates.empty();
+				
+				$.each(jsonResponse, function(index, state) {
+					$("<option>").val(state.name).text(state.name).appendTo(dataListStates);
+				});
+				
+			});
+		}
+	
+		
+		function checkEmailUnique(form) {
+			var url = contextPath + "customers/checkUnique";
+			var userEmail = $("#emailInput").val();
+			var csrfValue = $("input[name='_csrf']").val();
+			
+			var params = {
+					email : userEmail,
+					_csrf : csrfValue
+			};
+			
+			
+			$.post(url, params, function(response) {
+				
+				if(response == "OK"){
+					form.submit();
+				}
+				else if(response == "Duplicated"){
+					showStackBarTop('error', "Duplicated Email!!", "The email you entered is registered.");
+					
+				}
+				else{
+					showStackBarTop('error', "Error!!", "Unknown response from server.");
+				}
+				
+			})
+			.fail(function(){
+				showStackBarTop('error', "Error!!", "Could not connect to the server.");
+			});
+	    	
+	        return false;
+	    }
+	</script>
+</body>
+</html>

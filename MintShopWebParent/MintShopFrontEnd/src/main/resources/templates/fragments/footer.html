@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{webjars/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}" />
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+	<div th:fragment="footer">
+		<footer class="footer mt-auto">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-4">
+						<h3 style="font-weight: bold">
+							
+							About <span><img alt="MintShop" th:src="@{${GCP_BASE_URI + SITE_LOGO}}" style="width: 8%"> MintShop</span>
+						</h3>
+						<p class="lead">Spring Boot E-Commerce</p>
+					</div>
+					<div class="col-lg-4">
+						<h3 style="font-weight: bold">Important Links</h3>
+						<ul class="list-unstyled">
+							<th:block th:each="menu : ${menus}" th:if="${menu.isFooter}">
+								<li><a th:href="@{'/a/'+${menu.article.alias}}">[[${menu.title}]]</a></li>
+							</th:block>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<!-- Start Social Section -->
+			<section id="social">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-2 col-4">
+							<a class="facebookBtn smGlobalBtn" href="#"><i
+								class="fab fa-facebook-f"></i></a>
+						</div>
+						<div class="col-lg-2 col-4">
+							<a class="twitterBtn smGlobalBtn" href="#"><i
+								class="fab fa-twitter"></i></a>
+						</div>
+						<div class="col-lg-2 col-4">
+							<a class="googleplusBtn smGlobalBtn" href="#"><i
+								class="fab fa-google-plus-g"></i></a>
+						</div>
+						<div class="col-lg-2 col-4">
+							<a class="linkedinBtn smGlobalBtn" href="#"><i
+								class="fab fa-linkedin-in"></i></a>
+						</div>
+						<div class="col-lg-2 col-4">
+							<a class="gitBtn smGlobalBtn" href="#"><i
+								class="fab fa-github"></i></a>
+						</div>
+						<div class="col-lg-2 col-4">
+							<a class="youtubeBtn smGlobalBtn" href="#"><i
+								class="fab fa-youtube"></i></a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- End Social Section -->
+
+			<!-- Start Copyright Section -->
+			<section class="copyright">
+				<div class="text-center" th:utext="${COPYRIGHT}">
+					
+				</div>
+			</section>
+			<!-- End Copyright Section -->
+
+		</footer>
+
+		<!-- End Footer Section -->
+	</div>
+
+</body>
+</html>

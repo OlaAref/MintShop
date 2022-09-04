@@ -1,0 +1,38 @@
+/*************************************************
+					Profile DropDown
+*************************************************/
+
+.img-title{
+
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: blue;
+  
+  display:inline-block;
+  vertical-align:middle;
+  object-fit:cover;
+}
+
+.img-title-div{
+	
+	display: inline;
+	
+}
+
+
+.username-title{
+	display: inline-block;
+	vertical-align: middle;
+	text-align: left;
+}
+
+.username-title h5{
+	font-weight: 500;
+	line-height: 1;
+	margin-bottom: 0;
+}
+
+.username-title span{
+	font-size: 13px;
+	color: #FFFAFA;
+}

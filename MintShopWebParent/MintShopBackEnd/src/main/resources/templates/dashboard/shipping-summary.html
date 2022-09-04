@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<th:block th:fragment="content" th:remove="tag">
+	
+		<div class="col-lg-6 col-md-6 mt-2">
+			<div class="single_crm">
+				<div class="crm_head bg-green-2 d-flex align-items-center justify-content-between">
+					<div class="thumb">
+						<i class="fa fa-solid fa-truck"></i>
+						<span class="fw-bold">Shipping Rates</span>
+					</div>
+				</div>
+				<div class="crm_body">
+					<span>All Shipping Rates: <b>[[${totalShippingRates}]]</b></span><br>
+					<span>COD Supported: <b>[[${codSupported}]]</b></span><br>
+					<a th:href="@{/shippingRate/toAdd}" class="dash-link">Add Shipping Rates</a><br>
+					<a th:href="@{/shippingRate/list}" class="dash-link">View All</a><br>
+				</div>
+			</div>
+		</div>
+		
+	</th:block>
+	
+</body>
+</html>

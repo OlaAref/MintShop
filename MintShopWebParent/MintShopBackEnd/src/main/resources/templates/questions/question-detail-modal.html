@@ -1,0 +1,65 @@
+<div>
+	<div class="modal-header">
+      <h4 class="modal-title">Question Details</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    
+    <div class="modal-body">
+    	
+		<table class="table table-borderless align-middle">
+		  <tbody>
+		    <tr>
+		      <th scope="row"></th>
+		      <td th:if="${question.approvalStatus}"><span class="text-success">This question was approved.</span></td>
+		      <td th:unless="${question.approvalStatus}"><span class="text-warning">This question has not been approved.</span></td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><label class="form-label mt-4 fw-bold">Product : </label></th>
+		      <td><input readonly type="text" class="form-control" th:value="${question.product.shortName}"></td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><label class="form-label mt-4 fw-bold">Question : </label></th>
+		      <td><textarea readonly type="text" class="form-control" th:text="${question.questionContent}"></textarea></td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><label class="form-label mt-4 fw-bold">Asked By : </label></th>
+		      <td><input readonly type="text" class="form-control" th:value="${question.asker.fullName}"></td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><label class="form-label mt-4 fw-bold">Ask Time : </label></th>
+		      <td><span th:replace="fragments/format :: format-time(${question.askedTime})"></span></td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><label class="form-label mt-4 fw-bold">Votes : </label></th>
+		      <td><input readonly type="text" class="form-control" th:value="${question.votes}"></td>
+		    </tr>
+		    <th:block th:if="${question.answered}">
+		    <tr>
+		      <th scope="row"><label class="form-label mt-4 fw-bold">Answer : </label></th>
+		      <td><textarea readonly type="text" class="form-control" th:text="${question.answerContent}"></textarea></td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><label class="form-label mt-4 fw-bold">Answered By : </label></th>
+		      <td><input readonly type="text" class="form-control" th:value="${question.answerer.fullName}"></td>
+		    </tr>
+		    <tr>
+		      <th scope="row"><label class="form-label mt-4 fw-bold">Answer Time : </label></th>
+		      <td><span th:replace="fragments/format :: format-time(${question.answeredTime})"></span></td>
+		    </tr>
+		    </th:block>
+		    <th:block th:unless="${question.answered}">
+		    <tr>
+		      <th scope="row"></th>
+		      <td><span class="text-warning">This question has not been answered.</span></td>
+		    </tr>
+		    </th:block>
+		  </tbody>
+		</table>
+		
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+    </div>
+	
+</div>

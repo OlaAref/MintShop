@@ -1,0 +1,7 @@
+<div th:fragment="rating-progress(percentage)" th:remove="tag">
+		
+	<div class="progress">
+		<div class="progress-bar bg-warning" role="progressbar" th:style="'width: '+${percentage}+'%'" th:aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100"></div>
+	</div>
+		
+</div>

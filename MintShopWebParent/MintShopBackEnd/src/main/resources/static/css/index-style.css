@@ -1,0 +1,321 @@
+@font-face{
+    font-family: 'Eczar';
+    src: url('../fonts/Eczar-Regular.ttf') format('truetype');
+    src: url('../fonts/Eczar-Regular.woff') format('woff');
+    src: url('../fonts/Eczar-Regular.woff2') format('woff2');
+}
+@font-face{
+    font-family: 'Eczar';
+    src: url('../fonts/Eczar-Bold.ttf') format('truetype');
+    src: url('../fonts/Eczar-Bold.woff') format('woff');
+    src: url('../fonts/Eczar-Bold.woff2') format('woff2');
+    font-weight: bold; 
+}
+/* ---------------------------------------------------
+    COLORS
+----------------------------------------------------- */
+.bg-beach{
+	 background-color: #FFC4C4;
+}
+.bg-teal{
+	 background-color: #A5F1E9;
+}
+.bg-beige{
+	 background-color: #E9DAC1;
+}
+.bg-beige-2{
+	 background-color: #E3B7A0;
+}
+.bg-green-1{
+	 background-color: #C7D36F;
+}
+.bg-green-2{
+	 background-color: #E4E9BE;
+}
+.bg-green-3{
+	 background-color: #D3E4CD;
+}
+.bg-orange-1{
+	 background-color: #FFB26B;
+}
+.bg-pink{
+	 background-color: #F2D1D1;
+}
+.bg-pink-2{
+	 background-color: #F6C6EA;
+}
+.bg-blue-1{
+	 background-color: #DAEAF1;
+}
+.bg-blue-2{
+	 background-color: #C6DCE4;
+}
+.bg-red-1{
+	 background-color: #EF9F9F;
+}
+.bg-yellow{
+	 background-color: #FFE3A9;
+}
+.bg-yellow-2{
+	 background-color: #F3ED9E;
+}
+
+
+
+
+
+/* ---------------------------------------------------
+    Dash STYLE
+----------------------------------------------------- */
+
+.single_crm {
+  background: #fff;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+
+.single_crm .crm_head {
+  padding: 8px 20px;
+  border-radius: 13px;
+}
+
+.single_crm .crm_head i {
+  color: #fff;
+}
+
+.single_crm .crm_body {
+  padding: 15px 23px;
+}
+
+.crm_bg_1 {
+  background: #20DEFF !important;
+}
+
+.non-arrow-dropdown:after{
+    content: none;
+    text-decoration: none;
+}
+
+.non-arrow-dropdown, .non-arrow-dropdown:active, .non-arrow-dropdown:visited{
+	text-decoration: none;
+}
+
+/*------------------------------------------------------
+Customer table
+---------------------------------------------------------*/
+
+.white_card {
+  background-color: #FFFFFF;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}
+
+.card_height_100 {
+  height: calc(100% - 30px);
+}
+
+.mb_30 {
+  margin-bottom: 30px !important;
+}
+
+.white_card .white_card_header {
+  padding: 22px 30px;
+}
+
+.main-title h3 {
+  font-family: "Mulish", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #474D58;
+}
+
+.white_card .white_card_body {
+  padding: 5px 30px 25px 30px;
+}
+
+.single_user_pil {
+  background: #F5F5FF;
+  padding: 10px 20px;
+  border-radius: 15px;
+  transition: .3s;
+  margin-bottom: 15px;
+}
+
+.single_user_pil .user_info {
+  font-size: 14px;
+  font-weight: 400;
+  color: #B5BACD;
+}
+
+.thumb_34 {
+  width: 34px;
+  height: 34px;
+}
+
+.mr_15 {
+  margin-right: 15px;
+  margin-top: 7px;
+}
+
+.single_user_pil .user_pils_thumb img {
+  border: 1px solid #94C0D4;
+}
+
+.radius_50 {
+  border-radius: 50%;
+}
+
+.text_color_11 {
+  color: #67349D !important;
+}
+
+.f_w_400 {
+  font-weight: 400;
+}
+
+.action_btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: transparent;
+  line-height: 30px;
+  text-align: center;
+  color: #67349D;
+  font-size: 12px;
+  transition: .3s;
+  display: inline-block;
+  flex: 32px 0 0;
+}
+
+.mr_10 {
+  margin-right: 10px !important;
+}
+
+a {
+  text-decoration: none;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.main-title h3 {
+  font-family: "Mulish", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #474D58;
+}
+
+
+
+
+/****************************************************/
+.card.mb-3 {
+  margin-bottom: 30px !important;
+}
+.card-border {
+  -webkit-box-shadow: 0 0 0 transparent;
+  box-shadow: 0 0 0 transparent;
+  border-width: 1px;
+}
+.widget-chart {
+  text-align: center;
+  padding: 1rem;
+  position: relative;
+}
+.icon-wrapper {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.icon-wrapper {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.icon-wrapper .icon-wrapper-bg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+  opacity: .2;
+}
+.icon-wrapper i {
+  margin: 0 auto;
+  font-size: 1.7rem;
+  position: relative;
+  z-index: 5;
+}
+.widget-chart .widget-numbers {
+  font-weight: bold;
+  font-size: 2.5rem;
+  display: block;
+  line-height: 1;
+  margin: 1rem auto;
+}
+.widget-chart .widget-numbers + .widget-description, .widget-chart .widget-numbers + .widget-subheading {
+  margin-top: -0.5rem;
+}
+.widget-chart .widget-subheading {
+  margin: -0.5rem 0 0;
+    margin-top: -0.5rem;
+  display: block;
+  opacity: .6;
+}
+.widget-chart .widget-description {
+  margin: 1rem 0 0;
+}
+.bg-arielle-smile {
+  background-image: -webkit-radial-gradient(center, circle 248px, #16d9e3 0%, #30c7ec 47%, #46aef7 100%) !important;
+  background-image: -o-radial-gradient(center, circle 248px, #16d9e3 0%, #30c7ec 47%, #46aef7 100%) !important;
+  background-image: radial-gradient(circle 248px at center, #16d9e3 0%, #30c7ec 47%, #46aef7 100%) !important;
+}
+.bg-midnight-bloom {
+  background-image: -webkit-linear-gradient(110deg, #2b5876 0%, #4e4376 100%) !important;
+  background-image: -o-linear-gradient(110deg, #2b5876 0%, #4e4376 100%) !important;
+  background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%) !important;
+}
+.bg-grow-early {
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#0ba360), to(#3cba92)) !important;
+  background-image: -webkit-linear-gradient(bottom, #0ba360 0%, #3cba92 100%) !important;
+  background-image: -o-linear-gradient(bottom, #0ba360 0%, #3cba92 100%) !important;
+  background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%) !important;
+}
+.bg-love-kiss {
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#ff0844), to(#ffb199)) !important;
+  background-image: -webkit-linear-gradient(bottom, #ff0844 0%, #ffb199 100%) !important;
+  background-image: -o-linear-gradient(bottom, #ff0844 0%, #ffb199 100%) !important;
+  background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%) !important;
+}
+
+.dash-link, .dash-link:active, .dash-link:visited{
+	color: #007185;
+	text-decoration: none;
+}
+.dash-link:hover{
+	color: #de7921;
+	text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

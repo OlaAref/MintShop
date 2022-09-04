@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<div th:replace="fragments/head :: head('Verification Failed')"></div>
+</head>
+<body class="d-flex flex-column h-100">
+
+	
+	<div th:replace="fragments/navbar :: navbar-content"></div>
+	
+	
+	<div class="wrapper mt-5 min-vh-100">
+	
+		<!-- Page Content  -->
+        <div id="content ">
+        	
+        	<div class="container">
+        		<div class="text-center">
+        			<h2>Customer Verification</h2>
+        			<h4>Your account was already verified, or the verification code is invalid.</h4>
+        			<p><a th:href="@{/}">Back Home</a></p>
+        		</div>
+				
+        	</div>       
+			                    
+        </div>
+		
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script type="text/javascript">
+		
+		var contextPath = "[[@{/}]]";
+	
+		var dropdownCountry;
+		var dataListStates;
+		var stateInput;
+		var dataListCities;
+		var cityInput;
+	
+		$(document).ready(function() {
+			dropdownCountry = $('#countrySelecet');
+			dataListStates = $('#listStates');
+			stateInput = $('#stateInput');
+			dataListCities = $('#listCities');
+			cityInput = $('#cityInput');
+			
+			dropdownCountry.on("change", function() {
+				loadStates();
+				stateInput.val("").focus();
+			});
+			
+			stateInput.on("change", function() {
+				loadCities();
+				cityInput.val("").focus();
+			});
+			
+			
+		});
+		
+		function loadCities(){
+			var selectedStateName = stateInput.val();
+			var url = contextPath + "settings/listCities/" + selectedStateName;
+			
+			$.get(url, function(jsonResponse) {
+				dataListCities.empty();
+				
+				$.each(jsonResponse, function(index, city) {
+					$("<option>").val(city.name).text(city.name).appendTo(dataListCities);
+				});
+				
+			});
+		}
+		
+		function loadStates(){
+			var selectedCountry = $('#countrySelecet option:selected');
+			var countryId = selectedCountry.val();
+			var url = contextPath + "settings/list-states/" + countryId;
+			
+			$.get(url, function(jsonResponse) {
+				dataListStates.empty();
+				
+				$.each(jsonResponse, function(index, state) {
+					$("<option>").val(state.name).text(state.name).appendTo(dataListStates);
+				});
+				
+			});
+		}
+	
+		function checkPasswordMatch(confirmPassword) {
+			if(confirmPassword.value != $("#passwordInput").val()){
+				confirmPassword.setCustomValidity("Passwords do not match !!");
+			}
+			else{
+				confirmPassword.setCustomValidity("");
+			}
+		}
+		
+		function checkEmailUnique(form) {
+			var url = contextPath + "customers/checkUnique";
+			var userEmail = $("#emailInput").val();
+			var csrfValue = $("input[name='_csrf']").val();
+			
+			var params = {
+					email : userEmail,
+					_csrf : csrfValue
+			};
+			
+			
+			$.post(url, params, function(response) {
+				
+				if(response == "OK"){
+					form.submit();
+				}
+				else if(response == "Duplicated"){
+					showStackBarTop('error', "Duplicated Email!!", "The email you entered is registered.");
+					
+				}
+				else{
+					showStackBarTop('error', "Error!!", "Unknown response from server.");
+				}
+				
+			})
+			.fail(function(){
+				showStackBarTop('error', "Error!!", "Could not connect to the server.");
+			});
+	    	
+	        return false;
+	    }
+	</script>
+</body>
+</html>

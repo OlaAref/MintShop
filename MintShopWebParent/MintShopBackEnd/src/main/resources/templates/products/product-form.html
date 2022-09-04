@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title th:text="${pageTitle}+' product'"></title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/addPageStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/richtext/richtext.min.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+
+            <!-- ************************************************************** -->            
+  			
+
+			<section class="add-form-section">
+				<div class="container">
+					<p>
+						<a th:href="@{/product/list}">
+							<i class="fas fa-arrow-left"></i> Back to list
+							
+						</a>
+					</p>
+			
+					<h3 th:text="${pageTitle}+' product'"></h3>
+			
+					<hr style="border-color: white;">
+					<form th:action="@{/product/add}" th:object="${product}" method="post" enctype="multipart/form-data" onsubmit="return checkUnique(this)">
+					
+						<input type="hidden" th:field="*{id}" id="productID">
+						<input th:if="${product.category != null}" type="hidden" th:value="${product.category.id}" id="categoryID">
+						
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+						  <li class="nav-item" role="presentation">
+						    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+						    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">Description</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+						    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#images" type="button" role="tab">Images</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+						    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#deatils" type="button" role="tab">Details</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+						    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab">Shipping</button>
+						  </li>
+						</ul>
+						
+						<!-- Tab panes -->
+						<div class="tab-content">
+						  <!-- Product Overview -->
+						  <div class="tab-pane active" id="overview" role="tabpanel">
+							<div th:replace="products/product-overview :: product-overview"></div>
+						  </div>
+						  
+						  <!-- Product Description -->
+						  <div class="tab-pane" id="description" role="tabpanel">
+						  	<th:block th:unless="${isReadOnly}">
+						  		<div th:replace="products/product-description :: product-description"></div>
+						  	</th:block>
+							
+						  	<th:block th:if="${isReadOnly}">
+						  		<div th:replace="products/product-readonly :: product-description"></div>
+						  	</th:block>
+						  </div>
+						  
+						  <!-- Product Images -->
+						  <div class="tab-pane" id="images" role="tabpanel">
+						  	<th:block th:unless="${isReadOnly}">
+						  		<div th:replace="products/product-images :: product-images"></div>
+						  	</th:block>
+						  	
+						  	<th:block th:if="${isReadOnly}">
+						  		<div th:replace="products/product-readonly :: product-images"></div>
+						  	</th:block>
+						  </div>
+						  
+						  <!-- Product details -->
+						  <div class="tab-pane m-4" id="deatils" role="tabpanel">
+						  	<th:block th:unless="${isReadOnly}">
+						  		<div th:replace="products/product-details :: product-details"></div>
+						  	</th:block>
+						  	
+						  	<th:block th:if="${isReadOnly}">
+						  		<div th:replace="products/product-readonly :: product-details('white')"></div>
+						  	</th:block>
+						  </div>
+						  
+						  <!-- Product shipping -->
+						  <div class="tab-pane" id="shipping" role="tabpanel">
+						  	
+						  	<th:block th:unless="${isReadOnly}">
+						  		<div th:replace="products/product-shipping :: product-shipping"></div>
+						  	</th:block>
+						  	
+						  	<th:block th:if="${isReadOnly}">
+						  		<div th:replace="products/product-readonly :: product-shipping"></div>
+						  	</th:block>
+						  	
+						  </div>
+						
+						</div>
+
+						
+						<div class="row">
+							<div class="col-lg-3"></div>
+							<div class="col-lg-9">
+			              		
+			                    <div class="container mt-5">
+			                    	<div class="form-group row">
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="submit" class="btn btn-primary customize-btn mt-2">Submit</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="reset" class="btn btn-primary customize-btn mt-2" id="btnClear">Clear</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="button" class="btn btn-primary customize-btn mt-2" id="btnCancel">Cancel</button>
+			                    		</div>
+			                    	</div>
+			                    </div>
+							</div>
+						</div>
+						
+					
+					</form>
+					
+			
+				</div>
+			</section>
+  			
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+	
+	<script>
+
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        $('#btnCancel').on('click', function(){
+        	window.location = "[[@{/product/list}]]";
+        });
+        
+        $('#btnClear').on('click', function(){
+        	$("#chosenCategories").empty();
+        });
+        
+        $('#inputShortDescription').richText();
+        $('#inputFullDescription').richText();
+        
+        var brand = $("#inputBrand");
+    	var categories = $("#inputCategory");
+    	var baseUrl = "[[@{/brands}]]";
+    	var url = "[[@{/products/checkUnique}]]";
+    	
+    	getCategoriesByBrandForNewForm();
+    	
+		brand.on("change", function(){
+        	categories.empty();
+        	getCategoriesByBrand();
+        });
+		
+		
+		
+        
+    });
+    
+    function checkUnique(form) {
+		
+		var productId = ($("#productID").val() == "") ? 0 : $("#productID").val();
+		var productName = $("#inputName").val();
+		var csrfValue = $("input[name='_csrf']").val();
+		
+		var params = {
+				id : productId,
+				name : productName,
+				_csrf : csrfValue
+		};
+		console.log(params);
+		console.log(url.val());
+		$.post(url, params, function(response) {
+			console.log(response);
+			if(response == "OK"){
+				form.submit();
+			}
+			else if(response == "DuplicateName"){
+				showStackBarTop('error', "Duplicated Product Name!!", "This product name '"+productName+"' is used before.");
+			}
+			else{
+				
+				showStackBarTop('error', "Error!!", "Unknown response from server.");
+			}
+			
+		})
+		.fail(function(){
+			showStackBarTop('error', "Error!!", "Could not connect to the server.");
+		});
+    	
+        return false;
+    }
+    
+    function getCategoriesByBrand(){
+    	var brand = $("#inputBrand");
+    	var categories = $("#inputCategory");
+    	var baseUrl = "[[@{/brands}]]";
+    	var brandId = brand.val();
+    	var url = baseUrl+"/"+brandId+"/categories";
+    	
+    	$.get(url, function(responseJson){
+    		$.each(responseJson, function(index, category){
+    			$(categories).append($('<option>', { 
+    		        value: category.id,
+    		        text : category.name 
+    		    }));
+    		});
+    	});
+    }
+    
+    function getCategoriesByBrandForNewForm() {
+    	var categoryIdField = $("#categoryID");
+    	var editMode = false;
+    	
+    	if(categoryIdField.length){
+    		editMode = true;
+    	}
+    	
+    	if(!editMode) getCategoriesByBrand();
+    }
+ 
+</script>
+</body>
+</html>

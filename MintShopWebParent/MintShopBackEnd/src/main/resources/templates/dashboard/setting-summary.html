@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<th:block th:fragment="content" th:remove="tag">
+	
+		<div class="col-12 col-md-6">
+			<div class="single_crm">
+				<div class="crm_head bg-beach d-flex align-items-center justify-content-between">
+					<div class="thumb">
+						<i class="fa fa-solid fa-cogs"></i>
+						<span class="fw-bold">Settings</span>
+					</div>
+				</div>
+				<div class="crm_body">
+					<span>Countries: <b>[[${totalCountries}]]</b></span><br>
+					<span>States: <b>[[${totalStates}]]</b></span><br>
+					<span>Mail Server: <b>[[${mailServer}]]</b></span><br>
+					<a th:href="@{/setting/list#countries}" class="dash-link">Manage Countries</a><br>
+					<a th:href="@{/setting/list#states}" class="dash-link">Manage States</a><br>
+					<a th:href="@{/setting/list#mailServer}" class="dash-link">Configure Mail Server</a>
+				</div>
+			</div>
+		</div>
+		
+	</th:block>
+	
+</body>
+</html>

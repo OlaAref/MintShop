@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title th:text="${pageTitle}+' order'"></title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/addPageStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/richtext/richtext.min.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+
+            <!-- ************************************************************** -->            
+  			
+
+			<section class="add-form-section">
+				<div class="container">
+					<p>
+						<a th:href="@{/order/list}">
+							<i class="fas fa-arrow-left"></i> Back to list
+							
+						</a>
+					</p>
+			
+					<h3 th:text="${pageTitle}+' order'"></h3>
+			
+					<hr style="border-color: white;">
+					<form th:action="@{/order/save}" th:object="${order}" method="post" onsubmit="return processFormBeforeSubmit();">
+					
+						<input type="hidden" th:field="*{id}" id="productID">
+						
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+						  <li class="nav-item" role="presentation">
+						    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+						    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab">Products</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+						    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab">Shipping</button>
+						  </li>
+						  <li class="nav-item" role="presentation">
+						    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#track" type="button" role="tab">Track</button>
+						  </li>
+						</ul>
+						
+						<!-- Tab panes -->
+						<div class="tab-content">
+						
+						  <!-- Order Overview -->
+						  <div class="tab-pane active" id="overview" role="tabpanel">
+							<div th:replace="orders/order-form-overview :: order-overview"></div>
+						  </div>
+						  
+						  <!-- Products list -->
+						  <div class="tab-pane" id="products" role="tabpanel">
+						  	<div th:replace="orders/order-form-products :: order-products"></div>
+						  </div>
+						  
+						  <!-- Order Shipping -->
+						  <div class="tab-pane m-4" id="shipping" role="tabpanel">
+						  	<div th:replace="orders/order-form-shipping :: order-shipping"></div>
+						  </div>
+						  
+						   <!-- Order Track -->
+						  <div class="tab-pane" id="track" role="tabpanel">
+						  	<div th:replace="orders/order-form-tracks :: tracks"></div>
+						  </div>
+						
+						</div>
+
+						
+						<div class="row">
+							<div class="col-lg-6"></div>
+							<div class="col-lg-6">
+			              		
+			                    <div class="container mt-5">
+			                    	<div class="form-group row">
+			                    		<div class="col-md-2">
+			                    			<button type="submit" class="btn btn-primary customize-btn mt-2">Save</button>
+			                    		</div>
+			                    		<div class="col-md-2">
+			                    			<button dir="ltr" type="button" class="btn btn-primary customize-btn mt-2" id="btnCancel">Cancel</button>
+			                    		</div>
+			                    	</div>
+			                    </div>
+							</div>
+						</div>
+						
+					
+					</form>
+					
+			
+				</div>
+			</section>
+  			
+
+            <!-- ************************************************************** -->
+		
+		<div th:replace="fragments/modal-fargment :: modal-fragment"></div>
+		<div th:replace="orders/add-product-modal :: content"></div>
+		
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+
+	<script th:src="@{/js/order-form-products.js}"></script>
+	<script th:src="@{/js/add-product.js}"></script>
+	<script th:src="@{/js/order-form-tracks.js}"></script>
+	<script th:src="@{/js/jquery.number.min.js}"></script>
+	
+	<script>
+	var contextPath = "[[@{/}]]";
+	var dropdownCountry;
+	var dataListStates;
+	var stateInput;
+	var dataListCities;
+	var cityInput;
+	
+	var csrfHeaderName = "[[${_csrf.headerName}]]";
+	var csrfValue = "[[${_csrf.token}]]";
+	
+    $(document).ready(function() {
+    	
+    	dropdownCountry = $('#countrySelecet');
+		dataListStates = $('#listStates');
+		stateInput = $('#stateInput');
+		dataListCities = $('#listCities');
+		cityInput = $('#cityInput');
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        $('#btnCancel').on('click', function(){
+        	window.location = "[[@{/order/list}]]";
+        });
+        
+        dropdownCountry.on("change", function() {
+			loadStates();
+			stateInput.val("").focus();
+		});
+		
+		stateInput.on("change", function() {
+			loadCities();
+			cityInput.val("").focus();
+		});
+        
+    });
+    
+    function loadCities(){
+		var selectedStateName = stateInput.val();
+		var url = contextPath + "cities/listCities/" + selectedStateName;
+		
+		$.get(url, function(jsonResponse) {
+			dataListCities.empty();
+			
+			$.each(jsonResponse, function(index, city) {
+				$("<option>").val(city.name).text(city.name).appendTo(dataListCities);
+			});
+			
+		});
+	}
+	
+	function loadStates(){
+		var selectedCountry = $('#countrySelecet option:selected');
+		var countryId = selectedCountry.val();
+		var url = contextPath + "states/list/" + countryId;
+		
+		$.get(url, function(jsonResponse) {
+			dataListStates.empty();
+			
+			$.each(jsonResponse, function(index, state) {
+				$("<option>").val(state.name).text(state.name).appendTo(dataListStates);
+			});
+			
+		});
+	}
+
+    
+ 
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head></head>
+
+<body>
+
+	<div th:fragment="reviewRating(starsNum)" th:remove="tag">
+		
+		<th:block th:if="${starsNum == 5}">
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+		</th:block>
+		<th:block th:if="${starsNum == 4}">
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-regular fa-star"></i>
+		</th:block>
+		<th:block th:if="${starsNum == 3}">
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+		</th:block>
+		<th:block th:if="${starsNum == 2}">
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+		</th:block>
+		<th:block th:if="${starsNum == 1}">
+			<i class="fa fa-solid fa-star text-warning"></i>
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+		</th:block>
+		<th:block th:if="${starsNum == 0}">
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+			<i class="fa fa-regular fa-star"></i>
+		</th:block>
+		
+	</div>
+
+</body>
+</html>

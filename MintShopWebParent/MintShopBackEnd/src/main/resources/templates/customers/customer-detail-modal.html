@@ -1,0 +1,103 @@
+<div>
+	<div class="modal-header">
+      <h4 class="modal-title">Customer Details</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    
+    <div class="modal-body">
+    	<!-- Nav tabs -->
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab">General</button>
+		  </li>
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab">Address</button>
+		  </li>
+		</ul>
+		
+		<!-- Tab panes -->
+		<div class="tab-content">
+		
+		  <!-- Customer General Overview -->
+		  <div class="tab-pane active" id="general" role="tabpanel">
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Customer ID : </label> 
+				<input th:value="${customer.id}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Full Name : </label> 
+				<input th:value="${customer.fullName}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Email : </label> 
+				<input th:value="${customer.email}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Phone Number : </label> 
+				<input th:value="${customer.phoneNumber}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Enabled : </label> 
+				
+				<div class="form-check">
+				<input th:checked="${customer.enabled}" class="form-check-input" type="checkbox" id="enabledCheckbox" disabled="disabled"> 
+				<label class="form-check-label" for="enabledCheckbox">Enabled</label>
+			</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="inputupdatedTime" class="form-label mt-4 fw-bold">Created Time : </label> 
+				<span th:text="${#temporals.format(customer.createdTime, 'yyyy/MM/dd HH:mm:ss')}"></span>
+			</div>
+			
+		  </div>
+		  
+		  <!-- Customer Address -->
+		  <div class="tab-pane" id="address" role="tabpanel">
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Address Line 1 : </label> 
+				<input th:value="${customer.addressLine1}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Address Line 2 : </label> 
+				<input th:value="${customer.addressLine2}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">City : </label> 
+				<input th:value="${customer.city}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">State : </label> 
+				<input th:value="${customer.state}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Country : </label> 
+				<input th:value="${customer.country.name}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Postal Code : </label> 
+				<input th:value="${customer.postalCode}" readonly type="text" class="form-control">
+			</div>
+			
+		  </div>
+		  
+		  
+		</div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+    </div>
+	
+</div>

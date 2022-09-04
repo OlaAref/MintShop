@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>Mint Shop - Admin</title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/navbarStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/index-style.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content" style="background-color: #F6F7FB">
+
+			<div class="row bg-midnight-bloom">
+				<div class="col-12 col-md-6">
+					<div class="text-white mx-5 my-3">
+						<div sec:authorize="isAuthenticated()">
+							<h2 style="font-family: Eczar; font-weight: bold" >Welcome back, 
+							<span sec:authentication="principal.fullname"></span>
+							</h2>
+							<div>Roles : <span sec:authentication="principal.authorities"></span></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6">
+					<div class="text-white mx-5 my-3" style="font-family: Eczar;">
+						<table class="table table-borderless d-flex justify-content-end text-white">
+						  <tbody>
+						    <tr>
+						      <td class="h4 fw-bold"><span th:text="${#temporals.format(date, 'EEEE,')}"></span></td>
+						    </tr>
+						    <tr>
+						      <td class="h6"><span th:text="${#temporals.format(date, 'MMMM, YYYY')}"></span></td>
+						    </tr>
+						    <tr>
+						      <td class="h6"><span th:text="${#temporals.format(time, 'HH:mm:ss a')}"></span></td>
+						    </tr>
+						  </tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+            <!-- ************************************************************** -->
+
+            <div class="container">
+            	
+            	<div class="row mt-4">
+            	
+					<th:block sec:authorize="hasAuthority('Admin')">
+						<div th:replace="dashboard/general-information-summary :: content"></div>
+						<div th:replace="dashboard/setting-summary :: content"></div>
+                    	<div th:replace="dashboard/user-summary :: content"></div>
+					</th:block>
+					
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Sales')">
+						<div th:replace="dashboard/customer-summary :: content"></div>
+						<div th:replace="dashboard/shipping-summary :: content"></div>
+					</th:block>
+					
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                    	<div th:replace="dashboard/section-summary :: content"></div>
+						<div th:replace="dashboard/category-summary :: content"></div>
+						<div th:replace="dashboard/brand-summary :: content"></div>
+						<div th:replace="dashboard/article-summary :: content"></div>
+						<div th:replace="dashboard/menu-summary :: content"></div>
+					</th:block>
+					
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Sales', 'Shipper')">
+						<div th:replace="dashboard/product-summary :: content"></div>
+					</th:block>
+					
+					<th:block sec:authorize="hasAnyAuthority('Admin', 'Sales', 'Shipper')">
+						<div th:replace="dashboard/order-summary :: content"></div>
+					</th:block>
+					
+				   <th:block sec:authorize="hasAnyAuthority('Admin', 'Assistant')">
+                   		<div th:replace="dashboard/review-summary :: content"></div>
+						<div th:replace="dashboard/question-summary :: content"></div>
+					</th:block>
+					
+                   
+                </div>
+					
+               </div>
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	
+	<script>
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+    });
+
+</script>
+</body>
+</html>

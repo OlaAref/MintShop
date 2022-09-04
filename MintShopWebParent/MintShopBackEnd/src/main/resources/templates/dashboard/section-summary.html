@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<th:block th:fragment="content" th:remove="tag">
+	
+		<div class="col-lg-6 col-md-6 mt-2">
+			<div class="single_crm">
+				<div class="crm_head bg-green-1 d-flex align-items-center justify-content-between">
+					<div class="thumb">
+						<i class="fa fa-solid fa-puzzle-piece"></i>
+						<span class="fw-bold">Storefront Sections</span>
+					</div>
+				</div>
+				<div class="crm_body">
+					<span>All Sections: <b>[[${totalSections}]]</b></span><br>
+					<span>Enabled Sections: <b>[[${enabledSections}]]</b></span><br>
+					<span>Disabled Sections: <b>[[${disabledSections}]]</b></span><br>
+					<a th:href="@{/section/text/new}" class="dash-link">Add Text Section</a><br>
+					<a th:href="@{/section/product/new}" class="dash-link">Add Product Section</a><br>
+					<a th:href="@{/section/category/new}" class="dash-link">Add Category Section</a><br>
+					<a th:href="@{/section/list}" class="dash-link">View All</a><br>
+				</div>
+			</div>
+		</div>
+		
+	</th:block>
+	
+</body>
+</html>

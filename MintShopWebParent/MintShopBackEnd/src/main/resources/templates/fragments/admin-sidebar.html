@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/sidebarStyle.css}">
+</head>
+
+<body>
+
+	<div th:fragment="admin-sidebar(baseLink)">
+	
+		<!-- Sidebar -->
+		
+	<div class="offcanvas offcanvas-start w-25 " tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+
+    
+		    <div class="offcanvas-header">
+				
+				<div></div>
+				
+			    <div class="offcanvas-title align-items-center align-self-center text-center">
+					<a th:href="@{/account/details}"><img th:src="@{/img/profile.png}" class="img-circle2" width="80"></a>
+					<h5 class="centered" sec:authentication="principal.fullname" style="color: white"></h5>
+				</div>
+				
+				
+				<button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close" ></button>
+		                
+		    </div>
+		    
+		    <div class="header-body-line"></div>
+		    
+		    <div class="offcanvas-body component px-0">
+		    
+		        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
+		        
+		        	<li class="active"><a th:href="@{/}" class="text-truncate"><i class="fas fa-tachometer-alt"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span></a></li>
+		            
+		            <li class="d-lg-none" th:if="${baseLink != null}">
+			             <a href="#downloadSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+			                	<i class="fas fa-file-download"></i> <span class="d-none d-sm-inline">Download</span>
+			             </a>
+			             <ul class="collapse list-unstyled" id="downloadSubmenu">
+			            		<li><a th:href="@{${baseLink}+'/csv'}">CSV</a></li>
+			            		<li><a th:href="@{${baseLink}+'/excel'}">Excel</a></li>
+			            		<li><a th:href="@{${baseLink}+'/pdf'}">PDF</a></li>
+			            </ul>
+			        </li>
+		            
+		            <li>
+		                <a href="#userSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		                	<i class="fas fa-users"></i> <span class="d-none d-sm-inline">Users</span>
+		                </a>
+		            	<ul class="collapse list-unstyled" id="userSubmenu">
+		            		<li><a th:href="@{/user/list}">List Users</a></li>
+		            		<li><a th:href="@{/user/toAdd}">Add New User</a></li>
+		            	</ul>
+		            </li>
+		            
+		            <li>
+		            	<a href="#categorySubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		            		<i class="fas fa-sitemap"></i> <span class="ms-1 d-none d-sm-inline">Categories</span>
+		            	</a>
+		            	<ul class="collapse list-unstyled" id="categorySubmenu">
+		            		<li><a th:href="@{/category/list}">List Categories</a></li>
+		            		<li><a th:href="@{/category/toAdd}">Add New Categorie</a></li>
+		            	</ul>
+		            </li>
+		            		        
+		            <li>
+		            	<a href="#brandSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		            		<i class="fas fa-tag"></i> <span class="ms-1 d-none d-sm-inline">Brands</span>
+		            	</a>
+		            	<ul class="collapse list-unstyled" id="brandSubmenu">
+		            		<li><a th:href="@{/brand/list}">List Brands</a></li>
+		            		<li><a th:href="@{/brand/toAdd}">Add New Brand</a></li>
+		            	</ul>
+		            </li>
+		            		        
+		            <li>
+		            	<a href="#productSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		            		<i class="fas fa-box-open"></i> <span class="ms-1 d-none d-sm-inline">Products</span>
+		            	</a>
+		            	<ul class="collapse list-unstyled" id="productSubmenu">
+		            		<li><a th:href="@{/product/list}">List Products</a></li>
+		            		<li><a th:href="@{/product/toAdd}">Add New Product</a></li>
+		            		<li><a th:href="@{/question/list}">Questions</a></li>
+		            	</ul>
+		            </li>
+		            		        
+		            <li>
+		            	<a href="#customerSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		            		<i class="fas fa-user-tie"></i> <span class="ms-1 d-none d-sm-inline">Customers</span>
+		            	</a>
+		            	<ul class="collapse list-unstyled" id="customerSubmenu">
+		            		 <li><a th:href="@{/customer/list}">List Customers</a></li>
+		            	</ul>
+		            </li>
+		            		        
+		            <li>
+		            	<a href="#shippingSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		            		<i class="fas fa-truck"></i> <span class="ms-1 d-none d-sm-inline">Shipping</span>
+		            	</a>
+		            	<ul class="collapse list-unstyled" id="shippingSubmenu">
+		            		<li><a th:href="@{/shippingRate/list}">List Shipping</a></li>
+		            		 <li><a th:href="@{/shippingRate/toAdd}">Add New Shipping</a></li>
+		            	</ul>
+		            </li>
+		            		        
+		            <li>
+		            	<a href="#orderSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		            		<i class="fas fa-shopping-cart"></i> <span class="ms-1 d-none d-sm-inline">Orders</span>
+		            	</a>
+		            	<ul class="collapse list-unstyled" id="orderSubmenu">
+		            		<li><a th:href="@{/order/list}">List Orders</a></li>
+		            	</ul>
+		            </li>
+		            		        
+		            <li>
+		            	<a href="#salesReportSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		            		<i class="far fa-chart-bar"></i> <span class="ms-1 d-none d-sm-inline">Sales Report</span>
+		            	</a>
+		            	<ul class="collapse list-unstyled" id="salesReportSubmenu">
+		            		<li><a th:href="@{/report/}">List Reports</a></li>
+		            	</ul>
+		            </li>
+		            
+		            <li>
+		            	<a href="#reviewsSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		            		<i class="far fa-chart-bar"></i> <span class="ms-1 d-none d-sm-inline">Reviews</span>
+		            	</a>
+		            	<ul class="collapse list-unstyled" id="reviewsSubmenu">
+		            		<li><a th:href="@{/review/list}">List Reviews</a></li>
+		            	</ul>
+		            </li>
+		            		        
+		            <li>
+		            	<a href="#articleSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncat">
+		            		<i class="far fa-comment-alt"></i> <span class="ms-1 d-none d-sm-inline">Articles</span>
+		            	</a>
+		            	<ul class="collapse list-unstyled" id="articleSubmenu">
+		            		<li><a th:href="@{/article/list}">List Articles</a></li>
+		            		<li><a th:href="@{/article/new}">Add New Article</a></li>
+		            	</ul>
+		            </li>
+		            
+		            <li>
+		            	<a href="#menuSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncate">
+		            		<i class="fas fa-bars"></i> <span class="ms-1 d-none d-sm-inline">Menus</span>
+		            	</a>
+			            	<ul class="collapse list-unstyled" id="menuSubmenu">
+			            		<li><a th:href="@{/menu/list}">List Menus</a></li>
+			           		 	<li><a th:href="@{/menu/new}">Add New Menu</a></li>
+			            	</ul>
+		            	</li>
+		            
+		            <li>
+		            	<a href="#settingSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-truncate">
+		            		<i class="fas fa-cogs"></i> <span class="ms-1 d-none d-sm-inline">Settings</span>
+		            	</a>
+				        <ul class="collapse list-unstyled" id="settingSubmenu">
+				            <li><a th:href="@{/setting/list#general}">General Settings</a></li>
+				            <li><a th:href="@{/setting/list#countries}">Countries</a></li>
+				            <li><a th:href="@{/setting/list#states}">States</a></li>
+				            <li><a th:href="@{/setting/list#cities}">Cities</a></li>
+				            <li><a th:href="@{/setting/list#mailServer}">Mail Server</a></li>
+				            <li><a th:href="@{/setting/list#mailTemplates}">Mail Templates</a></li>
+				            <li><a th:href="@{/setting/list#payment}">Payment</a></li>
+				            <li><a th:href="@{/section/list}">Home Page</a></li>
+				        </ul>
+				    </li>
+				        
+		        </ul>
+		    </div>
+		</div>
+
+		
+		
+	</div>
+
+
+
+
+</body>
+</html>s

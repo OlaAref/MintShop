@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>List Shipping Rates</title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/listStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/navbarStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbarListPage()"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar('/shippingRate/export')"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+		
+			<div th:if="${message != null}" id="shippingRateAdded"></div>
+
+            <!-- ************************************************************** -->
+			<div class="table-responsive">
+	            <table class="table table-striped table-hover">
+	  			<thead>
+				    <tr class="table-dark">
+				    
+				      <th th:replace="fragments/column-link :: column-link-general('id', 'ID')"/>
+				      <th th:replace="fragments/column-link :: column-link-general('country', 'Country')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('state', 'State')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('rate', 'Rate')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('days', 'Days')"></th>
+				      <th th:replace="fragments/column-link :: column-link-general('codSupported', 'COD Support')"></th>
+				      <th>Edit</th>
+				      <th>Delete</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	<tr th:each="rate : ${rates}">
+				   	  <td th:text="${rate.id}"></td>
+				     <td th:text="${rate.country.name}"></td>
+				     <td th:text="${rate.state}"></td>
+				     <td th:text="${rate.rate}"></td>
+				     <td th:text="${rate.days}"></td>
+				      <td  th:if="${rate.codSupported == true}"><a th:href="@{'/shippingRate/cod/'+${rate.id}+'/enabled/false'}" title="Disable COD for this rate"><i class="fas fa-hand-holding-usd" style="color: green"></i></a></td>
+				      <td  th:if="${rate.codSupported == false}"><a th:href="@{'/shippingRate/cod/'+${rate.id}+'/enabled/true'}" title="Enable COD for this rate"><i class="fas fa-hand-holding-usd" style="color: gray"></i></a></td>
+				      
+				      <td><a th:href="@{'/shippingRate/edit/'+${rate.id}}" title="Edit this rate"><i class="fas fa-edit" style="color: #0e2c63"></i></a></td>
+				      <td><a th:href="@{'/shippingRate/delete/'+${rate.id}}" title="Delete this rate" class="delete-link" ><i class="fas fa-trash-alt" style="color: #6e1414"></i></a></td>
+				     </tr>
+				     
+				  </tbody>
+	  			</table>
+  			</div>
+  			
+  			<div th:replace="fragments/pagination :: pagination('shipping rate')"></div>
+  			
+			<div class="modal fade" id="confirmModel">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			    
+			      <div class="modal-header">
+			        <h4 class="modal-title"><i class="fas fa-exclamation"></i> Delete Confirmation</h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      
+			      <div class="modal-body">
+			        <p>Are you sure you want to delete this shipping rate !</p>
+			      </div>
+			      
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+			        <a href="" class="btn btn-danger" id="deleteBtn">Delete</a>
+			      </div>
+			      
+			    </div>
+			  </div>
+			</div>
+			
+
+  			
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script>
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        var shippingRateAdded = document.getElementById("shippingRateAdded");
+        if(typeof(shippingRateAdded) != 'undefined' && shippingRateAdded != null){
+        	showStackBarTop('success', "Shipping Rate Saved","Shipping Rate [[${message}]] Saved successfully.");
+        }
+
+        
+        var errorMsg = "[[${errorMessage}]]";
+        if(errorMsg != null && errorMsg != ''){
+        	customeNotice("Error", errorMsg);
+        }
+        
+        var msgDelete = "[[${deleteMessag}]]";
+        if(msgDelete != null && msgDelete != ''){
+        	showStackBarTop('success', "Brand Deleted", msgDelete);
+        }
+
+        
+        
+        $(".delete-link").on("click", function(e){
+        	e.preventDefault();
+        	$("#confirmModel").modal('show');
+        	$("#deleteBtn").attr("href", $(this).attr("href"));
+        });
+        
+    });
+
+</script>
+</body>
+</html>

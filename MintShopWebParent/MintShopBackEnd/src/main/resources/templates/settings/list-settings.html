@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>Site Settings</title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/addPageStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/PNotify.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/BrightTheme.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/richtext/richtext.min.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <!-- ************************************************************** -->            
+  			<section style="height: 100%;" class="add-form-section">
+				<div class="container">
+				
+					<h3>Site Settings</h3>
+			
+					<hr style="border-color: white;">
+					
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" id="settingTab" role="tablist">
+					  <li class="nav-item" role="presentation">
+					    <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab">General</a>
+					  </li>
+					  <li class="nav-item" role="presentation">
+					    <a class="nav-link" data-bs-toggle="tab" href="#countries" role="tab">Countries</a>
+					  </li>
+					  <li class="nav-item" role="presentation">
+					    <a class="nav-link" data-bs-toggle="tab" href="#states" role="tab">States</a>
+					  </li>
+					  <li class="nav-item" role="presentation">
+					    <a class="nav-link" data-bs-toggle="tab" href="#cities" role="tab">City</a>
+					  </li>
+					  <li class="nav-item" role="presentation">
+					    <a class="nav-link" data-bs-toggle="tab" href="#mailServer" role="tab">Mail Server</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" data-bs-toggle="tab" href="#mailTemplates" role="tab">Mail Templates</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" data-bs-toggle="tab" href="#payment" role="tab">Payment</a>
+					  </li>
+					</ul>
+					
+					<!-- Tab panes -->
+					<div class="tab-content">
+					  <div class="tab-pane active" id="general" role="tabpanel">
+						<div th:replace="settings/general :: general-content"></div>
+					  </div>
+					  
+					  <div class="tab-pane" id="countries" role="tabpanel">
+					  	<div th:replace="settings/countries :: countries-content"></div>
+					  </div>
+					  
+					  <div class="tab-pane" id="states" role="tabpanel">
+					  	<div th:replace="settings/states :: states-content"></div>
+					  </div>
+					  
+					  <div class="tab-pane" id="cities" role="tabpanel">
+					  	<div th:replace="settings/cities :: cities-content"></div>
+					  </div>
+					  
+					  <div class="tab-pane" id="mailServer" role="tabpanel">
+					  	<div th:replace="settings/mail-server :: mail-server"></div>
+					  </div>
+					  
+					  <div class="tab-pane" id="mailTemplates" role="tabpanel">
+					  	<div th:replace="settings/mail-templates/mail-templates :: template-content"></div>
+					  </div>
+					  
+					  <div class="tab-pane" id="payment" role="tabpanel">
+					  	<div th:replace="settings/payment :: content"></div>
+					  </div>
+					</div>
+
+				</div>
+				
+				<div class="toast justify-content-center" role="alert" aria-live="polite" aria-atomic="true" data-bs-delay="3000">
+				  <div role="alert" aria-live="assertive" aria-atomic="true">
+				  	<div class="toast-body">
+				    	<span id="toastMessage" class="text-white"></span>
+				  	</div>
+				  </div>
+				</div>
+				
+			</section>
+
+            <!-- ************************************************************** -->
+
+		
+        </div>
+
+    </div>
+    
+    
+    
+    
+    
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+	<script th:src="@{/js/setting-country.js}"></script>
+	<script th:src="@{/js/setting-state.js}"></script>
+	<script th:src="@{/js/setting-city.js}"></script>
+	
+	<script>
+	
+	var contextPath = "[[@{/}]]"; 
+	
+	var csrfHeaderName = "[[${_csrf.headerName}]]";
+	var csrfValue = "[[${_csrf.token}]]";
+	
+    $(document).ready(function() {
+
+    	var message = "[[${message}]]";
+        if(message != null && message != ''){
+        	showStackBarTop('success', "Setting Saved", message);
+        }
+        
+        $("#customerVerificationContent").richText();
+        $("#orderConfirmationContent").richText();
+        
+    });
+    
+    function showToastSuccessMessage(message){
+    	$("#toastMessage").text(message);
+    	$(".toast").addClass("bg-success");
+    	$(".toast").toast("show");
+    }
+
+    function showToastFailMessage(message){
+    	$("#toastMessage").text(message);
+    	$(".toast").addClass("bg-danger");
+    	$(".toast").toast("show");
+    }
+
+    function updateImage(imageFile) {
+    	
+    	var files = !!imageFile.files ? imageFile.files : [];
+    	if (!files.length || !window.FileReader)
+    		return; // no file selected, or no FileReader support
+        
+        //only image file
+    	if (/^image/.test(files[0].type)) {
+    		//instance of the FileReader
+    		var reader = new FileReader(); 
+            
+    		//read the local file
+    		reader.readAsDataURL(files[0]); 
+            
+            //set image data as background of div
+    		reader.onloadend = function() { 
+    			
+    			//hide the previous image
+    			document.getElementsByClassName('img-db')[0].style.visibility = 'hidden';
+    			
+    			// alert(uploadFile.closest(".upimage").find('.imagePreview').length);
+    			$('.imagePreview').css("background-image", "url(" + this.result + ")");
+    		}
+    		
+    	}
+    }
+    
+    
+</script>
+</body>
+</html>

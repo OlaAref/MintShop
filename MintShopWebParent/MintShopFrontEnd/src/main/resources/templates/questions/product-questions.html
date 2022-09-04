@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<div th:replace="fragments/head :: head(${pageTitle})"></div>
+	<link th:href="@{/css/linkStyle.css}" media="all" rel="stylesheet" type="text/css" />
+
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+	
+	<div th:replace="fragments/navbar :: navbar-content"></div>
+	
+	
+	<div class="wrapper m-2 min-vh-100">
+	
+		<!-- Page Content  -->
+        <div id="content">
+        	<div class="row">
+        		<div th:if="${categoryParents != null && !categoryParents.empty}">
+	        		<div class="row m-2">
+	        			<div class="col">
+	        				
+							<nav aria-label="breadcrumb">
+							  <ol class="breadcrumb">
+							    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+							    <th:block th:each="parent : ${categoryParents}">
+							    	<li class="breadcrumb-item"><a th:href="@{'/c/'+${parent.alias}}">[[${parent.name}]]</a></li>
+							    </th:block>
+							    <li class="breadcrumb-item" th:if="${product != null}"><span>[[${product.shortName}]]</span></li>
+							  </ol>
+							</nav>
+							
+	        			</div>
+	        		</div>
+	        	</div>
+        	</div>
+        	
+        	<div class="row mt-3">
+        		<div class="col-auto col-lg-4">
+        			<h3 class="fw-bold ms-3">Customer Questions</h3>
+        			<div th:replace="questions/question-fragments :: question-form"></div>
+        		</div>
+        		<div class="col-auto col-lg-8">
+        			<div class="row">
+        				<div class="col-3">
+        					<img th:alt="${product.shortName}" th:src="@{${product.imagePath}}" width="100%">
+        				</div>
+        				<div class="col-9 ">
+        					<div><h3><a th:href="@{'/p/'+${product.alias}}" class="p-link">[[${product.shortName}]]...</a></h3></div>
+        					<div><span class="text-secondary">By [[${product.brand.name}]]</span></div>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        	
+        	<div class="row">
+        		<div class="col">
+        			<hr/>
+        		</div>
+        	</div>
+        	
+        	<div class="row">
+        		<div class="m-4 ms-5" style="width: 200px">
+        			<select class="form-select sortingSelect">
+					  <option th:value="'question/all/' + ${product.alias} +'/page/' + ${currentPage} +'?sortField=votes&sortDir=desc'" 
+					  			th:selected="${sortField == 'votes'}">Top Questions</option>
+					  <option th:value="'question/all/' + ${product.alias} +'/page/' + ${currentPage} +'?sortField=askedTime&sortDir=desc'" 
+					  			th:selected="${sortField == 'askedTime'}">Most Recent</option>
+					</select>
+        		</div>
+        		<th:block th:each="question : ${questions}">
+       				<div th:replace="questions/question-fragments :: content"></div>
+	  			</th:block>
+	  			<th:block th:if="${#lists.isEmpty(questions)}">
+	  				<div class="m-4">
+	  					<h4>No questions for this product.</h4>
+	  				</div>
+	  			</th:block>
+	  			
+        	</div>
+        	
+        	<div class="row">
+        		<div th:replace="fragments/navigation :: navigation('questions')"></div>
+        	</div>
+        	
+        </div>
+		
+	</div>
+	
+	<div th:replace="fragments/modal-dialog :: dialog"></div>
+	
+	<div style="height: 500px;" class="d-none d-xl-block d-lg-block" id="bodyExtender"></div>
+
+	<div th:replace="fragments/image-carousel :: image-carousel"></div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/quantity-control.js}"></script>
+	<script th:src="@{/js/add-to-cart.js}"></script>
+	<script th:src="@{/js/jquery.number.min.js}"></script>
+	<script th:src="@{/js/question-vote.js}"></script>
+	<script th:src="@{/js/modals.js}"></script>
+	
+	<script>
+		var contextPath = "[[@{/}]]";
+		var productId = "[[${product.id}]]";
+		var csrfHeaderName = "[[${_csrf.headerName}]]";
+		var csrfValue = "[[${_csrf.token}]]";
+		
+		var decimalSeparator = "[[${DECIMAL_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+		var thousandSeparator = "[[${THOUSANDS_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+		
+		$(document).ready(function() {
+			
+			$(".sortingSelect").on("change", function(e){
+				e.preventDefault();
+				var url = contextPath + $(this).val();
+				window.location = url;
+			});
+		});
+		
+		
+	</script>
+</body>
+</html>

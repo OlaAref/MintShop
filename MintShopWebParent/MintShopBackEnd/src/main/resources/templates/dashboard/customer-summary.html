@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<th:block th:fragment="content" th:remove="tag">
+	
+		<div class="col-lg-6 col-md-6 mt-2">
+			<div class="single_crm ">
+				<div class="crm_head bg-beige d-flex align-items-center justify-content-between">
+					<div class="thumb">
+						<i class="fa fa-solid fa-user-tie"></i>
+						<span class="fw-bold">Customers</span>
+					</div>
+				</div>
+				<div class="crm_body">
+					<span>All Customers: <b>[[${totalCustomers}]]</b></span><br>
+					<span>Enabled Customers: <b>[[${enabledCustomers}]]</b></span><br>
+					<span>Disabled Customers: <b>[[${disabledCustomers}]]</b></span><br>
+					<a th:href="@{/customer/list}" class="dash-link">View All</a><br>
+				</div>
+			</div>
+		</div>
+		
+	</th:block>
+	
+</body>
+</html>

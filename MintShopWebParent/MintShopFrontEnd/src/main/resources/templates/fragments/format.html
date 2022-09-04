@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+	
+	<th:block th:fragment="format-currency(amount)">
+		<span th:if="${CURRENCY_SYMBOL_POSITION == 'Before Price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]] </span>
+		[[${#numbers.formatDecimal(amount, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
+		<span th:if="${CURRENCY_SYMBOL_POSITION == 'After Price'}" th:remove="tag"> [[${CURRENCY_SYMBOL}]]</span>
+	</th:block>
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+	
+	<th:block th:fragment="format-currency-input(amount)">
+		<input th:value="${(CURRENCY_SYMBOL_POSITION == 'Before Price' ? CURRENCY_SYMBOL : '') + #numbers.formatDecimal(amount, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE) + (CURRENCY_SYMBOL_POSITION == 'After Price' ? CURRENCY_SYMBOL : '')}" 
+		readonly type="text" class="form-control">
+	</th:block>
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+
+	<th:block th:fragment="format-time(time)">
+		<span th:text="${#temporals.format(time, 'yyyy-MM-dd HH:mm:ss')}"></span>
+	</th:block>
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+	
+	<th:block th:fragment="format-deliver-time(time)">
+		<span th:text="${#temporals.format(time, 'E, dd MMM yyyy')}"></span>
+	</th:block>
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+	
+	<th:block th:fragment="format-digits(amount)">
+		[[${#numbers.formatDecimal(amount, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
+	</th:block>
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+
+	<th:block th:fragment="format-time-monthDayYear(time)">
+		<span th:text="${#temporals.format(time, 'MMM dd, yyyy HH:mm:ss')}"></span>
+	</th:block>
+	
+	<!-- ------------------------------------------------------------------------------------------------------ -->
+	
+	
+</body>
+</html>

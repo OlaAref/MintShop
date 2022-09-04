@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<div th:replace="fragments/head :: head('Message')"></div>
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar-content"></div>
+
+	<div class="wrapper m-5 min-vh-100">
+
+        <!-- Page Content  -->
+        <div id="content">
+			<div class="page-wrap d-flex flex-row align-items-center mt-5">
+			    <div class="container">
+			        <div class="row justify-content-center">
+			            <div class="col-md-12 text-center" th:if="${message != null}">
+			                <span class="display-1 d-block">[[${messageTitle}]]</span>
+			                <div class="mb-4 lead fs-2">[[${message}]]</div>
+			                <a th:href="@{/}" class="btn btn-link">Back to Home</a>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/chartjs/dist/chart.min.js}"></script>
+	<script th:src="@{/js/admin-dashboard.js}"></script>
+	
+	<script>
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+.progress-link, .progress-link:active, .progress-link:visited{
+	color: #007185;
+	text-decoration: none;
+}
+.progress-link:hover{
+	color: #de7921;
+	text-decoration: underline;
+}
+.progress:hover{
+	border: 2px solid #de7921;
+}
+.progress-link:hover .progress{
+	border: 2px solid #de7921;
+}
+
+.headline-link, .headline-link:active, .headline-link:visited{
+	color: black;
+	text-decoration: none;
+}
+.headline-link:hover{
+	color: #de7921;
+	text-decoration: underline;
+}
+
+.like-link{
+	text-decoration: none;
+}
+
+.all-reviews-link, .all-reviews-link:active, .all-reviews-link:visited{
+	color: #007185;
+	text-decoration: none;
+}
+.all-reviews-link:hover{
+	color: #de7921;
+	text-decoration: underline;
+}
+
+.p-link, .p-link:active, .p-link:visited{
+	color: #007185;
+	text-decoration: none;
+}
+.p-link:hover{
+	color: #de7921;
+	text-decoration: underline;
+}
+
+.vote-question-link, .vote-question-link:active, .vote-question-link:visited{
+	color: #007185;
+	text-decoration: none;
+}
+.vote-question-link:hover{
+	color: #de7921;
+	text-decoration: underline;
+}

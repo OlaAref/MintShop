@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="content" th:remove="tag">
+		
+		<div class="form-group">
+			<label class="form-label mt-4 fw-bold">Email Subject : </label> 
+			<input type="text" name="ORDER_CONFIRMATION_SUBJECT" th:value="${ORDER_CONFIRMATION_SUBJECT}" class="form-control" required>
+		</div>
+		
+		<div class="form-group">
+			<label class="form-label mt-4 fw-bold">Email Content : </label> 
+			<textarea rows="5" type="text" name="ORDER_CONFIRMATION_CONTENT" id="orderConfirmationContent">[[${ORDER_CONFIRMATION_CONTENT}]]</textarea>
+		</div>
+			
+	</div>
+</body>
+</html>

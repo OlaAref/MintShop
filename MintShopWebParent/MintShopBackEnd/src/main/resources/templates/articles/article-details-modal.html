@@ -1,0 +1,54 @@
+<div>
+	<div class="modal-header">
+      <h4 class="modal-title">Article Details</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    
+    <div class="modal-body">
+    	
+		<div class="form-group">
+			<label class="form-label mt-4 fw-bold">Title : </label> 
+			<input th:value="${article.title}" readonly type="text" class="form-control">
+		</div>
+		
+		<div class="form-group">
+			<label class="form-label mt-4 fw-bold">Alias : </label> 
+			<input th:value="${article.alias}" readonly type="text" class="form-control">
+		</div>
+		
+		<div class="form-group">
+			<label class="form-label mt-4 fw-bold">Content : </label>
+			<div style="height: 250px" th:utext="${article.content}" class="overflow-scroll rounded border border-2 border-dark border-opacity-75 p-3"></div>
+		</div>
+		
+		<div class="form-group">
+			<label class="form-label mt-4 fw-bold">Type : </label> 
+			<input th:value="${article.articleType}" readonly type="text" class="form-control">
+		</div>
+		
+		<div class="form-group">
+			<label class="form-label mt-4 fw-bold">Published : </label> 
+			
+			<div class="form-check">
+				<input th:checked="${article.published}" class="form-check-input" type="checkbox" id="enabledCheckbox" disabled="disabled"> 
+				<label class="form-check-label" for="enabledCheckbox">Published</label>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="form-label mt-4 fw-bold">Updated By : </label> 
+			<input th:value="${article.user.fullName}" readonly type="text" class="form-control">
+		</div>
+		
+		<div class="form-group">
+			<label for="inputupdatedTime" class="form-label mt-4 fw-bold">Updated Time : </label> 
+			<span th:text="${#temporals.format(article.updatedTime, 'yyyy/MM/dd HH:mm:ss')}"></span>
+		</div>
+		
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+    </div>
+	
+</div>

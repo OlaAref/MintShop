@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+	<head>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+		<link rel="icon" th:href="@{/img/favicon.ico?v=2}"  type="image/x-icon">
+		<title>MintShop</title>
+	    
+	    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	    <link rel="stylesheet" type="text/css" th:href="@{/css/loginStyle.css}">
+
+	</head>
+	
+	<body>
+		<div class="login-ss"></div>
+		<div class="login-dark">
+			<form method="post" th:action="@{/login}">
+				<h2 class="sr-only">Login Form</h2>
+				<div class="illustration">
+					<img th:src="@{${GCP_BASE_URI + SITE_LOGO}}" width="100" height="100">
+					<h4>MintShop</h4>
+				</div>
+				<div class="forgot">
+                	Don't have an account? <a th:href="@{/register/user/showRegistrationForm}" > Create an account</a> 
+            	</div>
+				
+				<div th:if="${param.logout}">
+					<i style="color:green; font-size: small">You have been logged out.</i>
+				</div>
+				<div th:if="${changedPassword != null}">
+					<i style="color:green; font-size: small" th:text="${changedPassword}"></i>
+				</div>
+				
+				
+				<div class="form-group">
+					<input class="form-control" type="email" name="email" placeholder="Email" required="required">
+				</div>
+				<div class="form-group">
+					<input class="form-control" type="password" name="password" placeholder="Password" required="required">
+				</div>
+				
+				 
+				<div class="form-group">
+					Remember Me <input type="checkbox" name="remember-me">
+				</div>
+				
+				<div class="form-group">
+					<input class="btn btn-primary btn-block" type="submit" value="Log In" style="width: 100%">
+				</div>
+				
+				<!-- <a href="${path}/register/forgetPassword" class="forgot">Forgot your password?</a></form> -->
+				
+				<!-- check if the data entered is wrong -->
+				
+				<div th:if="${param.error}">
+					<i style="color:red; font-size: small">You entered invalid username/password.</i>
+				</div>
+	
+			</form>
+		</div>
+		
+	</body>
+
+</html>

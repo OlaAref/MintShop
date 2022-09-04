@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="fragments/fragments :: head(title='Edit Review')"></th:block>
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+
+            <!-- ************************************************************** -->            
+  			
+
+			<section class="add-form-section">
+				<div class="container mt-5 p-4">
+					<p>
+						<a th:href="@{/review/list}">
+							<i class="fas fa-arrow-left"></i> Back to list
+						</a>
+					</p>
+			
+					<h3 th:text="${pageTitle}"></h3>
+			
+					<hr style="border-color: white;">
+					<form th:action="@{/review/save}" th:object="${review}" method="post">
+					
+					
+						<div class="row">
+			
+							<div class="col-lg-12">
+								
+								<input type="hidden" th:field="*{id}" id="reviewID">
+								<input type="hidden" th:field="*{createdTime}">
+								<input type="hidden" th:field="*{customer}">
+								<input type="hidden" th:field="*{rating}">
+								
+								<div class="form-group row">
+									<label class="form-label mt-4 fw-bold">Product : </label> 
+									<input th:value="${review.product.shortName}" type="text" class="form-control" readonly>
+								</div>
+								
+								<div class="form-group row">
+									<label class="form-label mt-4 fw-bold">Customer : </label> 
+									<input th:value="${review.customer.fullName}" type="text" class="form-control" readonly>
+								</div>
+								
+								<div class="form-group row">
+									<label class="form-label mt-4 fw-bold">Rating : </label> 
+									<div><span th:replace="reviews/review-rating :: reviewRating(${review.rating})"></span></div>
+								</div>
+								
+								<div class="form-group row">
+									<label class="form-label mt-4 fw-bold">Votes : </label> 
+									<input th:value="${review.votes}" type="text" class="form-control" readonly>
+								</div>
+								
+								<div class="form-group row">
+									<label for="passwordInput" class="form-label mt-4 fw-bold">Review Time : </label>
+									<div th:replace="fragments/format :: format-time(${review.createdTime})"></div>
+								</div>
+								
+								<div class="form-group row">
+									<label for="headlineInput" class="col-form-label mt-4 fw-bold">Headline : </label> 
+									<input th:field="*{headline}" type="text" name="headline" class="form-control" id="headlineInput" placeholder="Review Headline" 
+											 minlength="3" required>
+								</div>
+								
+								<div class="form-group row">
+									<label for="commentInput" class="col-form-label mt-4 fw-bold">Comment : </label> 
+									<textarea th:field="*{comment}" name="comment" class="form-control" id="commentInput" placeholder="Review Commetn" required></textarea>
+								</div>
+								
+			                    <div class="container mt-5 d-flex">
+			                    	<div class="form-group row">
+			                    		<div class="col">
+			                    			<button type="submit" class="btn btn-primary customize-btn mt-2">Submit</button>
+			                    		</div>
+			                    		<div class="col">
+			                    			<button type="reset" class="btn btn-secondary customize-btn mt-2" id="btnClear">Clear</button>
+			                    		</div>
+			                    	</div>
+			                    </div>
+								
+								
+			
+							</div>
+			
+						</div>
+					
+					</form>
+					
+			
+				</div>
+			</section>
+  			
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script>
+	var contextPath = "[[@{/}]]";
+	
+    $(document).ready(function() {
+    	
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+
+    });
+    
+ 
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{webjars/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}" />
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+	<div th:fragment="category-addon">
+		<!-- Category add on -->
+		<div class="form-group row">
+			<label class="col-form-label mt-4 fw-bold">Categories : </label> 
+			<select  class="form-select" id="categoriesSelecet" size="8">
+			  <th:block th:each="category, status : ${categories}">
+			  <option th:value="${category.id}" th:order="${status.count}">[[${category.name}]]</option>
+			  </th:block>
+			</select>
+		</div>
+		
+		<div class="form-group row my-4">
+			<div>
+				<button class="btn btn-primary addCategoryLink">Add Category</button>
+			</div>
+		</div>
+		 
+		<div class="form-group row">
+			<label class="col-form-label mt-4 fw-bold">Selected Categories : </label> 
+			<select th:field="*{categories}" class="form-select" id="selectedCategory" size="8" multiple>
+				<th:block th:if="${section.categoriesSection != null}" th:each="cat : ${section.categoriesSection}">
+					<option th:value="${cat.category.id}" >[[${cat.category.name}]]</option>
+				</th:block>
+			</select>
+		</div>
+		
+		<div class="form-group row m-2">
+			<span>
+			<a href="#" class="deleteSelectedCategoryLink"><i class="fa fa-solid fa-trash text-light fa-2x"></i></a>
+			<a href="#" class="levelUpCategoryLink"><i class="fa fa-solid fa-chevron-up text-light fa-2x"></i></a>
+			<a href="#" class="levelDownCategoryLink"><i class="fa fa-solid fa-chevron-down text-light fa-2x"></i></a>
+			</span>
+		</div>
+	</div>
+	
+	<div th:fragment="article-addon">
+		<!-- Category add on -->
+		<div class="form-group row">
+			<label class="col-form-label mt-4 fw-bold">Articles : </label> 
+			<select  class="form-select" id="articlesSelecet" size="8">
+			  <th:block th:each="article, status : ${articles}">
+			  <option th:value="${article.id}" th:order="${status.count}">[[${article.title}]]</option>
+			  </th:block>
+			</select>
+		</div>
+		
+		<div class="form-group row my-4">
+			<div>
+				<button class="btn btn-primary addArticleLink">Add Article</button>
+			</div>
+		</div>
+		 
+		<div class="form-group row">
+			<label class="col-form-label mt-4 fw-bold">Selected Articles : </label> 
+			<select th:field="*{articles}" class="form-select" id="selectedArticle" size="8" multiple>
+				<th:block th:if="${section.articlesSection != null}" th:each="art : ${section.articlesSection}">
+					<option th:value="${art.article.id}" >[[${art.article.title}]]</option>
+				</th:block>
+			</select>
+		</div>
+		
+		<div class="form-group row m-2">
+			<span>
+			<a href="#" class="deleteSelectedArticleLink"><i class="fa fa-solid fa-trash text-light fa-2x"></i></a>
+			<a href="#" class="levelUpArticleLink"><i class="fa fa-solid fa-chevron-up text-light fa-2x"></i></a>
+			<a href="#" class="levelDownArticleLink"><i class="fa fa-solid fa-chevron-down text-light fa-2x"></i></a>
+			</span>
+		</div>
+	</div>
+	
+	<div th:fragment="brand-addon">
+		<!-- Category add on -->
+		<div class="form-group row">
+			<label class="col-form-label mt-4 fw-bold">Brands : </label> 
+			<select  class="form-select" id="brandsSelecet" size="8">
+			  <th:block th:each="brand, status : ${brands}">
+			  <option th:value="${brand.id}" th:order="${status.count}">[[${brand.name}]]</option>
+			  </th:block>
+			</select>
+		</div>
+		
+		<div class="form-group row my-4">
+			<div>
+				<button class="btn btn-primary addBrandLink">Add Brand</button>
+			</div>
+		</div>
+		 
+		<div class="form-group row">
+			<label class="col-form-label mt-4 fw-bold">Selected Brands : </label> 
+			<select th:field="*{brands}" class="form-select" id="selectedBrand" size="8" multiple>
+				<th:block th:if="${section.brandsSection != null}" th:each="br : ${section.brandsSection}">
+					<option th:value="${br.brand.id}" >[[${br.brand.name}]]</option>
+				</th:block>
+			</select>
+		</div>
+		
+		<div class="form-group row m-2">
+			<span>
+			<a href="#" class="deleteSelectedBrandLink"><i class="fa fa-solid fa-trash text-light fa-2x"></i></a>
+			<a href="#" class="levelUpBrandLink"><i class="fa fa-solid fa-chevron-up text-light fa-2x"></i></a>
+			<a href="#" class="levelDownBrandLink"><i class="fa fa-solid fa-chevron-down text-light fa-2x"></i></a>
+			</span>
+		</div>
+	</div>
+	
+	<div th:fragment="product-addon">
+		<!-- Category add on -->
+		<div class="form-group row">
+			<label class="col-form-label mt-4 fw-bold">Products : </label> 
+			<div>
+			<a th:href="@{/search/section/product}" class="btn btn-success addProductToSectionLink">Add a Product</a>
+			</div>
+		</div>
+		<div class="form-group mt-5">
+			<div id="productList" class="row">
+				
+				<th:block th:if="${section.productsSection != null}" th:each="ps : ${section.productsSection}">
+				<div class="col-auto mt-3" th:id="'productDiv'+${ps.product.id}">
+					<input hidden="hidden" name="products" th:value="${ps.product.id}" class="hiddenProductId">
+					
+					<div class="form-group row m-2">
+						<span>
+						<a href="#" class="deleteSelectedProductLink" th:productId="${ps.product.id}" onclick="deleteSelectedProduct(this)"><i class="fa fa-solid fa-trash text-light fa-2x"></i></a>
+						<a href="#" class="levelUpProductLink" th:productId="${ps.product.id}" onclick="levelUp(this)"><i class="fa fa-solid fa-chevron-left text-light fa-2x"></i></a>
+						<a href="#" class="levelDownProductLink" th:productId="${ps.product.id}" onclick="levelDown(this)"><i class="fa fa-solid fa-chevron-right text-light fa-2x"></i></a>
+						</span>
+					</div>
+					
+					<div class="row">
+						<div>
+							<img th:src="@{${ps.product.imagePath}}" width="200px" />
+						</div>
+					</div>
+					
+					<div class="row m-2" style="width:200px">
+						<b>[[${ps.product.name}]]</b>
+					</div>
+					
+				</div>
+				</th:block>
+				
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

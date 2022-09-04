@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<div th:replace="fragments/head :: head('Search Result')"></div>
+	
+	<!-- star rating css -->
+	<link th:href="@{/rating-star/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+	<link th:href="@{/rating-star/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+	
+	<div th:replace="fragments/navbar :: navbar-content"></div>
+	
+	<div th:replace="fragments/navbar :: search-nav"></div>
+	
+	<div class="wrapper m-2 min-vh-100">
+	
+		<!-- Page Content  -->
+        <div id="content m-2">
+        
+        	<div>
+        		<h2 class="m-3" th:if="${totalElements > 0}">Search Results for '[[${keyword}]]'</h2>
+        	</div>
+        	
+        	<div>
+        		<h2 class="m-3" th:unless="${totalElements > 0}">No match found for '[[${keyword}]]'</h2>
+        	</div>
+        	
+        	<div class="row row-cols-sm-1 row-cols-md-3 row-cols-lg-6  m-3">
+        		<th:block th:each="product : ${products}">
+        			<div class="col-sm-2 mt-4">
+        				<div>
+							<img th:if="${product.image} != null" th:src="@{${product.imagePath}}"  width="90%"/>
+							<i th:if="${product.image == null}" class="fas fa-image" style="color: gray;font-size: 12vw;"></i>
+						</div>
+						<a th:href="@{'/p/'+${product.alias}}"><b>[[${product.name}]]</b></a>
+						<div><span class="text-secondary">[[${product.brand.name}]]</span></div>
+						<div th:replace="product/product-price :: product-price"></div>
+						
+						<table>
+							<tr>
+								<td>
+									<input class="rating-star text-center" type="text" th:value="${product.averageRating}">
+								</td>
+								<td>
+									<span>([[${product.reviewCount}]])</span>
+								</td>
+							</tr>
+						</table>
+						
+					</div>
+        		</th:block>
+        	</div>
+        	
+        	<div th:replace="fragments/navigation :: navigation('Product')" style="bottom: 0"></div>
+        	
+        </div>
+		
+	</div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<!-- star rating js -->
+	<script th:src="@{/rating-star/js/star-rating.js}" type="text/javascript"></script>
+	<script th:src="@{/rating-star/themes/krajee-svg/theme.js}" type="text/javascript"></script>
+	
+	<script>
+		var contextPath = "[[@{/}]]";
+		
+		$(document).ready(function() {
+			
+			$(".rating-star").rating({
+				size: "xs",
+				displayOnly: true,
+				hoverOnClear: false,
+				showCaption: false,
+				theme: 'krajee-svg'
+			});
+		});
+		
+	</script>
+</body>
+</html>

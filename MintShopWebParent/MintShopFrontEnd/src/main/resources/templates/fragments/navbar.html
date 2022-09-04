@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	
+</head>
+
+<body>
+
+	<div th:fragment="navbar-content">
+		
+		
+		<nav class="navbar navbar-expand-lg sticky-top" style="background: #000;">
+
+	        <a class="navbar-brand ms-2" th:href="@{/}">
+				<img alt="MintShop" th:src="@{${GCP_BASE_URI + SITE_LOGO}}" width="28" height="24">
+	            <b style="color: deepskyblue; font-family: 'AbrilFatface', cursive; padding-left: 10px;">MintShop
+	            </b>
+	        </a>
+	        <button class="navbar-toggler collapsed custom-toggler me-2 " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent, #searchNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+	
+	        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+	            <ul class="navbar-nav mr-auto mx-4 mb-2">
+				    
+				    <th:block sec:authorize="isAuthenticated()">
+					    <li class="nav-item">
+					        <a class="nav-link nav-link-custom px-1" th:href="@{/review/list}">My Reviews</a>
+					    </li>
+					    <li class="nav-item">
+					        <a class="nav-link nav-link-custom px-1" th:href="@{/question/list}">Questions</a>
+					    </li>
+				    </th:block>
+				    
+				    <th:block th:each="menu : ${menus}" th:if="${menu.isHeader}">
+				    	<li class="nav-item" >
+					        <a class="nav-link nav-link-custom px-1" th:href="@{'/a/'+${menu.article.alias}}">[[${menu.title}]]</a>
+					    </li>
+				    </th:block>
+				    
+				    <th:block sec:authorize="isAnonymous()">
+					    <li class="nav-item">
+					        <a class="nav-link nav-link-custom px-1" th:href="@{/login}">Login</a>
+					    </li>
+					    
+					    <li class="nav-item">
+					        <a class="nav-link nav-link-custom px-1" th:href="@{/customer/register}">Register</a>
+					    </li>
+				    </th:block>
+				    
+				</ul>
+				
+				<div th:replace="fragments/profile-dropdown :: profile-dropdown"></div>
+				
+	        </div>
+	        
+	    </nav>
+	
+	</div>
+
+	
+	<div th:fragment="search-nav">
+		<div class="row">
+			<div class="col-md">
+				
+				<nav class="navbar navbar-expand-sm ms-5 mt-2">
+					<div class="collapse navbar-collapse" id="searchNavbar">
+						<form th:action="@{/search/page/1}" method="get" class="row gy-2 gx-3 align-items-center">
+	
+						  <div class="col-auto">
+						    <div class="input-group">
+						      <div class="input-group-text"><i class="fas fa-search"></i></div>
+						      <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Search Product" name="keyword" th:value="${keyword}" required>
+						    </div>
+						  </div>
+						  
+						  <div class="col-auto">
+						    <button type="submit" class="btn btn-outline-primary">Search</button>
+						  </div>
+						</form>
+						
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

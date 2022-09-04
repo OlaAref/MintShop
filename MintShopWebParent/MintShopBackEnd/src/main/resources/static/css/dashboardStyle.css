@@ -1,0 +1,146 @@
+/*
+    DEMO STYLE
+*/
+
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#offcanvas {
+	min-width: 250px;
+    max-width: 250px;
+    background: #0e0c0c;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+
+#offcanvas .offcanvas-header {
+    padding: 20px;
+    background: #0e0c0c;
+}
+
+#offcanvas div.components {
+    padding: 20px 0;
+    border-top: 1px solid #47748b;
+}
+
+.header-body-line {
+    padding: 20px 0;
+    border-top: 1px solid #47748b;
+}
+
+#offcanvas ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#offcanvas ul li{
+	width: 100%;
+}
+
+#offcanvas ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#offcanvas ul li a:hover,
+#offcanvas ul li.active>a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#offcanvas ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #0e0c0c;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+#offcanvas .dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #0e0c0c;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #7386D5;
+}
+
+a.article,
+a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+
+
+@media only screen and (max-width: 1200px) {
+  .navbar-brand {
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 990px) {
+  .navbar-brand {
+    text-align: left;
+    margin-right: 50%;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .navbar-brand {
+    text-align: center;
+    margin-right: 50%;
+  }
+  #offcanvas {
+	min-width: 120px;
+    max-width: 120px;
+  }
+}

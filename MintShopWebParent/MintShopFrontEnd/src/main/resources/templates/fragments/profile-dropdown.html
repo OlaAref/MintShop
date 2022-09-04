@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+</head>
+
+<body >
+
+	<div th:fragment="profile-dropdown">
+	
+		<ul class="navbar-nav ml-auto me-2 mb-2">
+		
+			<div sec:authorize="isAuthenticated()">
+				
+				<div class="dropdown">
+				  <a class="btn btn-primary dropdown-toggle px-1" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+				    <div class="img-title-div">
+							<i class="fas fa-user-circle fa-2x img-title " style="vertical-align: middle;"></i>
+						</div>
+
+						<div class="username-title">
+							<h5 style="vertical-align: middle;">
+								<span sec:authentication="principal.fullname"></span>
+							</h5>
+						</div>
+				  </a>
+				
+				  <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+				    <li>
+				    	<form th:action="@{/logout}" method="POST">
+							<button type="submit" class="dropdown-item">
+								<i class="fas fa-sign-out-alt" style="vertical-align: middle;"></i>
+								Logout
+							</button>
+						</form>
+					</li>
+				    <li><a class="dropdown-item" th:href="@{/customer/details}"><i class="fas fa-user-circle"></i> Account Details</a></li>
+				    <li><a class="dropdown-item" th:href="@{/address/list}"><i class="fas fa-map-marker"></i> Address Book</a></li>
+				    <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle"></i> Questions</a></li>
+				    <li><a class="dropdown-item" th:href="@{/review/list}"><i class="fas fa-comments"></i> Reviews</a></li>
+				    <li><a class="dropdown-item" th:href="@{/order/list}"><i class="fas fa-box"></i> Orders</a></li>
+				    <li><a class="dropdown-item" th:href="@{/cart/list}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+				  </ul>
+				</div>
+			</div>
+
+		</ul>
+
+
+	</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

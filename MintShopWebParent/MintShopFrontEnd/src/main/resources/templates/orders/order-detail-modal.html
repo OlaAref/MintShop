@@ -1,0 +1,225 @@
+<div>
+	<div class="modal-header">
+      <h4 class="modal-title">Order Details</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    
+    <div class="modal-body">
+    	<!-- Nav tabs -->
+		<ul class="nav nav-tabs" id="orderTab" role="tablist">
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
+		  </li>
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab">Products</button>
+		  </li>
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab">Shipping</button>
+		  </li>
+		  <li class="nav-item" role="presentation">
+		    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#track" type="button" role="tab">Track</button>
+		  </li>
+		</ul>
+		
+		<!-- Tab panes -->
+		<div class="tab-content">
+		
+		  <!-- Order Overview -->
+		  <div class="tab-pane active m-2" id="overview" role="tabpanel">
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Order ID : </label> 
+				<input th:value="${order.id}" readonly type="text" class="form-control">
+			</div>	
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">SubTotal : </label> 
+				<div th:replace="fragments/format :: format-currency-input(${order.subTotal})"></div>
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Shipping Cost : </label> 
+				<div th:replace="fragments/format :: format-currency-input(${order.shippingCost})"></div>
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Tax : </label> 
+				<div th:replace="fragments/format :: format-currency-input(${order.tax})"></div>
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Total : </label> 
+				<div th:replace="fragments/format :: format-currency-input(${order.total})"></div>
+			</div>
+			
+			<div class="form-group">
+				<span>TOTAL = Subtotal + Shipping Cost + Tax</span>
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Payment Method : </label> 
+				<input th:value="${order.paymentMethod}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Order Status : </label> 
+				<input th:value="${order.orderStatus}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Order Date : </label> 
+				<div th:replace="fragments/format :: format-time(${order.orderTime})"></div>
+			</div>
+			
+		  </div>
+		  
+		  <!-- Order products -->
+		  <div class="tab-pane" id="products" role="tabpanel">
+		  
+		  	<th:block th:each="detail, status : ${order.orderDetails}">
+				<div class="row border rounded bg-light bg-gradient p-2 m-2" th:id="'row'+${status.count}">
+					<div class="col-sm-1">
+						<div class="divCount">[[${status.count}]]</div>
+					</div>
+					
+					<div class="col-sm-3 mt-2">
+						<img th:src="@{${detail.product.imagePath}}"  class="img-fluid"/>
+					</div>
+					
+					<div class="col-sm-8 mt-2">
+						<div>
+							<span class="fw-bold">[[${detail.product.name}]]</span>
+						</div>
+						<div class="mt-2">
+							<b class="fw-normal">[[${detail.quantity}]] 
+							<span class="fw-bold">X</span> 
+							<div th:replace="fragments/format :: format-currency(${detail.unitPrice})"></div>
+							<span class="fw-bold">=</span> 
+							<div th:replace="fragments/format :: format-currency(${detail.subTotal})"></div>
+							</b>
+						</div>
+						<div th:if="${!detail.product.reviewedByCustomer && detail.product.customerCanReview}">
+							<a th:href="@{'/review/write_review/product/'+${detail.product.id}}" class="btn btn-primary">Write review</a>
+						</div>
+						<div th:if="${detail.product.reviewedByCustomer && !detail.product.customerCanReview}">
+							<a target="_blank" th:href="@{'/review/page/1?sortField=createdTime&sortDir=desc&keyword='+${#strings.substring(detail.product.shortName,0,20)}}" class="btn btn-warning">See your review</a>
+						</div>
+					</div>
+				</div>
+				
+			</th:block>
+		  
+		  </div>
+		  
+		  <!-- Order Shipping -->
+		  <div class="tab-pane" id="shipping" role="tabpanel">
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Deliver Days : </label> 
+				<input th:value="${order.deliverDays}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Expected Deliver Date : </label> 
+				<div th:replace="fragments/format :: format-deliver-time(${order.deliverDate})"></div>
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">First Name : </label> 
+				<input th:value="${order.firstName}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Last Name : </label> 
+				<input th:value="${order.lastName}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Phone Number : </label> 
+				<input th:value="${order.phoneNumber}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Address Line 1 : </label> 
+				<input th:value="${order.addressLine1}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Address Line 2 : </label> 
+				<input th:value="${order.addressLine2}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">City : </label> 
+				<input th:value="${order.city}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">State : </label> 
+				<input th:value="${order.state}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Country : </label> 
+				<input th:value="${order.country}" readonly type="text" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label class="form-label mt-4 fw-bold">Postal Code : </label> 
+				<input th:value="${order.postalCode}" readonly type="text" class="form-control">
+			</div>
+			
+		  </div>
+		  
+		  
+		  <!-- Order Tracks -->
+		  <div class="tab-pane" id="track" role="tabpanel">
+		  	
+		  	<div class="row m-3 text-center">
+		  		<th:block th:replace="fragments/order-status :: content(${order.processing}, 'fa-spinner', 'processing')"></th:block>
+		  		<th:block th:replace="fragments/order-status :: content(${order.picked}, 'fa-people-carry', 'picked')"></th:block>
+		  		<th:block th:replace="fragments/order-status :: content(${order.shipping}, 'fa-shipping-fast', 'shipping')"></th:block>
+		  		<th:block th:replace="fragments/order-status :: content(${order.delivered}, 'fa-box-open', 'delivered')"></th:block>
+		  		
+		  		<th:block th:if="${order.returned}">
+		  			<th:block th:replace="fragments/order-status :: content(${order.returned}, 'fa-undo', 'returned')"></th:block>
+		  		</th:block>
+		  		
+			</div>
+		  	
+		  	<div class="row">
+			  	<div class="table-responsive">
+		            <table class="table table-striped table-hover table-bordered">
+		            
+			  			<thead>
+						  <tr class="table-dark">
+						      <th>Time</th>
+						      <th>Status</th>
+						      <th>Notes</th>
+						  </tr>
+						</thead>
+						
+						<tbody>
+							<tr th:each="track : ${order.orderTracks}">
+								<td><div th:replace="fragments/format :: format-time(${track.updatedTime})"></div></td>
+								<td>[[${track.status}]]</td>
+								<td>[[${track.notes}]]</td>
+							</tr>
+						</tbody>
+						
+					</table>
+				</div>
+			</div>
+			
+
+		  </div>
+		  
+		  
+		</div>
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+    </div>
+	
+</div>

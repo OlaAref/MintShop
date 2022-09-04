@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>Sales Report - MintShop</title>
+	<link rel="icon" th:href="@{/img/favicon.ico}"  type="image/x-icon">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/footerStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/dashboardStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/navbarStyle.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/profile-dropdown.css}">
+	
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+
+            <!-- ************************************************************** -->
+
+           
+			<section style="height: 100%;" class="add-form-section">
+				<div class="container pt-5">
+				
+					<h3>Sales Reports</h3>
+			
+					<hr style="border-color: white;">
+					
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" id="reportTab" role="tablist">
+					  <li class="nav-item" role="presentation">
+					    <a class="nav-link active" data-bs-toggle="tab" href="#date" role="tab">Sales By Date</a>
+					  </li>
+					  <li class="nav-item" role="presentation">
+					    <a class="nav-link" data-bs-toggle="tab" href="#category" role="tab">Sales By Category</a>
+					  </li>
+					  <li class="nav-item" role="presentation">
+					    <a class="nav-link" data-bs-toggle="tab" href="#product" role="tab">Sales By Product</a>
+					  </li>
+					</ul>
+					
+					<!-- Tab panes -->
+					<div class="tab-content">
+					  <div class="tab-pane active" id="date" role="tabpanel">
+						<div th:replace="reports/sales-report-fragment :: content('_date')"></div>
+					  </div>
+					  
+					  <div class="tab-pane" id="category" role="tabpanel">
+					  	<div th:replace="reports/sales-report-fragment :: content('_category')"></div>
+					  </div>
+					  
+					  <div class="tab-pane" id="product" role="tabpanel">
+					  	<div th:replace="reports/sales-report-fragment :: content('_product')"></div>
+					  </div>
+					  
+					</div>
+
+				</div>
+				
+				<div class="toast justify-content-center" role="alert" aria-live="polite" aria-atomic="true" data-bs-delay="3000">
+				  <div role="alert" aria-live="assertive" aria-atomic="true">
+				  	<div class="toast-body">
+				    	<span id="toastMessage" class="text-white"></span>
+				  	</div>
+				  </div>
+				</div>
+				
+			</section>
+            
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script th:src="@{/js/sales-report-common.js}"></script>
+	<script th:src="@{/js/sales-report-by-date.js}"></script>
+	<script th:src="@{/js/sales-report-by-category.js}"></script>
+	<script th:src="@{/js/sales-report-by-product.js}"></script>
+	<script th:src="@{/js/jquery.number.min.js}"></script>
+	<script>
+	var contextPath = "[[@{/}]]";
+	var currencySymbol = "[[${CURRENCY_SYMBOL}]]";
+	var currencySymbolPosition = "[[${CURRENCY_SYMBOL_POSITION}]]";
+	var decimalDigits = "[[${DECIMAL_DIGITS}]]";
+	var decimalPointType = "[[${DECIMAL_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+	var thousandsPointType = "[[${THOUSANDS_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+	
+	var prefixSymbol = currencySymbolPosition == 'Before Price' ? currencySymbol : '';
+	var suffixSymbol = currencySymbolPosition == 'Before Price' ? '' : currencySymbol;
+	
+    $(document).ready(function() {
+
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        
+        google.charts.load('current', {packages: ['corechart', 'table']});
+        google.charts.setOnLoadCallback(loadSalesReportByDate);
+
+    });
+
+</script>
+</body>
+</html>

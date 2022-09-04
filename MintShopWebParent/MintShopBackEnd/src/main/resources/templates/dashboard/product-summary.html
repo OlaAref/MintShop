@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+	
+	<th:block th:fragment="content" th:remove="tag">
+	
+		<div class="col-lg-6 col-md-6 mt-2">
+			<div class="single_crm ">
+				<div class="crm_head bg-blue-1 d-flex align-items-center justify-content-between">
+					<div class="thumb">
+						<i class="fa fa-solid fa-box-open"></i>
+						<span class="fw-bold">Products</span>
+					</div>
+				</div>
+				<div class="crm_body">
+					<span>All Products: <b>[[${totalProducts}]]</b></span><br>
+					<span>Enabled Products: <b>[[${enabledProducts}]]</b></span><br>
+					<span>Disabled Products: <b>[[${disabledProducts}]]</b></span><br>
+					<span>In Stock: <b>[[${inStockProducts}]]</b></span><br>
+					<span>Out Of Stock: <b>[[${outOfStockProducts}]]</b></span><br>
+					<a sec:authorize="hasAnyAuthority('Admin', 'Editor')" th:href="@{/product/toAdd}" class="dash-link">Add Product</a><br>
+					<a th:href="@{/product/list}" class="dash-link">View All</a><br>
+				</div>
+			</div>
+		</div>
+		
+	</th:block>
+	
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<div th:replace="fragments/head :: head(${article.title})"></div>
+
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+	
+	<div th:replace="fragments/navbar :: navbar-content"></div>
+	
+	
+	<div class="wrapper m-2 min-vh-100">
+	
+		<!-- Page Content  -->
+        <div id="content">
+        	<div class="row p-3">
+        		<div class="fs-6">Last update at <span th:replace="fragments/format :: format-time(${article.updatedTime})"></span></div>
+        		<div th:utext="${article.content}"></div>
+        	</div>
+        </div>
+		
+	</div>
+	
+	<div style="height: 500px;" class="d-none d-xl-block d-lg-block" id="bodyExtender"></div>
+
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	
+	
+	<script>
+		var contextPath = "[[@{/}]]";
+		var csrfHeaderName = "[[${_csrf.headerName}]]";
+		var csrfValue = "[[${_csrf.token}]]";
+		
+		$(document).ready(function() {
+			
+			
+		});
+		
+	</script>
+</body>
+</html>

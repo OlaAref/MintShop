@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="fragments/fragments :: head(title='Edit Question')"></th:block>
+</head>
+<body>
+
+	<div th:replace="fragments/navbar :: navbar"></div>
+
+	<div class="wrapper">
+        
+        <div th:replace="fragments/admin-sidebar :: admin-sidebar(null)"></div>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+
+            <!-- ************************************************************** -->            
+  			
+
+			<section class="add-form-section">
+				<div class="container mt-5 p-4">
+					<p>
+						<a th:href="@{/question/list}">
+							<i class="fas fa-arrow-left"></i> Back to list
+						</a>
+					</p>
+			
+					<h3>Edit Question</h3>
+			
+					<hr style="border-color: white;">
+					<form th:action="@{/question/save}" th:object="${question}" method="post">
+					
+					
+						<div class="row">
+			
+							<div class="col-lg-12">
+								
+								<input type="hidden" th:field="*{id}" id="questionID">
+								
+								<div class="form-group row">
+									<label class="form-label mt-4 fw-bold">Product : </label> 
+									<input th:value="${question.product.shortName}" type="text" class="form-control" readonly>
+								</div>
+								
+								<div class="form-group row">
+									<label for="questionContentInput" class="col-form-label mt-4 fw-bold">Question : </label> 
+									<textarea th:field="*{questionContent}" class="form-control" id="questionContentInput" placeholder="Question" required></textarea>
+								</div>
+								
+								<div class="form-group row mt-2">
+									<span>
+										Asked By : <span class="fw-bold">[[${question.asker.fullName}]]</span> 
+										on <span th:replace="fragments/format :: format-time(${question.askedTime})"></span>
+									</span>
+								</div>
+								
+								<div class="form-group row">
+									<label for="answerContentInput" class="col-form-label mt-4 fw-bold">Answer : </label> 
+									<textarea th:field="*{answerContent}" class="form-control" id="answerContentInput" placeholder="Answer"></textarea>
+								</div>
+								
+								<div class="form-group row">
+								  <label class="form-label mt-4 fw-bold">Approved : </label> 
+								  <div class="form-check form-check-inline ms-3">
+									  <input class="form-check-input" type="checkbox" th:field="*{approvalStatus}" id="approvedCheck">
+									  <label class="form-check-label" for="approvedCheck">Approve</label>
+								  </div>
+								</div>
+								
+								
+			                    <div class="container mt-5 d-flex">
+			                    	<div class="form-group row">
+			                    		<div class="col">
+			                    			<button type="submit" class="btn btn-primary customize-btn mt-2">Submit</button>
+			                    		</div>
+			                    		<div class="col">
+			                    			<button type="reset" class="btn btn-secondary customize-btn mt-2" id="btnClear">Clear</button>
+			                    		</div>
+			                    	</div>
+			                    </div>
+								
+								
+			
+							</div>
+			
+						</div>
+					
+					</form>
+					
+			
+				</div>
+			</section>
+  			
+
+            <!-- ************************************************************** -->
+
+
+        </div>
+
+    </div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Start Scroll To Top Section -->
+    <div class="scroll-top">
+        <i class="fas fa-chevron-up fa-3x scroll-icon"></i>
+    </div>
+	
+	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/font-awesome/js/all.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/PNotify.js}"></script>
+	<script th:src="@{/js/plugins.js}"></script>
+	
+	<script>
+	var contextPath = "[[@{/}]]";
+	
+    $(document).ready(function() {
+    	
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+
+    });
+    
+ 
+    
+</script>
+</body>
+</html>

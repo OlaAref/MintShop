@@ -1,0 +1,87 @@
+2021-10-30 20:29:06.781  INFO 16148 --- [restartedMain] com.olaaref.MintShopBackEndApplication   : Starting MintShopBackEndApplication using Java 14.0.2 on OLA-PC with PID 16148 (C:\Users\olaar\Desktop\MintShop Eclipse\MintShop1\MintShopWebParent\MintShopBackEnd\target\classes started by olaar in C:\Users\olaar\Desktop\MintShop Eclipse\MintShop1\MintShopWebParent\MintShopBackEnd)
+2021-10-30 20:29:06.782  INFO 16148 --- [restartedMain] com.olaaref.MintShopBackEndApplication   : No active profile set, falling back to default profiles: default
+2021-10-30 20:29:06.996  INFO 16148 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-10-30 20:29:07.016  INFO 16148 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19 ms. Found 2 JPA repository interfaces.
+2021-10-30 20:29:07.114  INFO 16148 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-10-30 20:29:07.114  INFO 16148 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-10-30 20:29:07.115  INFO 16148 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-10-30 20:29:07.144  INFO 16148 --- [restartedMain] o.a.c.c.C.[.[localhost].[/mintshop]      : Initializing Spring embedded WebApplicationContext
+2021-10-30 20:29:07.144  INFO 16148 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 359 ms
+2021-10-30 20:29:07.156  WARN 16148 --- [restartedMain] o.a.c.c.C.[.[localhost].[/mintshop]      : Cannot deserialize session attribute [SPRING_SECURITY_CONTEXT] for session [EA89C31D5A78BACB4F793E3588744728]
+2021-10-30 20:29:07.177  INFO 16148 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-10-30 20:29:07.185  INFO 16148 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2021-10-30 20:29:07.198  INFO 16148 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2021-10-30 20:29:07.198  INFO 16148 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-10-30 20:29:07.292  INFO 16148 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-10-30 20:29:07.293  INFO 16148 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-10-30 20:29:07.318  WARN 16148 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-10-30 20:29:07.431  INFO 16148 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4f9fab3a, org.springframework.security.web.context.SecurityContextPersistenceFilter@4d3207c, org.springframework.security.web.header.HeaderWriterFilter@2a3ce2dc, org.springframework.security.web.csrf.CsrfFilter@6bc4bae1, org.springframework.security.web.authentication.logout.LogoutFilter@5adf6e6e, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@9842174, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3406f2d4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7961cc8a, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@7c8490a4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@56c95640, org.springframework.security.web.session.SessionManagementFilter@4a0e886e, org.springframework.security.web.access.ExceptionTranslationFilter@5c9d8f15, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@8123ba2]
+2021-10-30 20:29:07.478  INFO 16148 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-10-30 20:29:07.735  INFO 16148 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-10-30 20:29:07.744  INFO 16148 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/mintshop'
+2021-10-30 20:29:07.747  INFO 16148 --- [restartedMain] com.olaaref.MintShopBackEndApplication   : Started MintShopBackEndApplication in 1.006 seconds (JVM running for 13979.774)
+2021-10-30 20:29:07.751  INFO 16148 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration:
+      Did not match:
+         - ErrorTemplate Missing found template from org.springframework.boot.autoconfigure.thymeleaf.ThymeleafTemplateAvailabilityProvider@6f94fac4 (ErrorMvcAutoConfiguration.ErrorTemplateMissingCondition)
+      Matched:
+         - @ConditionalOnProperty (server.error.whitelabel.enabled) matched (OnPropertyCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2021-10-30 20:35:14.126  INFO 16148 --- [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-10-30 20:35:14.127  INFO 16148 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2021-10-30 20:35:14.132  INFO 16148 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2021-10-30 20:35:14.239  INFO 16148 --- [restartedMain] com.olaaref.MintShopBackEndApplication   : Starting MintShopBackEndApplication using Java 14.0.2 on OLA-PC with PID 16148 (C:\Users\olaar\Desktop\MintShop Eclipse\MintShop1\MintShopWebParent\MintShopBackEnd\target\classes started by olaar in C:\Users\olaar\Desktop\MintShop Eclipse\MintShop1\MintShopWebParent\MintShopBackEnd)
+2021-10-30 20:35:14.241  INFO 16148 --- [restartedMain] com.olaaref.MintShopBackEndApplication   : No active profile set, falling back to default profiles: default
+2021-10-30 20:35:14.506  INFO 16148 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-10-30 20:35:14.527  INFO 16148 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 2 JPA repository interfaces.
+2021-10-30 20:35:14.621  INFO 16148 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-10-30 20:35:14.622  INFO 16148 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-10-30 20:35:14.622  INFO 16148 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.53]
+2021-10-30 20:35:14.646  INFO 16148 --- [restartedMain] o.a.c.c.C.[.[localhost].[/mintshop]      : Initializing Spring embedded WebApplicationContext
+2021-10-30 20:35:14.646  INFO 16148 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 399 ms
+2021-10-30 20:35:14.674  INFO 16148 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-10-30 20:35:14.682  INFO 16148 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2021-10-30 20:35:14.697  INFO 16148 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2021-10-30 20:35:14.698  INFO 16148 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-10-30 20:35:14.762  INFO 16148 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-10-30 20:35:14.762  INFO 16148 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-10-30 20:35:14.779  WARN 16148 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-10-30 20:35:14.863  INFO 16148 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@52404a9a, org.springframework.security.web.context.SecurityContextPersistenceFilter@62367f40, org.springframework.security.web.header.HeaderWriterFilter@69f77a5d, org.springframework.security.web.csrf.CsrfFilter@320d7086, org.springframework.security.web.authentication.logout.LogoutFilter@63da7967, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@318afec0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6ed7f90a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3c20431f, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@7b197003, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@673d0850, org.springframework.security.web.session.SessionManagementFilter@3be6a1fa, org.springframework.security.web.access.ExceptionTranslationFilter@1d122ffb, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@514c8092]
+2021-10-30 20:35:14.913  INFO 16148 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2021-10-30 20:35:15.169  INFO 16148 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-10-30 20:35:15.177  INFO 16148 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/mintshop'
+2021-10-30 20:35:15.180  INFO 16148 --- [restartedMain] com.olaaref.MintShopBackEndApplication   : Started MintShopBackEndApplication in 0.997 seconds (JVM running for 14347.208)
+2021-10-30 20:35:15.181  INFO 16148 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2021-10-30 20:44:20.661  INFO 16148 --- [Thread-11] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-10-30 20:44:20.662  INFO 16148 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2021-10-30 20:44:20.670  INFO 16148 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
